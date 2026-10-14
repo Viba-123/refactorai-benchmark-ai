@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface": "#f8f9ff", "surface-dim": "#cbdbf5", "on-surface-variant": "#3d4a42", "surface-bright": "#f8f9ff", "secondary-fixed-dim": "#4edea3", "on-primary": "#ffffff", "secondary": "#006c49", "on-tertiary-container": "#fefcff", "on-tertiary": "#ffffff", "on-primary-container": "#f5fff7", "primary": "#006948", "surface-tint": "#006c4a", "tertiary-container": "#6c748b", "inverse-on-surface": "#eaf1ff", "tertiary-fixed": "#dae2fd", "on-background": "#0b1c30", "error-container": "#ffdad6", "tertiary": "#545c72", "background": "#f8f9ff", "surface-container-high": "#dce9ff", "secondary-fixed": "#6ffbbe", "on-secondary-fixed-variant": "#005236", "error": "#ba1a1a", "primary-container": "#00855d", "outline-variant": "#bccac0", "primary-fixed-dim": "#68dba9", "tertiary-fixed-dim": "#bec6e0", "on-surface": "#0b1c30", "on-primary-fixed-variant": "#005137", "secondary-container": "#6cf8bb", "surface-container-highest": "#d3e4fe", "surface-container-lowest": "#ffffff", "on-error": "#ffffff", "on-secondary-container": "#00714d", "surface-container-low": "#eff4ff", "on-secondary": "#ffffff", "inverse-surface": "#213145", "on-error-container": "#93000a", "surface-variant": "#d3e4fe", "on-tertiary-fixed": "#131b2e", "on-tertiary-fixed-variant": "#3f465c", "outline": "#6d7a72", "on-secondary-fixed": "#002113", "surface-container": "#e5eeff", "primary-fixed": "#85f8c4", "on-primary-fixed": "#002114", "inverse-primary": "#68dba9" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter-dense": "0.5rem", "gutter": "1rem", "space-md": "0.75rem", "margin": "1.5rem", "space-xs": "0.25rem", "margin-mobile": "1rem", "space-xl": "1.5rem", "space-lg": "1rem", "space-sm": "0.5rem" }, "fontFamily": { "body-md": ["Geist"], "headline-md": ["Geist"], "body-lg": ["Geist"], "headline-lg": ["Geist"], "body-sm": ["Geist"], "label-code-lg": ["JetBrains Mono"], "headline-xl": ["Geist"], "stat-numeric": ["JetBrains Mono"], "label-code-md": ["JetBrains Mono"], "label-code-sm": ["JetBrains Mono"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "label-code-lg": ["14px", { "lineHeight": "20px", "fontWeight": "500" }], "headline-xl": ["32px", { "lineHeight": "40px", "fontWeight": "600" }], "stat-numeric": ["22px", { "lineHeight": "28px", "fontWeight": "600" }], "label-code-md": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "label-code-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }] } } } }</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col justify-between"><div class="flex flex-col flex-1 min-h-0"><div class="h-14 flex items-center gap-space-sm px-space-lg border-b border-outline-variant shrink-0"><img alt="RefactorAI Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XyCqAMsyk-pvwO7m0mdiA0WUGVC8FNUqYGrL0sUIGsoIf8tRIYQwQljt7-vKCgFmbIzBhkH8-1zOka-rtuGTlqPxvW7_CyYWWKy_FWmUYyg-jkXRy45P8GIeZHv0Cx9cWh1EFRZIRQbM4ocvMXWwAaMegFDpTrjpKPgf5DOvVwwk5KMEeYfekqLvsaV9hvev225mhtM--bAJxgrL4QFiyV_hkocxaQSmTQEQydIkJwe8Wsj6bs6wHvgkA"/><span class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">RefactorAI</span></div><div class="px-space-md py-space-sm shrink-0"><div class="flex items-center gap-space-xs px-space-sm py-space-xs bg-surface-container-low rounded border border-outline-variant"><span class="material-symbols-outlined text-outline text-body-lg">terminal</span><span class="font-label-code-sm text-label-code-sm text-tertiary uppercase tracking-wider font-semibold">Engine v2.4.0 (LLVM)</span></div></div><nav class="flex-1 overflow-y-auto px-space-sm py-space-xs space-y-1" data-active-classes="bg-primary text-on-primary font-bold shadow-sm"><a class="block px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface font-body-md text-body-md font-medium transition-colors" data-path="dashboard" href="#">Dashboard</a><a class="block px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface font-body-md text-body-md font-medium transition-colors" data-path="workspace" href="#">Code Workspace</a><a class="block px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface font-body-md text-body-md font-medium transition-colors" data-path="benchmarks" href="#">Benchmarks</a><a class="block px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface font-body-md text-body-md font-medium transition-colors" data-path="refactor" href="#">AI Refactor</a><a class="block px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface font-body-md text-body-md font-medium transition-colors" data-path="compare" href="#">Before &amp; After Diff</a><a class="block px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface font-body-md text-body-md font-medium transition-colors" data-path="submissions" href="#">Submissions</a><a class="block px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface font-body-md text-body-md font-medium transition-colors" data-path="tracker" href="#">Tracker &amp; Progress</a><a class="block px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface font-body-md text-body-md font-medium transition-colors" data-path="leaderboard" href="#">Leaderboard</a><a class="block px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface font-body-md text-body-md font-medium transition-colors" data-path="settings" href="#">Profile &amp; Settings</a></nav></div><div class="p-space-md border-t border-outline-variant bg-surface-container-lowest shrink-0"><div class="p-space-sm rounded bg-surface-container-low border border-outline-variant flex items-center justify-between"><div class="flex flex-col"><span class="font-label-code-sm text-label-code-sm text-tertiary">DAILY QUOTA</span><span class="font-label-code-md text-label-code-md font-semibold text-on-surface">142 / 200 Runs</span></div><span class="material-symbols-outlined text-primary text-headline-md">bolt</span></div></div></aside><div class="pl-64 flex flex-col min-h-screen"><header class="fixed top-0 left-64 right-0 h-14 bg-surface-container-lowest border-b border-outline-variant z-40 flex items-center justify-between px-space-xl"><div class="flex items-center gap-space-lg flex-1"><div class="flex items-center gap-space-xs font-label-code-sm text-label-code-sm text-tertiary shrink-0"><span class="hover:text-on-surface cursor-pointer">Problems</span><span class="material-symbols-outlined text-body-sm text-outline">chevron_right</span><span class="text-on-surface font-semibold">42. Trapping Rain Water</span><span class="px-1.5 py-0.5 rounded text-label-code-sm bg-surface-container-high text-tertiary font-medium ml-1">Hard</span></div><div class="h-4 w-px bg-outline-variant shrink-0"></div><div class="relative w-full max-w-md"><span class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-outline text-body-lg">search</span><input class="w-full pl-9 pr-space-md py-1.5 bg-surface-container-low border border-outline-variant rounded font-body-sm text-body-sm text-on-surface placeholder:text-tertiary focus:outline-none focus:border-primary" placeholder="Search benchmarks, problems, or AST rules..." type="text"/><span class="absolute right-space-sm top-1/2 -translate-y-1/2 font-label-code-sm text-label-code-sm px-1 py-0.5 bg-surface-container-lowest border border-outline-variant rounded text-tertiary">⌘K</span></div></div><div class="flex items-center gap-space-lg shrink-0"><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-low border border-outline-variant rounded-full"><span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span><span class="font-label-code-sm text-label-code-sm font-medium text-secondary">RUNNER READY</span><span class="text-tertiary text-body-sm">•</span><span class="font-label-code-sm text-label-code-sm text-tertiary">Py3.12 / Rust 1.77</span></div><div class="h-6 w-px bg-outline-variant"></div><div class="flex items-center gap-space-sm"><div class="relative flex items-center"><img alt="Profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbKhBqY72c05MMZCxi-PidT96Ap_nwG21gVGWoa1KrsiTwn8IjbwKsdtAE8YQDAnIskHBlYJBVWHAzslh0DcbzJuGuqXXdkJ0hWvxZ_bCeukE_tDIxgyrxnRVdR3Ld9U_gp3MS81KUFGgTn_1uty0UZ32ifoWC4LU-vACoWdIAW5xF8-v72l4H2mztDu6sWAH1C_7LLboJ2PBBkUG9EXfvHCppwvvgljE4o7A8wnWg8AVO2OkwFbkgrg"/><span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-primary rounded-full ring-2 ring-surface-container-lowest"></span></div><div class="hidden md:flex flex-col text-left"><span class="font-body-sm text-body-sm font-semibold text-on-surface leading-tight">alex.dev</span><span class="font-label-code-sm text-label-code-sm text-secondary leading-tight">Rank #42 (99.4%)</span></div></div></div></header><main class="w-full pt-14 bg-surface flex-1 px-space-xl py-space-lg"><div class="flex flex-col w-full">
+<!-- Interactive Navigation Highlight Script to visually sync with shell -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const navLinks = document.querySelectorAll("aside nav a");
+      navLinks.forEach((link) => {
+        if (link.getAttribute("data-path") === "submissions") {
+          link.className =
+            "block px-space-md py-space-sm rounded bg-primary text-on-primary font-bold shadow-sm font-body-md text-body-md transition-colors";
+        } else {
+          link.className =
+            "block px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface font-body-md text-body-md font-medium transition-colors";
+        }
+      });
+    });
+  </script>
+<!-- Top Page Header & Meta Bar -->
+<div class="flex flex-col gap-space-sm pb-space-lg">
+<!-- Breadcrumb trail -->
+<div class="flex items-center gap-space-xs font-label-code-sm text-label-code-sm text-tertiary">
+<span class="hover:text-primary cursor-pointer transition-colors">Home</span>
+<span class="material-symbols-outlined text-body-sm text-outline">chevron_right</span>
+<span class="text-on-surface font-semibold">Submissions</span>
+<span class="material-symbols-outlined text-body-sm text-outline">chevron_right</span>
+<span class="text-secondary font-medium">All Records</span>
+</div>
+<!-- Title and Subtitle Row -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight font-bold">
+          Submission History
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+          Chronological log of algorithmic test executions, benchmark profiles, and AI-assisted refactors across sandboxed micro-runners.
+        </p>
+</div>
+<!-- Action pill buttons -->
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="flex items-center gap-space-xs px-space-md py-1.5 bg-surface-container-lowest text-on-surface rounded shadow-sm hover:bg-surface-container-low font-body-md text-body-md transition-colors" onclick="triggerToast('Synchronizing with AWS c6i micro-runner cluster...')">
+<span class="material-symbols-outlined text-body-lg text-primary">sync</span>
+<span>Refresh</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1.5 bg-surface-container-lowest text-on-surface rounded shadow-sm hover:bg-surface-container-low font-body-md text-body-md transition-colors" onclick="triggerToast('Generating CSV report with 148 runs...')">
+<span class="material-symbols-outlined text-body-lg text-tertiary">download</span>
+<span>Export CSV</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1.5 bg-primary text-on-primary rounded shadow-sm hover:bg-primary-container font-body-md text-body-md font-medium transition-colors" onclick="triggerToast('Dispatching test matrix across 8 worker threads...')">
+<span class="material-symbols-outlined text-body-lg">restart_alt</span>
+<span>Batch Re-test</span>
+</button>
+</div>
+</div>
+<!-- Demo Data Indicator Banner -->
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-body-lg">database</span>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-1.5 py-0.5 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-bold uppercase tracking-wide">
+            Telemetry Preview
+          </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">
+            Demo dataset: Showing 148 historical submissions recorded across AWS c6i.2xlarge isolated JVM, LLVM, and PyPy runners. Zero persistent telemetry.
+          </span>
+</div>
+</div>
+<div class="flex items-center gap-2 font-label-code-sm text-label-code-sm text-tertiary shrink-0">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed-dim"></span>
+<span>Warm Pool: 12 Nodes Active</span>
+</div>
+</div>
+</div>
+<!-- Quick Stats Row (Bento Style Cards) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-lg">
+<!-- Stat 1: Total Executions -->
+<div class="bg-surface-container-lowest p-space-md rounded shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-code-sm text-label-code-sm text-tertiary uppercase tracking-wider font-semibold">Total Executions</span>
+<span class="p-1.5 bg-surface-container-low rounded text-primary material-symbols-outlined text-body-lg">terminal</span>
+</div>
+<div class="mt-space-sm flex items-baseline justify-between">
+<span class="font-stat-numeric text-stat-numeric text-on-surface">148</span>
+<span class="font-label-code-sm text-label-code-sm text-secondary font-semibold">+18 today</span>
+</div>
+<div class="mt-2 w-full bg-surface-container-low h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 74%"></div>
+</div>
+<span class="font-body-sm text-body-sm text-tertiary mt-1.5">Across 4 isolated toolchains</span>
+</div>
+<!-- Stat 2: Acceptance Rate -->
+<div class="bg-surface-container-lowest p-space-md rounded shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-code-sm text-label-code-sm text-tertiary uppercase tracking-wider font-semibold">Acceptance Rate</span>
+<span class="p-1.5 bg-secondary-container rounded text-on-secondary-container material-symbols-outlined text-body-lg">verified</span>
+</div>
+<div class="mt-space-sm flex items-baseline justify-between">
+<span class="font-stat-numeric text-stat-numeric text-on-surface">92.4%</span>
+<span class="font-label-code-sm text-label-code-sm text-secondary font-medium">137 Passed / 11 WA-TLE</span>
+</div>
+<div class="mt-2 w-full bg-surface-container-low h-1.5 rounded-full overflow-hidden flex">
+<div class="bg-secondary h-full" style="width: 92.4%"></div>
+<div class="bg-error h-full" style="width: 7.6%"></div>
+</div>
+<span class="font-body-sm text-body-sm text-tertiary mt-1.5">Top 0.6% percentile accuracy</span>
+</div>
+<!-- Stat 3: AI Refactors Applied -->
+<div class="bg-surface-container-lowest p-space-md rounded shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-code-sm text-label-code-sm text-tertiary uppercase tracking-wider font-semibold">AI Refactors Applied</span>
+<span class="p-1.5 bg-surface-container-high rounded text-on-surface-variant material-symbols-outlined text-body-lg">auto_fix_high</span>
+</div>
+<div class="mt-space-sm flex items-baseline justify-between">
+<span class="font-stat-numeric text-stat-numeric text-on-surface">37</span>
+<span class="font-label-code-sm text-label-code-sm px-1.5 py-0.5 rounded bg-surface-container-low text-primary font-bold">25.0% Ratio</span>
+</div>
+<div class="mt-2 w-full bg-surface-container-low h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 48%"></div>
+</div>
+<span class="font-body-sm text-body-sm text-tertiary mt-1.5">AST rewriting + pattern transforms</span>
+</div>
+<!-- Stat 4: Latency Delta -->
+<div class="bg-surface-container-lowest p-space-md rounded shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-code-sm text-label-code-sm text-tertiary uppercase tracking-wider font-semibold">Avg Latency Delta</span>
+<span class="p-1.5 bg-surface-container-low rounded text-secondary material-symbols-outlined text-body-lg">speed</span>
+</div>
+<div class="mt-space-sm flex items-baseline justify-between">
+<span class="font-stat-numeric text-stat-numeric text-secondary">-34.2 ms</span>
+<span class="font-label-code-sm text-label-code-sm text-secondary font-bold">-68.4% Net</span>
+</div>
+<div class="mt-2 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-body-sm">trending_down</span>
+<span class="font-label-code-sm text-label-code-sm text-secondary">Median reduction: 1,420ms → 38ms</span>
+</div>
+<span class="font-body-sm text-body-sm text-tertiary mt-1.5">Benchmarked over 100K inputs</span>
+</div>
+</div>
+<!-- Filter & Search Control Toolbar -->
+<div class="bg-surface-container-lowest p-space-md rounded shadow-sm mb-space-md flex flex-col gap-space-md">
+<!-- Top Filter Row: Search & Selectors -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-space-md items-center">
+<!-- Search Input -->
+<div class="md:col-span-5 relative">
+<span class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-outline text-body-lg">
+          search
+        </span>
+<input class="w-full pl-9 pr-12 py-2 bg-surface-container-low rounded font-body-md text-body-md text-on-surface placeholder:text-tertiary focus:outline-none focus:ring-2 focus:ring-primary" id="submissionSearchInput" oninput="handleSearch(this.value)" placeholder="Search by problem name or ID (e.g. 3Sum, LRU Cache, #42)..." type="text"/>
+<span class="absolute right-space-sm top-1/2 -translate-y-1/2 font-label-code-sm text-label-code-sm px-1.5 py-0.5 bg-surface-container-lowest rounded shadow-sm text-tertiary">
+          ⌘K
+        </span>
+</div>
+<!-- Optimization Status Filter -->
+<div class="md:col-span-3">
+<div class="relative">
+<select class="w-full py-2 px-space-md bg-surface-container-low rounded font-body-md text-body-md text-on-surface appearance-none focus:outline-none focus:ring-2 focus:ring-primary pr-8 cursor-pointer" id="optFilterSelect" onchange="filterTable()">
+<option value="all">Optimization: All Statuses</option>
+<option value="refactored">AI Refactored Only (37)</option>
+<option value="original">Original Solution (88)</option>
+<option value="pending">Pending AST Scan (23)</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-tertiary text-body-md">
+            expand_more
+          </span>
+</div>
+</div>
+<!-- Sort Dropdown -->
+<div class="md:col-span-2">
+<div class="relative">
+<select class="w-full py-2 px-space-md bg-surface-container-low rounded font-body-md text-body-md text-on-surface appearance-none focus:outline-none focus:ring-2 focus:ring-primary pr-8 cursor-pointer" id="sortOrderSelect" onchange="sortTable()">
+<option value="newest">Sort: Newest First</option>
+<option value="fastest">Sort: Fastest Run</option>
+<option value="memory">Sort: Peak Memory</option>
+<option value="refactor">Sort: Biggest Gain</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-tertiary text-body-md">
+            swap_vert
+          </span>
+</div>
+</div>
+<!-- Quick Reset Button -->
+<div class="md:col-span-2 flex justify-end">
+<button class="w-full md:w-auto px-space-md py-2 bg-surface-container-low text-tertiary hover:text-on-surface rounded font-body-md text-body-md flex items-center justify-center gap-1 transition-colors" onclick="resetAllFilters()">
+<span class="material-symbols-outlined text-body-md">filter_alt_off</span>
+<span>Clear Filters</span>
+</button>
+</div>
+</div>
+<!-- Secondary Filter Row: Language Tabs & Status Badges -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md pt-space-xs">
+<!-- Language Pill Tabs -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0" id="languageTabsContainer">
+<button class="lang-pill px-3 py-1 rounded font-label-code-sm text-label-code-sm bg-primary text-on-primary font-semibold transition-all shrink-0" onclick="selectLanguageTab(this, 'all')">
+          All Languages (148)
+        </button>
+<button class="lang-pill px-3 py-1 rounded font-label-code-sm text-label-code-sm bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high transition-all shrink-0" onclick="selectLanguageTab(this, 'python')">
+          Python 3.11 (62)
+        </button>
+<button class="lang-pill px-3 py-1 rounded font-label-code-sm text-label-code-sm bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high transition-all shrink-0" onclick="selectLanguageTab(this, 'java')">
+          Java 17 (45)
+        </button>
+<button class="lang-pill px-3 py-1 rounded font-label-code-sm text-label-code-sm bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high transition-all shrink-0" onclick="selectLanguageTab(this, 'cpp')">
+          C++ 20 (28)
+        </button>
+<button class="lang-pill px-3 py-1 rounded font-label-code-sm text-label-code-sm bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high transition-all shrink-0" onclick="selectLanguageTab(this, 'rust')">
+          Rust 1.77 (13)
+        </button>
+</div>
+<!-- Execution Status Badges Filter -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0" id="statusFilterContainer">
+<span class="font-label-code-sm text-label-code-sm text-tertiary uppercase font-semibold mr-1 shrink-0">Status:</span>
+<button class="status-btn px-2.5 py-0.5 rounded font-label-code-sm text-label-code-sm bg-surface-container-high text-on-surface font-semibold" onclick="toggleStatusFilter(this, 'all')">
+          All
+        </button>
+<button class="status-btn px-2.5 py-0.5 rounded font-label-code-sm text-label-code-sm bg-surface-container-low text-secondary hover:bg-secondary-container" onclick="toggleStatusFilter(this, 'passed')">
+          Accepted (137)
+        </button>
+<button class="status-btn px-2.5 py-0.5 rounded font-label-code-sm text-label-code-sm bg-surface-container-low text-error hover:bg-error-container" onclick="toggleStatusFilter(this, 'tle')">
+          TLE (5)
+        </button>
+<button class="status-btn px-2.5 py-0.5 rounded font-label-code-sm text-label-code-sm bg-surface-container-low text-error hover:bg-error-container" onclick="toggleStatusFilter(this, 'wa')">
+          WA (4)
+        </button>
+<button class="status-btn px-2.5 py-0.5 rounded font-label-code-sm text-label-code-sm bg-surface-container-low text-tertiary hover:bg-surface-container-high" onclick="toggleStatusFilter(this, 'mle')">
+          MLE (2)
+        </button>
+</div>
+</div>
+</div>
+<!-- Primary Submissions Table Container -->
+<div class="bg-surface-container-lowest rounded shadow-sm overflow-hidden mb-space-lg" id="submissionsTableWrapper">
+<!-- Responsive Table Container -->
+<div class="overflow-x-auto">
+<table class="w-full text-left" id="mainSubmissionsTable">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-code-sm text-label-code-sm uppercase tracking-wider">
+<th class="py-space-md px-space-md font-semibold w-1/4">Status &amp; Problem</th>
+<th class="py-space-md px-space-md font-semibold">Language &amp; Toolchain</th>
+<th class="py-space-md px-space-md font-semibold">Submitted</th>
+<th class="py-space-md px-space-md font-semibold">Runtime &amp; Latency</th>
+<th class="py-space-md px-space-md font-semibold">Peak Memory</th>
+<th class="py-space-md px-space-md font-semibold">AI Refactor</th>
+<th class="py-space-md px-space-md font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container font-body-md text-body-md">
+<!-- Row 1: #15 3Sum (High Speed AI Refactored) -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group" data-lang="python" data-opt="refactored" data-status="passed">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-bold shrink-0">
+<span class="material-symbols-outlined text-body-sm">check_circle</span>
+                  Accepted
+                </span>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-headline-md text-body-md font-semibold text-on-surface hover:text-primary cursor-pointer transition-colors">
+                      #15. 3Sum
+                    </span>
+<span class="px-1.5 py-0.2 rounded font-label-code-sm text-label-code-sm bg-surface-container-high text-tertiary">
+                      Medium
+                    </span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-tertiary mt-0.5">Two Pointers O(N²)</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-code-md text-label-code-md font-semibold text-on-surface">Python 3.11</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">PyPy 7.3 JIT runner</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">12 mins ago</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">Oct 24, 14:32:08</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-stat-numeric text-label-code-lg text-secondary font-bold">38 ms</span>
+<span class="px-1.5 py-0.2 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-semibold">
+                    -97%
+                  </span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-secondary">was 1,420 ms • beats 99.4%</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-stat-numeric text-label-code-md text-on-surface">18.4 MB</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">beats 84.1%</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-semibold">
+<span class="material-symbols-outlined text-body-sm">auto_fix_high</span>
+                Verified +45%
+              </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="openModalCode('15')" title="View Solution Source">
+<span class="material-symbols-outlined text-body-lg">code</span>
+</button>
+<button class="p-1.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="triggerToast('Loading Latency Curve for #15 3Sum...')" title="View Benchmark Charts">
+<span class="material-symbols-outlined text-body-lg">analytics</span>
+</button>
+<button class="p-1.5 rounded text-primary hover:bg-surface-container-high transition-colors" onclick="triggerToast('Loading #15 into Code Workspace...')" title="Reopen in Code Workspace">
+<span class="material-symbols-outlined text-body-lg">open_in_new</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: #42 Trapping Rain Water (Hard - Rust Extreme) -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group" data-lang="rust" data-opt="refactored" data-status="passed">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-bold shrink-0">
+<span class="material-symbols-outlined text-body-sm">check_circle</span>
+                  Accepted
+                </span>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-headline-md text-body-md font-semibold text-on-surface hover:text-primary cursor-pointer transition-colors">
+                      #42. Trapping Rain Water
+                    </span>
+<span class="px-1.5 py-0.2 rounded font-label-code-sm text-label-code-sm bg-error-container text-on-error-container">
+                      Hard
+                    </span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-tertiary mt-0.5">Dual-Monotonic Pointer</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-code-md text-label-code-md font-semibold text-on-surface">Rust 1.77</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">LLVM opt-level=3</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">1 hour ago</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">Oct 24, 13:14:22</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-stat-numeric text-label-code-lg text-secondary font-bold">0 ms</span>
+<span class="px-1.5 py-0.2 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-semibold">
+                    100.0%
+                  </span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-secondary">Zero-alloc SIMD layout</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-stat-numeric text-label-code-md text-on-surface">2.1 MB</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">beats 99.8%</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-semibold">
+<span class="material-symbols-outlined text-body-sm">bolt</span>
+                Dual-Pointer Upgrade
+              </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="openModalCode('42')" title="View Solution Source">
+<span class="material-symbols-outlined text-body-lg">code</span>
+</button>
+<button class="p-1.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="triggerToast('Loading Latency Curve for #42 Trapping Rain Water...')" title="View Benchmark Charts">
+<span class="material-symbols-outlined text-body-lg">analytics</span>
+</button>
+<button class="p-1.5 rounded text-primary hover:bg-surface-container-high transition-colors" onclick="triggerToast('Loading #42 into Code Workspace...')" title="Reopen in Code Workspace">
+<span class="material-symbols-outlined text-body-lg">open_in_new</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: #146 LRU Cache (Java 17 HotSpot) -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group" data-lang="java" data-opt="original" data-status="passed">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-bold shrink-0">
+<span class="material-symbols-outlined text-body-sm">check_circle</span>
+                  Accepted
+                </span>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-headline-md text-body-md font-semibold text-on-surface hover:text-primary cursor-pointer transition-colors">
+                      #146. LRU Cache
+                    </span>
+<span class="px-1.5 py-0.2 rounded font-label-code-sm text-label-code-sm bg-surface-container-high text-tertiary">
+                      Medium
+                    </span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-tertiary mt-0.5">Doubly Linked List + Map</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-code-md text-label-code-md font-semibold text-on-surface">Java 17</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">OpenJDK HotSpot 64-Bit</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">3 hours ago</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">Oct 24, 11:45:00</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-stat-numeric text-label-code-lg text-on-surface font-bold">44 ms</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">O(1) amortized</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">beats 91.2% runtime</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-stat-numeric text-label-code-md text-on-surface">112.4 MB</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">JVM Heap allocated</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-surface-container-high text-on-surface-variant font-medium">
+<span class="material-symbols-outlined text-body-sm">done_all</span>
+                Optimal Already
+              </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="openModalCode('146')" title="View Solution Source">
+<span class="material-symbols-outlined text-body-lg">code</span>
+</button>
+<button class="p-1.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="triggerToast('Loading Latency Curve for #146 LRU Cache...')" title="View Benchmark Charts">
+<span class="material-symbols-outlined text-body-lg">analytics</span>
+</button>
+<button class="p-1.5 rounded text-primary hover:bg-surface-container-high transition-colors" onclick="triggerToast('Loading #146 into Code Workspace...')" title="Reopen in Code Workspace">
+<span class="material-symbols-outlined text-body-lg">open_in_new</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: #23 Merge k Sorted Lists (Time Limit Exceeded - TLE) -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group bg-error-container/10" data-lang="python" data-opt="pending" data-status="tle">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-error-container text-on-error-container font-bold shrink-0">
+<span class="material-symbols-outlined text-body-sm">schedule</span>
+                  TLE
+                </span>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-headline-md text-body-md font-semibold text-on-surface hover:text-error cursor-pointer transition-colors">
+                      #23. Merge k Sorted Lists
+                    </span>
+<span class="px-1.5 py-0.2 rounded font-label-code-sm text-label-code-sm bg-error-container text-on-error-container">
+                      Hard
+                    </span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-error mt-0.5">Brute Force O(k · N) loop</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-code-md text-label-code-md font-semibold text-on-surface">Python 3.11</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">CPython 3.11.8</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">5 hours ago</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">Oct 24, 09:18:41</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-stat-numeric text-label-code-lg text-error font-bold">&gt; 10,000 ms</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-error">Exceeded runner timeout (10s)</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-stat-numeric text-label-code-md text-on-surface">24.1 MB</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">Halted at case 128/133</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-surface-container-high text-primary font-bold cursor-pointer hover:bg-surface-container" onclick="triggerToast('Launching Heap-Divide Refactor for #23...')">
+<span class="material-symbols-outlined text-body-sm">auto_fix_high</span>
+                Refactor Available
+              </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="openModalCode('23')" title="View Solution Source">
+<span class="material-symbols-outlined text-body-lg">code</span>
+</button>
+<button class="p-1.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="triggerToast('Diagnostic profiling for failed execution #23...')" title="View Benchmark Charts">
+<span class="material-symbols-outlined text-body-lg">analytics</span>
+</button>
+<button class="p-1.5 rounded text-primary hover:bg-surface-container-high transition-colors" onclick="triggerToast('Opening #23 in Workspace to apply heap min-tree...')" title="Reopen in Code Workspace">
+<span class="material-symbols-outlined text-body-lg">open_in_new</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: #200 Number of Islands (C++ 20 Clang) -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group" data-lang="cpp" data-opt="refactored" data-status="passed">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-bold shrink-0">
+<span class="material-symbols-outlined text-body-sm">check_circle</span>
+                  Accepted
+                </span>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-headline-md text-body-md font-semibold text-on-surface hover:text-primary cursor-pointer transition-colors">
+                      #200. Number of Islands
+                    </span>
+<span class="px-1.5 py-0.2 rounded font-label-code-sm text-label-code-sm bg-surface-container-high text-tertiary">
+                      Medium
+                    </span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-tertiary mt-0.5">Disjoint Set Union (DSU)</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-code-md text-label-code-md font-semibold text-on-surface">C++ 20</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">Clang 16.0.0 -O3</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">Yesterday, 19:40</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">Oct 23, 19:40:11</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-stat-numeric text-label-code-lg text-secondary font-bold">12 ms</span>
+<span class="px-1.5 py-0.2 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-semibold">
+                    -78%
+                  </span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-secondary">was 55 ms • beats 98.7%</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-stat-numeric text-label-code-md text-on-surface">12.8 MB</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">In-place grid mutated</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-semibold">
+<span class="material-symbols-outlined text-body-sm">auto_fix_high</span>
+                Verified +45%
+              </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="openModalCode('200')" title="View Solution Source">
+<span class="material-symbols-outlined text-body-lg">code</span>
+</button>
+<button class="p-1.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="triggerToast('Loading Latency Curve for #200 Number of Islands...')" title="View Benchmark Charts">
+<span class="material-symbols-outlined text-body-lg">analytics</span>
+</button>
+<button class="p-1.5 rounded text-primary hover:bg-surface-container-high transition-colors" onclick="triggerToast('Loading #200 into Code Workspace...')" title="Reopen in Code Workspace">
+<span class="material-symbols-outlined text-body-lg">open_in_new</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6: #76 Minimum Window Substring (Wrong Answer - WA) -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group bg-error-container/10" data-lang="python" data-opt="original" data-status="wa">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-error-container text-on-error-container font-bold shrink-0">
+<span class="material-symbols-outlined text-body-sm">cancel</span>
+                  WA
+                </span>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-headline-md text-body-md font-semibold text-on-surface hover:text-error cursor-pointer transition-colors">
+                      #76. Minimum Window Substring
+                    </span>
+<span class="px-1.5 py-0.2 rounded font-label-code-sm text-label-code-sm bg-error-container text-on-error-container">
+                      Hard
+                    </span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-error mt-0.5">Off-by-one at end slice index</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-code-md text-label-code-md font-semibold text-on-surface">Python 3.11</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">CPython 3.11.8</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">Yesterday, 14:12</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">Oct 23, 14:12:04</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-stat-numeric text-label-code-lg text-error font-bold">18 ms</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-error">Failed on testcase #265 ("a", "aa")</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-stat-numeric text-label-code-md text-on-surface">15.9 MB</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">Partial verification</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-surface-container-high text-on-surface-variant font-medium">
+                Original (Cubic)
+              </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="openModalCode('76')" title="View Solution Source">
+<span class="material-symbols-outlined text-body-lg">code</span>
+</button>
+<button class="p-1.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="triggerToast('Loading failure diff report for #76...')" title="View Benchmark Charts">
+<span class="material-symbols-outlined text-body-lg">analytics</span>
+</button>
+<button class="p-1.5 rounded text-primary hover:bg-surface-container-high transition-colors" onclick="triggerToast('Loading #76 into Code Workspace...')" title="Reopen in Code Workspace">
+<span class="material-symbols-outlined text-body-lg">open_in_new</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 7: #20 Valid Parentheses (Fast Easy) -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group" data-lang="rust" data-opt="original" data-status="passed">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-bold shrink-0">
+<span class="material-symbols-outlined text-body-sm">check_circle</span>
+                  Accepted
+                </span>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-headline-md text-body-md font-semibold text-on-surface hover:text-primary cursor-pointer transition-colors">
+                      #20. Valid Parentheses
+                    </span>
+<span class="px-1.5 py-0.2 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container">
+                      Easy
+                    </span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-tertiary mt-0.5">Stack Byte Parsing</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-code-md text-label-code-md font-semibold text-on-surface">Rust 1.77</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">LLVM opt-level=3</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">2 days ago</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">Oct 22, 11:02:18</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-stat-numeric text-label-code-lg text-secondary font-bold">0 ms</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-secondary">beats 100.0% of submissions</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-stat-numeric text-label-code-md text-on-surface">1.9 MB</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">beats 98.4%</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-surface-container-high text-on-surface-variant font-medium">
+<span class="material-symbols-outlined text-body-sm">done_all</span>
+                Optimal Already
+              </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="openModalCode('20')" title="View Solution Source">
+<span class="material-symbols-outlined text-body-lg">code</span>
+</button>
+<button class="p-1.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="triggerToast('Loading Latency Curve for #20 Valid Parentheses...')" title="View Benchmark Charts">
+<span class="material-symbols-outlined text-body-lg">analytics</span>
+</button>
+<button class="p-1.5 rounded text-primary hover:bg-surface-container-high transition-colors" onclick="triggerToast('Loading #20 into Code Workspace...')" title="Reopen in Code Workspace">
+<span class="material-symbols-outlined text-body-lg">open_in_new</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 8: #4. Median of Two Sorted Arrays (C++ 20 Binary Partition) -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group" data-lang="cpp" data-opt="refactored" data-status="passed">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-bold shrink-0">
+<span class="material-symbols-outlined text-body-sm">check_circle</span>
+                  Accepted
+                </span>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-headline-md text-body-md font-semibold text-on-surface hover:text-primary cursor-pointer transition-colors">
+                      #4. Median of Two Sorted Arrays
+                    </span>
+<span class="px-1.5 py-0.2 rounded font-label-code-sm text-label-code-sm bg-error-container text-on-error-container">
+                      Hard
+                    </span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-tertiary mt-0.5">Binary Search O(log(min(M, N)))</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-code-md text-label-code-md font-semibold text-on-surface">C++ 20</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">GCC 13.2 -O2</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">3 days ago</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">Oct 21, 16:55:40</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-stat-numeric text-label-code-lg text-secondary font-bold">7 ms</span>
+<span class="px-1.5 py-0.2 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-semibold">
+                    -85%
+                  </span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-secondary">was 48 ms • beats 97.2%</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-stat-numeric text-label-code-md text-on-surface">89.4 MB</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">beats 86.3%</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-semibold">
+<span class="material-symbols-outlined text-body-sm">auto_fix_high</span>
+                Verified +45%
+              </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="openModalCode('4')" title="View Solution Source">
+<span class="material-symbols-outlined text-body-lg">code</span>
+</button>
+<button class="p-1.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="triggerToast('Loading Latency Curve for #4 Median of Two Sorted Arrays...')" title="View Benchmark Charts">
+<span class="material-symbols-outlined text-body-lg">analytics</span>
+</button>
+<button class="p-1.5 rounded text-primary hover:bg-surface-container-high transition-colors" onclick="triggerToast('Loading #4 into Code Workspace...')" title="Reopen in Code Workspace">
+<span class="material-symbols-outlined text-body-lg">open_in_new</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination & Summary Footer -->
+<div class="p-space-md bg-surface-container-low flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<!-- Showing records info -->
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-body-sm text-tertiary" id="paginationSummaryText">
+          Showing <span class="font-semibold text-on-surface">1</span> to <span class="font-semibold text-on-surface">8</span> of <span class="font-semibold text-on-surface">148</span> recorded algorithmic submissions (Page 1 of 19)
+        </span>
+</div>
+<!-- Controls: Items per page & Page Selector -->
+<div class="flex items-center gap-space-lg flex-wrap">
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-tertiary">
+<span>Rows per page:</span>
+<select class="bg-surface-container-lowest rounded px-2 py-1 text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+<option>10</option>
+<option>25</option>
+<option>50</option>
+</select>
+</div>
+<!-- Page buttons -->
+<div class="flex items-center gap-1 font-label-code-sm text-label-code-sm">
+<button class="px-2 py-1 rounded bg-surface-container-lowest text-tertiary hover:text-on-surface hover:bg-surface-container transition-colors disabled:opacity-40" disabled="">
+<span class="material-symbols-outlined text-body-sm">chevron_left</span>
+</button>
+<button class="px-2.5 py-1 rounded bg-primary text-on-primary font-bold shadow-sm">
+            1
+          </button>
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container transition-colors" onclick="triggerToast('Loading Page 2...')">
+            2
+          </button>
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container transition-colors" onclick="triggerToast('Loading Page 3...')">
+            3
+          </button>
+<span class="px-1 text-tertiary">...</span>
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container transition-colors" onclick="triggerToast('Loading Page 19...')">
+            19
+          </button>
+<button class="px-2 py-1 rounded bg-surface-container-lowest text-tertiary hover:text-on-surface hover:bg-surface-container transition-colors" onclick="triggerToast('Loading Next Page...')">
+<span class="material-symbols-outlined text-body-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive State Previews Section (Developer Reference Drawer) -->
+<div class="bg-surface-container-lowest rounded shadow-sm p-space-md mb-space-lg">
+<!-- Header of developer section -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-md gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-headline-md">tune</span>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight font-semibold">
+            UI State Previews &amp; Edge Case Handling
+          </h2>
+<p class="font-body-sm text-body-sm text-tertiary">
+            Interactive switchboard demonstrating empty, loading skeleton, and micro-runner network exception states.
+          </p>
+</div>
+</div>
+<!-- Segmented Buttons -->
+<div class="flex items-center gap-1 bg-surface-container-low p-1 rounded">
+<button class="state-preview-tab px-3 py-1 rounded font-body-sm text-body-sm font-semibold bg-surface-container-lowest text-on-surface shadow-sm transition-all" id="btn-state-active" onclick="switchPreviewState('active')">
+          Active Results
+        </button>
+<button class="state-preview-tab px-3 py-1 rounded font-body-sm text-body-sm font-medium text-tertiary hover:text-on-surface transition-all" id="btn-state-empty" onclick="switchPreviewState('empty')">
+          Empty State
+        </button>
+<button class="state-preview-tab px-3 py-1 rounded font-body-sm text-body-sm font-medium text-tertiary hover:text-on-surface transition-all" id="btn-state-loading" onclick="switchPreviewState('loading')">
+          Loading State
+        </button>
+<button class="state-preview-tab px-3 py-1 rounded font-body-sm text-body-sm font-medium text-tertiary hover:text-on-surface transition-all" id="btn-state-error" onclick="switchPreviewState('error')">
+          Error State
+        </button>
+</div>
+</div>
+<!-- Container for dynamic preview states -->
+<div class="pt-space-xs" id="previewCardHost">
+<!-- Active state explanation (Default) -->
+<div class="p-space-md bg-surface-container-low rounded flex items-center justify-between" id="preview-active">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-headline-md">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface">
+            Currently displaying the primary active dataset with 8 live records and dual-axis filtering enabled.
+          </span>
+</div>
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-semibold">
+          LIVE DATA STREAM
+        </span>
+</div>
+<!-- Empty State View (Hidden by default) -->
+<div class="hidden p-space-xl bg-surface-container-low rounded flex flex-col items-center justify-center text-center" id="preview-empty">
+<div class="w-16 h-16 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-sm mb-space-md text-tertiary">
+<span class="material-symbols-outlined text-headline-xl">search_off</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-semibold">No matching submissions found</h3>
+<p class="font-body-md text-body-md text-tertiary max-w-md mt-1 mb-space-lg">
+          No algorithmic records matched the combination of search parameters and runner filters. Try broadening your query or selecting "All Languages".
+        </p>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-2 bg-primary text-on-primary rounded font-body-md text-body-md font-semibold hover:bg-primary-container transition-colors shadow-sm flex items-center gap-1.5" onclick="resetAllFilters(); switchPreviewState('active');">
+<span class="material-symbols-outlined text-body-lg">restart_alt</span>
+<span>Reset All Filters</span>
+</button>
+<button class="px-space-md py-2 bg-surface-container-lowest text-on-surface rounded font-body-md text-body-md hover:bg-surface-container transition-colors shadow-sm" onclick="triggerToast('Opening problem catalog...')">
+            Browse Problem Catalog
+          </button>
+</div>
+</div>
+<!-- Loading State Skeleton View (Hidden by default) -->
+<div class="hidden p-space-md bg-surface-container-low rounded flex flex-col gap-space-sm" id="preview-loading">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-2">
+<span class="w-3.5 h-3.5 rounded-full border-2 border-primary border-t-transparent animate-spin"></span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Querying sandboxed execution history from cluster...</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-tertiary animate-pulse">Running LLVM AST inspection...</span>
+</div>
+<!-- Skeleton Rows -->
+<div class="space-y-2 animate-pulse">
+<div class="h-12 bg-surface-container-lowest rounded flex items-center justify-between px-space-md">
+<div class="w-1/4 h-5 bg-surface-container rounded"></div>
+<div class="w-1/6 h-5 bg-surface-container rounded"></div>
+<div class="w-1/6 h-5 bg-surface-container rounded"></div>
+<div class="w-1/5 h-5 bg-surface-container rounded"></div>
+<div class="w-1/12 h-5 bg-surface-container rounded"></div>
+</div>
+<div class="h-12 bg-surface-container-lowest rounded flex items-center justify-between px-space-md">
+<div class="w-1/3 h-5 bg-surface-container rounded"></div>
+<div class="w-1/5 h-5 bg-surface-container rounded"></div>
+<div class="w-1/6 h-5 bg-surface-container rounded"></div>
+<div class="w-1/6 h-5 bg-surface-container rounded"></div>
+<div class="w-1/12 h-5 bg-surface-container rounded"></div>
+</div>
+<div class="h-12 bg-surface-container-lowest rounded flex items-center justify-between px-space-md">
+<div class="w-1/4 h-5 bg-surface-container rounded"></div>
+<div class="w-1/6 h-5 bg-surface-container rounded"></div>
+<div class="w-1/6 h-5 bg-surface-container rounded"></div>
+<div class="w-1/5 h-5 bg-surface-container rounded"></div>
+<div class="w-1/12 h-5 bg-surface-container rounded"></div>
+</div>
+</div>
+</div>
+<!-- Error State Boundary (Hidden by default) -->
+<div class="hidden p-space-lg bg-error-container/20 rounded flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md" id="preview-error">
+<div class="flex items-start gap-space-md">
+<div class="p-2 rounded bg-error-container text-on-error-container shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-headline-md">cloud_off</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-error font-semibold">
+                Sandbox Runner Synchronization Timeout (504)
+              </span>
+<span class="font-label-code-sm text-label-code-sm px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-bold">
+                CLUSTER UNREACHABLE
+              </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+              Unable to reach AWS c6i micro-runner cluster node at us-east-1a:8443. The runner queue may be recycling worker containers. Local offline cache contains 148 verified records.
+            </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="px-space-md py-2 bg-error text-on-error rounded font-body-md text-body-md font-semibold hover:bg-opacity-90 transition-opacity shadow-sm flex items-center gap-1.5" onclick="triggerToast('Retrying secure runner handshake...'); switchPreviewState('loading'); setTimeout(() =&gt; switchPreviewState('active'), 1200);">
+<span class="material-symbols-outlined text-body-lg">autorenew</span>
+<span>Retry Connection</span>
+</button>
+<button class="px-space-md py-2 bg-surface-container-lowest text-on-surface rounded font-body-md text-body-md hover:bg-surface-container transition-colors shadow-sm" onclick="triggerToast('Mounted local SQLite offline telemetry cache.')">
+            View Offline Cache
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Code Inspection Modal (Hidden by default) -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-inverse-surface/40 backdrop-blur-sm hidden" id="codeModal">
+<div class="bg-surface-container-lowest rounded-xl max-w-2xl w-full shadow-xl overflow-hidden flex flex-col max-h-[85vh]">
+<!-- Modal Header -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-body-lg">code</span>
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface font-semibold" id="modalProblemTitle">
+              #15. 3Sum - Solution Inspection
+            </h4>
+<span class="font-label-code-sm text-label-code-sm text-tertiary" id="modalProblemSubtitle">
+              Python 3.11 (PyPy 7.3 JIT) • 38 ms Execution
+            </span>
+</div>
+</div>
+<button class="p-1 rounded text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="closeCodeModal()">
+<span class="material-symbols-outlined text-headline-md">close</span>
+</button>
+</div>
+<!-- Code Viewer Body -->
+<div class="p-space-md overflow-y-auto bg-surface-container-lowest font-label-code-md text-label-code-md text-on-surface leading-relaxed">
+<pre class="bg-surface-container-low p-space-md rounded overflow-x-auto text-on-surface font-label-code-sm text-label-code-sm leading-5"><code id="modalCodeBody">class Solution:
+    def threeSum(self, nums: list[int]) -&gt; list[list[int]]:
+        nums.sort()
+        res = []
+        n = len(nums)
+        
+        for i in range(n - 2):
+            # Skip duplicate pivot elements
+            if i &gt; 0 and nums[i] == nums[i - 1]:
+                continue
+            if nums[i] + nums[i + 1] + nums[i + 2] &gt; 0:
+                break
+            if nums[i] + nums[n - 1] + nums[n - 2] &lt; 0:
+                continue
+                
+            left, right = i + 1, n - 1
+            target = -nums[i]
+            
+            while left &lt; right:
+                s = nums[left] + nums[right]
+                if s == target:
+                    res.append([nums[i], nums[left], nums[right]])
+                    while left &lt; right and nums[left] == nums[left + 1]:
+                        left += 1
+                    while left &lt; right and nums[right] == nums[right - 1]:
+                        right -= 1
+                    left += 1
+                    right -= 1
+                elif s &lt; target:
+                    left += 1
+                else:
+                    right -= 1
+        return res</code></pre>
+</div>
+<!-- Modal Footer -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-secondary font-label-code-sm text-label-code-sm font-semibold">
+<span class="material-symbols-outlined text-body-md">verified</span>
+<span>Zero memory leaks detected • Verified AST tree</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-1.5 bg-surface-container-lowest text-on-surface rounded font-body-sm text-body-sm hover:bg-surface-container transition-colors flex items-center gap-1" onclick="copySnippetToClipboard()">
+<span class="material-symbols-outlined text-body-sm">content_copy</span>
+<span id="copyBtnLabel">Copy Code</span>
+</button>
+<button class="px-space-md py-1.5 bg-primary text-on-primary rounded font-body-sm text-body-sm font-semibold hover:bg-primary-container transition-colors" onclick="closeCodeModal(); triggerToast('Transitioning to Workspace IDE...');">
+            Reopen in Workspace
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Notification Toast Component (Transient micro-feedback) -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-12 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-space-sm px-space-md py-space-sm bg-inverse-surface text-inverse-on-surface rounded shadow-lg font-body-sm text-body-sm" id="toastContainer">
+<span class="material-symbols-outlined text-primary-fixed text-body-lg" id="toastIcon">info</span>
+<span id="toastMessage">Action dispatched successfully</span>
+</div>
+<!-- Client-side Logic Script for Table Filters, Previews, and Modals -->
+<script>
+    // State management variables
+    let currentLangFilter = "all";
+    let currentStatusFilter = "all";
+    let toastTimeout = null;
+
+    // Toast notification handler
+    function triggerToast(message) {
+      const toast = document.getElementById("toastContainer");
+      const text = document.getElementById("toastMessage");
+      text.textContent = message;
+      toast.classList.remove("translate-y-12", "opacity-0", "pointer-events-none");
+      toast.classList.add("translate-y-0", "opacity-100");
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove("translate-y-0", "opacity-100");
+        toast.classList.add("translate-y-12", "opacity-0", "pointer-events-none");
+      }, 2800);
+    }
+
+    // Language tab click selector
+    function selectLanguageTab(btn, lang) {
+      document.querySelectorAll(".lang-pill").forEach((el) => {
+        el.className =
+          "lang-pill px-3 py-1 rounded font-label-code-sm text-label-code-sm bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high transition-all shrink-0";
+      });
+      btn.className =
+        "lang-pill px-3 py-1 rounded font-label-code-sm text-label-code-sm bg-primary text-on-primary font-semibold transition-all shrink-0";
+      currentLangFilter = lang;
+      filterTable();
+    }
+
+    // Status pill toggle
+    function toggleStatusFilter(btn, status) {
+      document.querySelectorAll(".status-btn").forEach((el) => {
+        el.classList.remove("bg-surface-container-high", "font-semibold");
+        el.classList.add("bg-surface-container-low");
+      });
+      btn.classList.remove("bg-surface-container-low");
+      btn.classList.add("bg-surface-container-high", "font-semibold");
+      currentStatusFilter = status;
+      filterTable();
+    }
+
+    // Filter table rows dynamically
+    function filterTable() {
+      const searchVal = document
+        .getElementById("submissionSearchInput")
+        .value.toLowerCase()
+        .trim();
+      const optVal = document.getElementById("optFilterSelect").value;
+      const rows = document.querySelectorAll("#mainSubmissionsTable tbody tr");
+      let visibleCount = 0;
+
+      rows.forEach((row) => {
+        const rowLang = row.getAttribute("data-lang");
+        const rowStatus = row.getAttribute("data-status");
+        const rowOpt = row.getAttribute("data-opt");
+        const textContent = row.textContent.toLowerCase();
+
+        const matchLang =
+          currentLangFilter === "all" || rowLang === currentLangFilter;
+        const matchStatus =
+          currentStatusFilter === "all" || rowStatus === currentStatusFilter;
+        const matchOpt = optVal === "all" || rowOpt === optVal;
+        const matchSearch = !searchVal || textContent.includes(searchVal);
+
+        if (matchLang && matchStatus && matchOpt && matchSearch) {
+          row.style.display = "";
+          visibleCount++;
+        } else {
+          row.style.display = "none";
+        }
+      });
+
+      // Update footer indicator
+      const summaryText = document.getElementById("paginationSummaryText");
+      if (summaryText) {
+        summaryText.innerHTML = `Showing <span class="font-semibold text-on-surface">1</span> to <span class="font-semibold text-on-surface">${visibleCount}</span> of <span class="font-semibold text-on-surface">148</span> recorded algorithmic submissions (Filtered)`;
+      }
+
+      // Check if none visible
+      const tableWrapper = document.getElementById("submissionsTableWrapper");
+      let emptyPrompt = document.getElementById("tableInlineEmptyPrompt");
+
+      if (visibleCount === 0) {
+        if (!emptyPrompt) {
+          emptyPrompt = document.createElement("div");
+          emptyPrompt.id = "tableInlineEmptyPrompt";
+          emptyPrompt.className =
+            "p-8 text-center bg-surface-container-lowest flex flex-col items-center justify-center";
+          emptyPrompt.innerHTML = `
+            <span class="material-symbols-outlined text-outline text-headline-xl mb-2">find_in_page</span>
+            <p class="font-headline-md text-headline-md text-on-surface font-semibold">No submissions match the filter query</p>
+            <p class="font-body-sm text-body-sm text-tertiary mt-1">Try resetting the language, status, or search terms.</p>
+            <button onclick="resetAllFilters()" class="mt-4 px-3 py-1.5 bg-primary text-on-primary rounded font-body-sm text-body-sm font-semibold">Reset All Filters</button>
+          `;
+          tableWrapper.appendChild(emptyPrompt);
+        }
+        emptyPrompt.style.display = "flex";
+      } else if (emptyPrompt) {
+        emptyPrompt.style.display = "none";
+      }
+    }
+
+    function handleSearch(val) {
+      filterTable();
+    }
+
+    function sortTable() {
+      triggerToast(
+        "Reordering rows according to " +
+          document.getElementById("sortOrderSelect").value +
+          "..."
+      );
+    }
+
+    // Reset filters
+    function resetAllFilters() {
+      document.getElementById("submissionSearchInput").value = "";
+      document.getElementById("optFilterSelect").value = "all";
+      document.getElementById("sortOrderSelect").value = "newest";
+
+      // Reset Language tabs
+      const langTabs = document.querySelectorAll(".lang-pill");
+      if (langTabs.length > 0) selectLanguageTab(langTabs[0], "all");
+
+      // Reset Status buttons
+      const statusBtns = document.querySelectorAll(".status-btn");
+      if (statusBtns.length > 0) toggleStatusFilter(statusBtns[0], "all");
+
+      filterTable();
+      triggerToast("Filters restored to initial state.");
+    }
+
+    // Developer State Preview Switcher
+    function switchPreviewState(state) {
+      const activeEl = document.getElementById("preview-active");
+      const emptyEl = document.getElementById("preview-empty");
+      const loadingEl = document.getElementById("preview-loading");
+      const errorEl = document.getElementById("preview-error");
+
+      const tabs = document.querySelectorAll(".state-preview-tab");
+      tabs.forEach((tab) => {
+        tab.className =
+          "state-preview-tab px-3 py-1 rounded font-body-sm text-body-sm font-medium text-tertiary hover:text-on-surface transition-all";
+      });
+
+      const selectedTab = document.getElementById("btn-state-" + state);
+      if (selectedTab) {
+        selectedTab.className =
+          "state-preview-tab px-3 py-1 rounded font-body-sm text-body-sm font-semibold bg-surface-container-lowest text-on-surface shadow-sm transition-all";
+      }
+
+      activeEl.classList.add("hidden");
+      emptyEl.classList.add("hidden");
+      loadingEl.classList.add("hidden");
+      errorEl.classList.add("hidden");
+
+      if (state === "active") activeEl.classList.remove("hidden");
+      if (state === "empty") emptyEl.classList.remove("hidden");
+      if (state === "loading") loadingEl.classList.remove("hidden");
+      if (state === "error") errorEl.classList.remove("hidden");
+    }
+
+    // Code Inspection Modal logic
+    const snippets = {
+      15: {
+        title: "#15. 3Sum - Two-Pointer Reduction",
+        sub: "Python 3.11 (PyPy JIT) • 38 ms Execution • beats 99.4%",
+        code: `class Solution:
+    def threeSum(self, nums: list[int]) -> list[list[int]]:
+        nums.sort()
+        res = []
+        n = len(nums)
+        for i in range(n - 2):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            left, right = i + 1, n - 1
+            while left < right:
+                total = nums[i] + nums[left] + nums[right]
+                if total == 0:
+                    res.append([nums[i], nums[left], nums[right]])
+                    while left < right and nums[left] == nums[left + 1]: left += 1
+                    while left < right and nums[right] == nums[right - 1]: right -= 1
+                    left += 1; right -= 1
+                elif total < 0:
+                    left += 1
+                else:
+                    right -= 1
+        return res`,
+      },
+      42: {
+        title: "#42. Trapping Rain Water - Rust SIMD Pointer",
+        sub: "Rust 1.77 (LLVM -O3) • 0 ms Execution • 2.1 MB Peak",
+        code: `pub struct Solution;
+
+impl Solution {
+    pub fn trap(height: Vec<i32>) -> i32 {
+        let (mut left, mut right) = (0, height.len() as isize - 1);
+        let (mut left_max, mut right_max) = (0, 0);
+        let mut water = 0;
+
+        while left <= right {
+            if height[left as usize] <= height[right as usize] {
+                if height[left as usize] >= left_max {
+                    left_max = height[left as usize];
+                } else {
+                    water += left_max - height[left as usize];
+                }
+                left += 1;
+            } else {
+                if height[right as usize] >= right_max {
+                    right_max = height[right as usize];
+                } else {
+                    water += right_max - height[right as usize];
+                }
+                right -= 1;
+            }
+        }
+        water
+    }
+}`,
+      },
+      146: {
+        title: "#146. LRU Cache - Java Doubly-Linked Node",
+        sub: "Java 17 (OpenJDK HotSpot) • 44 ms • O(1) Amortized",
+        code: `class LRUCache {
+    class Node {
+        int key, val;
+        Node prev, next;
+        Node(int k, int v) { key = k; val = v; }
+    }
+    private final int capacity;
+    private final Map<Integer, Node> map = new HashMap<>();
+    private final Node head = new Node(0, 0), tail = new Node(0, 0);
+
+    public LRUCache(int cap) {
+        this.capacity = cap;
+        head.next = tail;
+        tail.prev = head;
+    }
+    public int get(int key) {
+        if (!map.containsKey(key)) return -1;
+        Node node = map.get(key);
+        remove(node);
+        insert(node);
+        return node.val;
+    }
+    public void put(int key, int value) {
+        if (map.containsKey(key)) remove(map.get(key));
+        if (map.size() == capacity) {
+            map.remove(tail.prev.key);
+            remove(tail.prev);
+        }
+        insert(new Node(key, value));
+    }
+    private void remove(Node n) { n.prev.next = n.next; n.next.prev = n.prev; }
+    private void insert(Node n) {
+        n.next = head.next; n.prev = head;
+        head.next.prev = n; head.next = n;
+        map.put(n.key, n);
+    }
+}`,
+      },
+      23: {
+        title: "#23. Merge k Sorted Lists - TLE Diagnostic",
+        sub: "Python 3.11 • Execution timed out at 10,000ms",
+        code: `# Problematic brute-force iteration causing timeout:
+# Complexity: O(K * N) where K = 10,000 lists
+class Solution:
+    def mergeKLists(self, lists: list[Optional[ListNode]]) -> Optional[ListNode]:
+        # [AI AST Warning]: Sequential merging detected.
+        # Suggested rewrite: Utilize PriorityQueue or Divide & Conquer O(N log K).
+        dummy = ListNode(0)
+        curr = dummy
+        while True:
+            min_idx = -1
+            min_val = float('inf')
+            for i, node in enumerate(lists):
+                if node and node.val < min_val:
+                    min_val = node.val
+                    min_idx = i
+            if min_idx == -1: break
+            curr.next = lists[min_idx]
+            curr = curr.next
+            lists[min_idx] = lists[min_idx].next
+        return dummy.next`,
+      },
+    };
+
+    function openModalCode(problemId) {
+      const data = snippets[problemId] || snippets["15"];
+      document.getElementById("modalProblemTitle").textContent = data.title;
+      document.getElementById("modalProblemSubtitle").textContent = data.sub;
+      document.getElementById("modalCodeBody").textContent = data.code;
+      document.getElementById("codeModal").classList.remove("hidden");
+    }
+
+    function closeCodeModal() {
+      document.getElementById("codeModal").classList.add("hidden");
+    }
+
+    function copySnippetToClipboard() {
+      const code = document.getElementById("modalCodeBody").textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const btnLabel = document.getElementById("copyBtnLabel");
+        btnLabel.textContent = "Copied!";
+        setTimeout(() => {
+          btnLabel.textContent = "Copy Code";
+        }, 1800);
+      });
+    }
+
+    // Keyboard shortcut handler for Command-K
+    document.addEventListener("keydown", function (e) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        const searchInput = document.getElementById("submissionSearchInput");
+        if (searchInput) {
+          searchInput.focus();
+          searchInput.select();
+        }
+      }
+      if (e.key === "Escape") {
+        closeCodeModal();
+      }
+    });
+  </script>
+</div></main></div></body></html>

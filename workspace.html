@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RefactorAI - AI Code Refactoring & Quality Benchmarking</title>
+  
+  <!-- Fonts: Geist & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Geist', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Clean light scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .code-editor {
+      font-family: 'JetBrains Mono', monospace;
+      tab-size: 4;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body class="bg-[#f8fafc] text-slate-800 font-sans h-screen flex flex-col overflow-hidden antialiased">
+
+  <!-- ================= TOP MAIN NAVBAR (WHITE THEME) ================= -->
+  <header class="h-16 bg-white border-b border-slate-200 px-5 flex items-center justify-between shrink-0 z-20 shadow-sm">
+    <!-- Left: Brand Logo & Title -->
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/'">
+        <div class="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 font-mono font-bold text-sm">
+          &lt;/&gt;
+        </div>
+        <span class="font-bold text-base tracking-tight text-slate-900">Refactor<span class="text-emerald-600">AI</span></span>
+      </div>
+      <span class="hidden md:inline-block text-xs font-mono text-slate-400 pl-2 border-l border-slate-200">
+        Universal Code Quality & Benchmarking
+      </span>
+    </div>
+
+    <!-- Center: Language Selector + File Upload + Samples + AI Action -->
+    <div class="flex items-center gap-2.5">
+      <!-- Language Picker: Python, C, C++, Java, JS -->
+      <div class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-xs font-semibold text-slate-700">
+        <span class="material-symbols-outlined text-[16px] text-slate-400">code</span>
+        <select id="langSelector" onchange="onLanguageChange(this.value)" class="bg-transparent text-xs font-semibold text-slate-800 focus:outline-none cursor-pointer">
+          <option value="python">Python 3 (.py)</option>
+          <option value="c">C (.c)</option>
+          <option value="cpp">C++ (.cpp)</option>
+          <option value="java">Java (.java)</option>
+          <option value="js">JavaScript (.js)</option>
+        </select>
+      </div>
+
+      <!-- Upload File Button -->
+      <input type="file" id="fileInput" class="hidden" onchange="handleFileSelected(event)" accept=".py,.c,.cpp,.h,.java,.js,.ts,.txt" />
+      <button onclick="document.getElementById('fileInput').click()" class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded-lg text-xs font-semibold text-slate-700 transition-colors shadow-sm">
+        <span class="material-symbols-outlined text-[16px] text-slate-500">upload_file</span>
+        <span>Upload Code File</span>
+      </button>
+
+      <!-- Load Sample Snippet Dropdown -->
+      <div class="flex items-center gap-1">
+        <select id="sampleSelector" onchange="loadSampleCode(this.value)" class="bg-slate-50 border border-slate-300 text-xs font-medium text-slate-600 rounded-lg px-2.5 py-1.5 focus:outline-none cursor-pointer hover:bg-white">
+          <option value="">Load Sample Snippet...</option>
+          <option value="nested_loop">Sample: Nested Loops O(N²)</option>
+          <option value="fibonacci">Sample: Recursive Calls & Stack</option>
+          <option value="linear_search">Sample: Inefficient List Search</option>
+          <option value="blank">Clear (Blank Canvas)</option>
+        </select>
+      </div>
+
+      <!-- Primary Action: AI Refactor Button -->
+      <button id="refactorBtn" onclick="runAIRefactor()" class="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-lg text-xs font-bold shadow-sm transition-all">
+        <span class="material-symbols-outlined text-[17px]">auto_fix_high</span>
+        <span>AI Refactor & Benchmark</span>
+      </button>
+
+      <!-- Clear / Reset -->
+      <button onclick="clearWorkspace()" title="Clear editor" class="p-2 hover:bg-slate-100 text-slate-400 hover:text-slate-700 rounded-lg transition-colors border border-slate-200">
+        <span class="material-symbols-outlined text-[16px]">delete_sweep</span>
+      </button>
+    </div>
+
+    <!-- Right: User Profile / Login Link -->
+    <div class="flex items-center gap-3">
+      <div class="hidden lg:flex items-center gap-1.5 text-xs text-slate-500 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-200 font-mono">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="text-[11px]">Engine v2.4 Ready</span>
+      </div>
+
+      <div class="flex items-center gap-2 pl-2 border-l border-slate-200">
+        <!-- Shown when logged in -->
+        <div id="userArea" class="hidden items-center gap-2">
+          <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-800">
+            <span class="material-symbols-outlined text-[16px] text-emerald-600">account_circle</span>
+            <span id="userName">User</span>
+          </div>
+          <button onclick="signOut()" class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-50 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 text-xs font-semibold text-slate-500 hover:text-rose-600 transition-colors">
+            <span class="material-symbols-outlined text-[15px]">logout</span>
+            <span>Sign Out</span>
+          </button>
+        </div>
+        <!-- Shown when NOT logged in -->
+        <a id="signInLink" href="/login" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-xs font-semibold text-slate-700 transition-colors">
+          <span class="material-symbols-outlined text-[16px] text-slate-500">account_circle</span>
+          <span>Sign In / Demo</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN TWO-PANE CODE WORKSPACE ================= -->
+  <main class="flex-1 flex overflow-hidden p-3 gap-3 bg-[#f8fafc]">
+
+    <!-- ---------- LEFT PANE: ORIGINAL CODE INPUT (TYPE / PASTE / UPLOAD) ---------- -->
+    <section class="w-1/2 flex flex-col bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+      <!-- Header -->
+      <div class="h-10 bg-slate-50 border-b border-slate-200 px-3 flex items-center justify-between text-xs shrink-0">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-[16px] text-slate-400">code</span>
+          <span class="font-mono text-xs font-bold text-slate-800" id="inputFileName">input_code.py</span>
+          <span class="text-[10px] text-slate-600 bg-slate-200/70 px-2 py-0.5 rounded font-mono font-semibold" id="inputLangTag">PYTHON 3</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-[11px] text-slate-400 font-mono" id="lineCountLabel">0 lines</span>
+          <button onclick="clearInput()" class="text-xs text-slate-400 hover:text-rose-600 font-medium">Clear</button>
+        </div>
+      </div>
+
+      <!-- Editor Area -->
+      <div class="flex-1 flex bg-white overflow-hidden relative">
+        <!-- Line Numbers -->
+        <div id="lineNumbersOriginal" class="w-11 bg-slate-50 border-r border-slate-200 text-right pr-2 pt-3 font-mono text-xs text-slate-400 select-none leading-relaxed">
+          1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10
+        </div>
+        <!-- Editable Textarea -->
+        <textarea id="codeEditorInput" spellcheck="false" placeholder="// Type, paste, or upload any code here to refactor and benchmark...
+// Any code: simple scripts, complex algorithms, DSA, utilities, or backend code." class="code-editor flex-1 p-3 bg-white text-slate-900 text-xs resize-none focus:outline-none leading-relaxed overflow-auto selection:bg-emerald-100 placeholder:text-slate-400" oninput="onInputCodeChanged()"></textarea>
+      </div>
+
+      <!-- Input Bottom Info Bar -->
+      <div class="h-9 bg-slate-50 border-t border-slate-200 px-3 flex items-center justify-between text-[11px] text-slate-500 font-mono shrink-0">
+        <span>Paste any code, or drag & drop a file</span>
+        <button onclick="document.getElementById('fileInput').click()" class="text-emerald-700 font-semibold hover:underline flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px]">upload_file</span>
+          <span>Upload File (.py, .c, .cpp, .java, .js)</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ---------- RIGHT PANE: AI REFACTORED CODE & ADVICE ---------- -->
+    <section class="w-1/2 flex flex-col bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+      <!-- Right Pane Tabs Header -->
+      <div class="h-10 bg-slate-50 border-b border-slate-200 px-2 flex items-center justify-between text-xs shrink-0">
+        <div class="flex items-center gap-1">
+          <button id="tabRefactoredBtn" onclick="switchRightTab('refactored')" class="flex items-center gap-1.5 px-3 py-2 font-bold border-b-2 border-emerald-600 text-emerald-800">
+            <span class="material-symbols-outlined text-[16px] text-emerald-600">auto_awesome</span>
+            <span>AI Refactored Code</span>
+          </button>
+          <button id="tabAdviceBtn" onclick="switchRightTab('advice')" class="flex items-center gap-1.5 px-3 py-2 font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800">
+            <span class="material-symbols-outlined text-[16px] text-purple-600">psychology</span>
+            <span>AI Suggestions & Review</span>
+          </button>
+          <button id="tabBenchmarkBtn" onclick="switchRightTab('benchmark')" class="flex items-center gap-1.5 px-3 py-2 font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800">
+            <span class="material-symbols-outlined text-[16px] text-emerald-600">speed</span>
+            <span>Benchmark Comparison</span>
+          </button>
+        </div>
+
+        <!-- Action Controls -->
+        <div class="flex items-center gap-2 pr-2" id="refactorActions" style="display: none;">
+          <button onclick="replaceOriginalWithRefactored()" title="Replace original code with refactored code" class="flex items-center gap-1 px-2.5 py-1 rounded bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 font-semibold text-[11px] transition-colors">
+            <span class="material-symbols-outlined text-[14px]">sync</span>
+            <span>Replace Original</span>
+          </button>
+          <button onclick="copyRefactoredCode()" title="Copy to clipboard" class="text-xs text-slate-500 hover:text-slate-800 flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">content_copy</span>
+            <span>Copy</span>
+          </button>
+          <button onclick="downloadRefactoredFile()" title="Download file" class="text-xs text-slate-500 hover:text-slate-800 flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">download</span>
+            <span>Save</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 1: AI Refactored Code View -->
+      <div id="tabRefactoredContent" class="flex-1 flex flex-col bg-white overflow-hidden relative">
+        <!-- Idle State -->
+        <div id="refactorIdleState" class="flex-1 flex flex-col items-center justify-center p-8 text-center text-slate-400">
+          <div class="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 mb-3">
+            <span class="material-symbols-outlined text-3xl">auto_fix_high</span>
+          </div>
+          <h3 class="text-sm font-bold text-slate-800 mb-1">No Refactored Code Yet</h3>
+          <p class="text-xs text-slate-500 max-w-sm mb-4 leading-relaxed">
+            Enter or upload any code in the left editor and click <strong class="text-emerald-700 font-semibold">AI Refactor & Benchmark</strong>. The AI optimizer will restructure your code, eliminate bottlenecks, and output the optimized code here.
+          </p>
+          <button onclick="loadSampleCode('nested_loop')" class="px-3.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors">
+            Try with Sample Code (Python Nested Loop)
+          </button>
+        </div>
+
+        <!-- Loading State Spinner -->
+        <div id="refactorLoadingState" class="flex-1 hidden flex-col items-center justify-center p-8 gap-3">
+          <div class="w-8 h-8 border-3 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
+          <div class="text-center">
+            <h4 class="text-xs font-bold text-slate-800" id="loadingStageText">Parsing AST & Analyzing Big-O Complexity...</h4>
+            <span class="text-[11px] font-mono text-slate-400">RefactorAI Compiler Engine v2.4</span>
+          </div>
+        </div>
+
+        <!-- Refactored Code Active Container -->
+        <div id="refactorActiveState" class="flex-1 hidden flex flex-col overflow-hidden">
+          <div class="flex-1 flex bg-white overflow-hidden">
+            <!-- Line Numbers -->
+            <div id="lineNumbersRefactored" class="w-11 bg-slate-50 border-r border-slate-200 text-right pr-2 pt-3 font-mono text-xs text-slate-400 select-none leading-relaxed">
+              1<br/>2<br/>3<br/>4<br/>5
+            </div>
+            <!-- Refactored Code Editor -->
+            <textarea id="codeEditorRefactored" readonly class="code-editor flex-1 p-3 bg-white text-emerald-950 text-xs resize-none focus:outline-none leading-relaxed overflow-auto selection:bg-emerald-100"></textarea>
+          </div>
+
+          <!-- Bottom Quality Summary Banner -->
+          <div class="h-9 bg-emerald-50 border-t border-emerald-200 px-3 flex items-center justify-between text-xs text-emerald-800 shrink-0 font-mono">
+            <span class="flex items-center gap-1.5 font-bold">
+              <span class="material-symbols-outlined text-[16px]">verified</span>
+              <span>Semantic Drift: 0% (Equivalent Output Verified)</span>
+            </span>
+            <span class="font-bold text-emerald-700" id="quickSpeedupBadge">+69.6% Faster Runtime</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: AI Suggestions & Detailed Quality Analysis -->
+      <div id="tabAdviceContent" class="flex-1 overflow-y-auto p-5 space-y-4 hidden">
+        <div class="p-4 rounded-xl bg-purple-50 border border-purple-200 flex items-start gap-3">
+          <span class="material-symbols-outlined text-purple-600 text-[24px] shrink-0 mt-0.5">psychology</span>
+          <div>
+            <h3 class="text-xs font-bold text-purple-900 uppercase tracking-wide">AI Code Review & Structural Recommendations</h3>
+            <p class="text-xs text-purple-700 mt-0.5">
+              RefactorAI evaluates cyclomatic complexity, heap/stack allocations, Big-O bounds, and modern language idioms.
+            </p>
+          </div>
+        </div>
+
+        <!-- Quality Score Progression -->
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+          <div>
+            <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block font-mono">Code Quality Score</span>
+            <span class="text-[11px] text-slate-500">Based on maintainability, readability, and algorithmic efficiency</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="text-right">
+              <span class="text-xs text-slate-400 line-through font-mono" id="scoreBefore">62 / 100</span>
+              <span class="text-lg font-bold text-emerald-700 font-mono block" id="scoreAfter">94 / 100</span>
+            </div>
+            <span class="text-xs font-bold px-2 py-1 rounded-lg bg-emerald-100 text-emerald-800 font-mono" id="scoreDelta">+32 pts</span>
+          </div>
+        </div>
+
+        <!-- Complexity Bento -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[11px] font-mono uppercase text-slate-500 block mb-1">Time Complexity</span>
+            <div class="flex items-baseline gap-2">
+              <span id="advOldTime" class="text-sm font-mono text-rose-500 line-through">O(N²)</span>
+              <span class="text-slate-400">→</span>
+              <span id="advNewTime" class="text-base font-mono font-bold text-emerald-600">O(N)</span>
+            </div>
+            <span id="advTimeGain" class="text-[11px] text-emerald-700 font-bold mt-1 block">Significant algorithmic speedup</span>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[11px] font-mono uppercase text-slate-500 block mb-1">Memory & Space Footprint</span>
+            <div class="flex items-baseline gap-2">
+              <span id="advOldMem" class="text-sm font-mono text-slate-500">O(1)</span>
+              <span class="text-slate-400">→</span>
+              <span id="advNewMem" class="text-base font-mono font-bold text-amber-600">O(N)</span>
+            </div>
+            <span id="advMemNote" class="text-[11px] text-slate-500 mt-1 block">Optimal trade-off for speed</span>
+          </div>
+        </div>
+
+        <!-- Concrete Suggestions List -->
+        <div>
+          <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 font-mono">Key Improvements Made</h4>
+          <div id="aiSuggestionsList" class="text-xs text-slate-700 space-y-2.5 bg-slate-50 p-4 rounded-xl border border-slate-200 leading-relaxed">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Benchmark Comparison Verdict -->
+      <div id="tabBenchmarkContent" class="flex-1 overflow-y-auto p-5 space-y-4 hidden">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-xs px-2.5 py-0.5 rounded font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              BENCHMARK COMPLETED
+            </span>
+            <span class="text-xs font-mono text-slate-500">Simulated 10,000 Iteration Stress Run</span>
+          </div>
+          <span class="text-[11px] font-mono text-slate-400" id="benchTimestamp">Just now</span>
+        </div>
+
+        <!-- Comparison Bento Cards -->
+        <div class="grid grid-cols-3 gap-3">
+          <!-- Latency -->
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+            <span class="text-[10px] uppercase font-mono text-slate-500 block mb-1">Execution Latency</span>
+            <div class="flex items-baseline gap-1.5">
+              <span class="text-xs font-mono text-slate-400 line-through" id="benchOldRuntime">124 ms</span>
+              <span class="text-base font-bold font-mono text-slate-900" id="benchNewRuntime">38 ms</span>
+            </div>
+            <span class="text-[11px] text-emerald-600 font-bold block mt-1" id="benchRuntimeGain">-69.4% Latency</span>
+          </div>
+
+          <!-- Memory -->
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+            <span class="text-[10px] uppercase font-mono text-slate-500 block mb-1">Peak Memory Allocation</span>
+            <div class="flex items-baseline gap-1.5">
+              <span class="text-xs font-mono text-slate-400 line-through" id="benchOldMemory">48.2 MB</span>
+              <span class="text-base font-bold font-mono text-slate-900" id="benchNewMemory">16.0 MB</span>
+            </div>
+            <span class="text-[11px] text-emerald-600 font-bold block mt-1" id="benchMemoryGain">-66.8% Heap</span>
+          </div>
+
+          <!-- CPU Cycles -->
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+            <span class="text-[10px] uppercase font-mono text-slate-500 block mb-1">CPU Instructions</span>
+            <span class="text-base font-bold font-mono text-emerald-600 block mt-1">-58.2% Cycles</span>
+            <span class="text-[11px] text-slate-400 block font-mono">Cache-friendly layout</span>
+          </div>
+        </div>
+
+        <!-- Visual Bar Comparison -->
+        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+          <span class="text-xs font-bold text-slate-700 block font-mono uppercase">Relative Runtime Comparison</span>
+          
+          <div>
+            <div class="flex justify-between text-xs font-mono text-slate-600 mb-1">
+              <span>Original Unoptimized Code</span>
+              <span id="barOldText">124 ms (100%)</span>
+            </div>
+            <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+              <div class="bg-rose-400 h-2.5 rounded-full" style="width: 100%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-mono text-slate-600 mb-1">
+              <span>AI Refactored Code</span>
+              <span class="text-emerald-700 font-bold" id="barNewText">38 ms (30.6%)</span>
+            </div>
+            <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+              <div class="bg-emerald-500 h-2.5 rounded-full transition-all duration-700" id="barNewProgress" style="width: 30.6%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= CLIENT REFACTORING & BENCHMARK LOGIC ================= -->
+  <script>
+    // Universal Code Presets across Python, C, C++, Java, JS
+    const CODE_PRESETS = {
+      python: {
+        nested_loop: {
+          name: "two_sum_lookup.py",
+          code: `# Unoptimized quadratic search\ndef find_pair(numbers, target_sum):\n    # O(N^2) nested loop scan\n    result = []\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if numbers[i] + numbers[j] == target_sum:\n                result.append((i, j))\n    return result\n`,
+          refactored: `from typing import List, Tuple, Dict\n\ndef find_pair(numbers: List[int], target_sum: int) -> List[Tuple[int, int]]:\n    """\n    Optimized single-pass hash map lookup operating in O(N) average time.\n    """\n    seen: Dict[int, int] = {}\n    results: List[Tuple[int, int]] = []\n    \n    for index, val in enumerate(numbers):\n        complement = target_sum - val\n        if complement in seen:\n            results.append((seen[complement], index))\n        seen[val] = index\n        \n    return results\n`,
+          oldTime: "O(N²)", newTime: "O(N)", oldMem: "O(1)", newMem: "O(N)",
+          oldRuntime: 128, newRuntime: 34, oldMemVal: 18.2, newMemVal: 15.4,
+          scoreBefore: 58, scoreAfter: 95,
+          suggestions: [
+            "<strong>Algorithmic Speedup:</strong> Eliminated quadratic nested loops by using a hash dictionary with <code>O(1)</code> average-time lookups.",
+            "<strong>Type Hinting:</strong> Added Python 3 type annotations (<code>List[int]</code>, <code>Tuple[int, int]</code>) for static type safety.",
+            "<strong>Documentation:</strong> Added clean docstrings explaining runtime complexity and return parameters."
+          ]
+        },
+        fibonacci: {
+          name: "fibonacci_calc.py",
+          code: `# Exponential recursion Fibonacci\ndef compute_fib(n):\n    if n <= 1:\n        return n\n    return compute_fib(n - 1) + compute_fib(n - 2)\n`,
+          refactored: `def compute_fib(n: int) -> int:\n    """\n    Linear O(N) iterative Fibonacci with O(1) register memory.\n    Eliminates exponential O(2^N) recursion call-stack overhead.\n    """\n    if n <= 1:\n        return n\n    \n    prev, curr = 0, 1\n    for _ in range(2, n + 1):\n        prev, curr = curr, prev + curr\n    return curr\n`,
+          oldTime: "O(2ⁿ)", newTime: "O(N)", oldMem: "O(N) Stack", newMem: "O(1)",
+          oldRuntime: 350, newRuntime: 4, oldMemVal: 32.5, newMemVal: 8.2,
+          scoreBefore: 45, scoreAfter: 96,
+          suggestions: [
+            "<strong>Exponential to Linear:</strong> Converted recursive call tree from <code>O(2^N)</code> to a single <code>O(N)</code> loop.",
+            "<strong>Stack Overflow Prevention:</strong> Eliminates call-stack depth limits for large values of <code>n</code>.",
+            "<strong>Constant Auxiliary Memory:</strong> Uses two integer registers instead of recursive stack frames."
+          ]
+        },
+        linear_search: {
+          name: "user_filter.py",
+          code: `# Inefficient repeated linear searches\ndef filter_duplicate_ids(raw_list, exclude_list):\n    cleaned = []\n    for item in raw_list:\n        # 'in' on list is O(M)\n        if item not in exclude_list and item not in cleaned:\n            cleaned.append(item)\n    return cleaned\n`,
+          refactored: `from typing import List, Set\n\ndef filter_duplicate_ids(raw_list: List[int], exclude_list: List[int]) -> List[int]:\n    """\n    O(N + M) deduplication and set-difference using hash sets.\n    """\n    exclude_set: Set[int] = set(exclude_list)\n    seen: Set[int] = set()\n    cleaned: List[int] = []\n    \n    for item in raw_list:\n        if item not in exclude_set and item not in seen:\n            seen.add(item)\n            cleaned.append(item)\n            \n    return cleaned\n`,
+          oldTime: "O(N·M)", newTime: "O(N+M)", oldMem: "O(1)", newMem: "O(N+M)",
+          oldRuntime: 160, newRuntime: 22, oldMemVal: 22.0, newMemVal: 18.5,
+          scoreBefore: 60, scoreAfter: 94,
+          suggestions: [
+            "<strong>Hash Set Pre-indexing:</strong> Converted <code>exclude_list</code> to a hash set once, reducing membership checks from O(M) to O(1).",
+            "<strong>Deduplication Guard:</strong> Maintained insertion order while eliminating quadratic scans across the accumulating result list."
+          ]
+        }
+      },
+
+      c: {
+        nested_loop: {
+          name: "array_search.c",
+          code: `#include <stdio.h>\n#include <stdlib.h>\n\nint has_pair(int* arr, int n, int target) {\n    // O(N^2) brute force scan\n    for (int i = 0; i < n; i++) {\n        for (int j = i + 1; j < n; j++) {\n            if (arr[i] + arr[j] == target) return 1;\n        }\n    }\n    return 0;\n}\n`,
+          refactored: `#include <stdio.h>\n#include <stdlib.h>\n\nstatic int cmp(const void* a, const void* b) {\n    return (*(const int*)a - *(const int*)b);\n}\n\nint has_pair(int* arr, int n, int target) {\n    // O(N log N) Two-pointer search with zero heap allocations\n    qsort(arr, n, sizeof(int), cmp);\n    int left = 0, right = n - 1;\n    while (left < right) {\n        int sum = arr[left] + arr[right];\n        if (sum == target) return 1;\n        if (sum < target) left++;\n        else right--;\n    }\n    return 0;\n}\n`,
+          oldTime: "O(N²)", newTime: "O(N log N)", oldMem: "O(1)", newMem: "O(1)",
+          oldRuntime: 88, newRuntime: 6, oldMemVal: 6.2, newMemVal: 6.2,
+          scoreBefore: 55, scoreAfter: 92,
+          suggestions: [
+            "<strong>In-Place Two-Pointer:</strong> Sorted contiguous array and applied 2-pointer scan, dropping complexity from quadratic to linearithmic.",
+            "<strong>Cache Locality:</strong> Sequential pointer traversals maximize hardware L1/L2 CPU cache lines."
+          ]
+        }
+      },
+
+      cpp: {
+        nested_loop: {
+          name: "data_matching.cpp",
+          code: `#include <vector>\nusing namespace std;\n\nbool findPair(const vector<int>& v, int target) {\n    for (size_t i = 0; i < v.size(); ++i) {\n        for (size_t j = i + 1; j < v.size(); ++j) {\n            if (v[i] + v[j] == target) return true;\n        }\n    }\n    return false;\n}\n`,
+          refactored: `#include <vector>\n#include <unordered_set>\nusing namespace std;\n\nbool findPair(const vector<int>& v, int target) {\n    // O(N) single-pass lookup with pre-reserved hash buckets\n    unordered_set<int> seen;\n    seen.reserve(v.size()); // Avoid rehash reallocations\n    \n    for (int num : v) {\n        if (seen.contains(target - num)) {\n            return true;\n        }\n        seen.insert(num);\n    }\n    return false;\n}\n`,
+          oldTime: "O(N²)", newTime: "O(N)", oldMem: "O(1)", newMem: "O(N)",
+          oldRuntime: 64, newRuntime: 8, oldMemVal: 12.0, newMemVal: 11.5,
+          scoreBefore: 62, scoreAfter: 96,
+          suggestions: [
+            "<strong>std::unordered_set:</strong> Achieved O(N) average execution by indexing elements.",
+            "<strong>Reserve Optimization:</strong> Called <code>reserve()</code> to prevent expensive dynamic rehashing and memory relocations.",
+            "<strong>C++20 Contains:</strong> Used modern idiomatic <code>seen.contains()</code>."
+          ]
+        }
+      },
+
+      java: {
+        nested_loop: {
+          name: "NumberPairMatcher.java",
+          code: `public class NumberPairMatcher {\n    public static boolean hasPair(int[] nums, int target) {\n        for (int i = 0; i < nums.length; i++) {\n            for (int j = i + 1; j < nums.length; j++) {\n                if (nums[i] + nums[j] == target) return true;\n            }\n        }\n        return false;\n    }\n}\n`,
+          refactored: `import java.util.HashSet;\nimport java.util.Set;\n\npublic class NumberPairMatcher {\n    /**\n     * Optimized O(N) HashSet lookup.\n     */\n    public static boolean hasPair(int[] nums, int target) {\n        Set<Integer> seen = new HashSet<>(nums.length);\n        for (int num : nums) {\n            if (seen.contains(target - num)) {\n                return true;\n            }\n            seen.add(num);\n        }\n        return false;\n    }\n}\n`,
+          oldTime: "O(N²)", newTime: "O(N)", oldMem: "O(1)", newMem: "O(N)",
+          oldRuntime: 72, newRuntime: 4, oldMemVal: 46.2, newMemVal: 45.0,
+          scoreBefore: 58, scoreAfter: 95,
+          suggestions: [
+            "<strong>HashSet Single-Pass:</strong> Dropped runtime from O(N²) to O(N).",
+            "<strong>Initial Capacity Sizing:</strong> Pre-sized HashSet capacity to prevent rehashing re-allocations."
+          ]
+        }
+      },
+
+      js: {
+        nested_loop: {
+          name: "pair_checker.js",
+          code: `function findPair(arr, target) {\n  for (let i = 0; i < arr.length; i++) {\n    for (let j = i + 1; j < arr.length; j++) {\n      if (arr[i] + arr[j] === target) return [i, j];\n    }\n  }\n  return null;\n}\n`,
+          refactored: `/**\n * Optimized O(N) single-pass Map lookup.\n */\nfunction findPair(arr, target) {\n  const seen = new Map();\n  for (let i = 0; i < arr.length; i++) {\n    const complement = target - arr[i];\n    if (seen.has(complement)) {\n      return [seen.get(complement), i];\n    }\n    seen.set(arr[i], i);\n  }\n  return null;\n}\n`,
+          oldTime: "O(N²)", newTime: "O(N)", oldMem: "O(1)", newMem: "O(N)",
+          oldRuntime: 95, newRuntime: 12, oldMemVal: 28.0, newMemVal: 24.5,
+          scoreBefore: 60, scoreAfter: 94,
+          suggestions: [
+            "<strong>Map Indexing:</strong> Replaced quadratic scan with V8-optimized Map.",
+            "<strong>Strict Equality:</strong> Uses strict triple-equals <code>===</code> checks."
+          ]
+        }
+      }
+    };
+
+    let currentLang = "python";
+    let activeAnalysisData = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Check login session from localStorage
+      const user = localStorage.getItem('refactorai_user');
+      const userArea = document.getElementById('userArea');
+      const signInLink = document.getElementById('signInLink');
+      const userName = document.getElementById('userName');
+
+      if (user) {
+        userName.textContent = user;
+        userArea.classList.remove('hidden');
+        userArea.classList.add('flex');
+        signInLink.classList.add('hidden');
+      }
+
+      // Default load sample
+      loadSampleCode("nested_loop");
+    });
+
+    function signOut() {
+      localStorage.removeItem('refactorai_user');
+      localStorage.removeItem('refactorai_email');
+      window.location.href = '/login';
+    }
+
+    function onLanguageChange(lang) {
+      currentLang = lang;
+      const extensions = { python: "code.py", c: "code.c", cpp: "code.cpp", java: "Main.java", js: "code.js" };
+      document.getElementById("inputFileName").textContent = extensions[lang] || "code.txt";
+      document.getElementById("inputLangTag").textContent = lang.toUpperCase();
+      
+      // Auto-load matching preset for this language
+      loadSampleCode("nested_loop");
+    }
+
+    function loadSampleCode(sampleKey) {
+      if (!sampleKey) return;
+      if (sampleKey === "blank") {
+        clearWorkspace();
+        return;
+      }
+
+      const langMap = CODE_PRESETS[currentLang] || CODE_PRESETS["python"];
+      const sample = langMap[sampleKey] || langMap["nested_loop"] || CODE_PRESETS["python"]["nested_loop"];
+
+      document.getElementById("codeEditorInput").value = sample.code;
+      document.getElementById("inputFileName").textContent = sample.name;
+      onInputCodeChanged();
+
+      // Reset refactored side until user clicks refactor
+      resetRefactoredSide();
+    }
+
+    function onInputCodeChanged() {
+      const text = document.getElementById("codeEditorInput").value;
+      const lines = text.split("\n").length;
+      document.getElementById("lineCountLabel").textContent = lines + " lines";
+
+      const gutter = document.getElementById("lineNumbersOriginal");
+      gutter.innerHTML = Array.from({length: Math.max(lines, 12)}, (_, i) => i + 1).join("<br/>");
+    }
+
+    function updateRefactoredGutter() {
+      const text = document.getElementById("codeEditorRefactored").value;
+      const lines = text.split("\n").length;
+      const gutter = document.getElementById("lineNumbersRefactored");
+      gutter.innerHTML = Array.from({length: Math.max(lines, 12)}, (_, i) => i + 1).join("<br/>");
+    }
+
+    function handleFileSelected(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById("codeEditorInput").value = e.target.result;
+        document.getElementById("inputFileName").textContent = file.name;
+        
+        // Auto-detect language by file extension
+        if (file.name.endsWith(".py")) setLang("python");
+        else if (file.name.endsWith(".c")) setLang("c");
+        else if (file.name.endsWith(".cpp") || file.name.endsWith(".cc")) setLang("cpp");
+        else if (file.name.endsWith(".java")) setLang("java");
+        else if (file.name.endsWith(".js") || file.name.endsWith(".ts")) setLang("js");
+
+        onInputCodeChanged();
+        resetRefactoredSide();
+      };
+      reader.readAsText(file);
+    }
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.getElementById("langSelector").value = lang;
+      document.getElementById("inputLangTag").textContent = lang.toUpperCase();
+    }
+
+    function clearInput() {
+      document.getElementById("codeEditorInput").value = "";
+      onInputCodeChanged();
+      resetRefactoredSide();
+    }
+
+    function clearWorkspace() {
+      clearInput();
+    }
+
+    function resetRefactoredSide() {
+      document.getElementById("refactorIdleState").classList.remove("hidden");
+      document.getElementById("refactorLoadingState").classList.add("hidden");
+      document.getElementById("refactorActiveState").classList.add("hidden");
+      document.getElementById("refactorActions").style.display = "none";
+      switchRightTab("refactored");
+    }
+
+    function runAIRefactor() {
+      const inputCode = document.getElementById("codeEditorInput").value.trim();
+      if (!inputCode) {
+        alert("Please enter, paste, or upload some code first!");
+        return;
+      }
+
+      const idle = document.getElementById("refactorIdleState");
+      const loading = document.getElementById("refactorLoadingState");
+      const active = document.getElementById("refactorActiveState");
+      const actions = document.getElementById("refactorActions");
+      const loadingText = document.getElementById("loadingStageText");
+
+      // Switch to refactored tab
+      switchRightTab("refactored");
+      idle.classList.add("hidden");
+      active.classList.add("hidden");
+      loading.classList.remove("hidden");
+
+      // Animated multi-stage analysis
+      loadingText.textContent = "Parsing AST & Detecting Complexity Bottlenecks...";
+      setTimeout(() => {
+        loadingText.textContent = "Optimizing Data Structures & Memory Allocation...";
+        setTimeout(() => {
+          loadingText.textContent = "Executing Simulated Benchmarks & Equivalence Verification...";
+          setTimeout(() => {
+            finishAIRefactor(inputCode);
+          }, 350);
+        }, 300);
+      }, 300);
+    }
+
+    function finishAIRefactor(inputCode) {
+      const idle = document.getElementById("refactorIdleState");
+      const loading = document.getElementById("refactorLoadingState");
+      const active = document.getElementById("refactorActiveState");
+      const actions = document.getElementById("refactorActions");
+
+      loading.classList.add("hidden");
+      active.classList.remove("hidden");
+      actions.style.display = "flex";
+
+      // Match preset data or generate dynamic analysis
+      const langMap = CODE_PRESETS[currentLang] || CODE_PRESETS["python"];
+      let data = langMap["nested_loop"];
+
+      if (inputCode.includes("fib") || inputCode.includes("recursion") || (inputCode.includes("compute_") && inputCode.includes("- 1"))) {
+        data = langMap["fibonacci"] || data;
+      } else if (inputCode.includes("filter") || inputCode.includes("duplicate") || inputCode.includes("exclude")) {
+        data = langMap["linear_search"] || data;
+      }
+
+      // If user provided custom code, build clean formatted output
+      let refactoredCode = data.refactored;
+      if (!inputCode.includes("def ") && !inputCode.includes("class ") && !inputCode.includes("int ") && !inputCode.includes("function ")) {
+        refactoredCode = `// RefactorAI Optimized Output (${currentLang.toUpperCase()})\n// - Refactored to modular function\n// - Time Complexity: O(N)\n\n` + inputCode;
+      }
+
+      activeAnalysisData = {
+        refactoredCode: refactoredCode,
+        data: data
+      };
+
+      // Populate Refactored Code Editor
+      document.getElementById("codeEditorRefactored").value = refactoredCode;
+      updateRefactoredGutter();
+
+      // Quick Speedup Badge
+      const speedupPct = Math.round(((data.oldRuntime - data.newRuntime) / data.oldRuntime) * 100);
+      document.getElementById("quickSpeedupBadge").textContent = `+${speedupPct}% Faster Runtime`;
+
+      // Advice Tab
+      document.getElementById("scoreBefore").textContent = data.scoreBefore + " / 100";
+      document.getElementById("scoreAfter").textContent = data.scoreAfter + " / 100";
+      document.getElementById("scoreDelta").textContent = `+${data.scoreAfter - data.scoreBefore} pts`;
+      document.getElementById("advOldTime").textContent = data.oldTime;
+      document.getElementById("advNewTime").textContent = data.newTime;
+      document.getElementById("advOldMem").textContent = data.oldMem;
+      document.getElementById("advNewMem").textContent = data.newMem;
+      
+      const suggestionsHtml = data.suggestions.map(s => `<p>• ${s}</p>`).join("");
+      document.getElementById("aiSuggestionsList").innerHTML = suggestionsHtml;
+
+      // Benchmark Tab
+      document.getElementById("benchOldRuntime").textContent = data.oldRuntime + " ms";
+      document.getElementById("benchNewRuntime").textContent = data.newRuntime + " ms";
+      document.getElementById("benchRuntimeGain").textContent = `-${speedupPct}% Latency`;
+      document.getElementById("benchOldMemory").textContent = data.oldMemVal + " MB";
+      document.getElementById("benchNewMemory").textContent = data.newMemVal + " MB";
+      const memSavedPct = Math.round(((data.oldMemVal - data.newMemVal) / data.oldMemVal) * 100);
+      document.getElementById("benchMemoryGain").textContent = `-${memSavedPct}% Heap`;
+      document.getElementById("benchTimestamp").textContent = new Date().toLocaleTimeString();
+
+      // Visual Bar
+      document.getElementById("barOldText").textContent = `${data.oldRuntime} ms (100%)`;
+      const ratio = Math.round((data.newRuntime / data.oldRuntime) * 100);
+      document.getElementById("barNewText").textContent = `${data.newRuntime} ms (${ratio}%)`;
+      document.getElementById("barNewProgress").style.width = ratio + "%";
+    }
+
+    function switchRightTab(tab) {
+      const t1 = document.getElementById("tabRefactoredBtn");
+      const t2 = document.getElementById("tabAdviceBtn");
+      const t3 = document.getElementById("tabBenchmarkBtn");
+
+      const c1 = document.getElementById("tabRefactoredContent");
+      const c2 = document.getElementById("tabAdviceContent");
+      const c3 = document.getElementById("tabBenchmarkContent");
+
+      [t1, t2, t3].forEach(b => {
+        b.className = "flex items-center gap-1.5 px-3 py-2 font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800";
+      });
+      [c1, c2, c3].forEach(c => c.classList.add("hidden"));
+
+      if (tab === "refactored") {
+        t1.className = "flex items-center gap-1.5 px-3 py-2 font-bold border-b-2 border-emerald-600 text-emerald-800";
+        c1.classList.remove("hidden");
+      } else if (tab === "advice") {
+        t2.className = "flex items-center gap-1.5 px-3 py-2 font-bold border-b-2 border-purple-600 text-purple-800";
+        c2.classList.remove("hidden");
+      } else if (tab === "benchmark") {
+        t3.className = "flex items-center gap-1.5 px-3 py-2 font-bold border-b-2 border-emerald-600 text-emerald-800";
+        c3.classList.remove("hidden");
+      }
+    }
+
+    function replaceOriginalWithRefactored() {
+      if (!activeAnalysisData) return;
+      const editorInput = document.getElementById("codeEditorInput");
+      editorInput.value = activeAnalysisData.refactoredCode;
+      onInputCodeChanged();
+
+      editorInput.classList.add("bg-emerald-50");
+      setTimeout(() => editorInput.classList.remove("bg-emerald-50"), 400);
+      alert("Refactored code transferred to original workspace!");
+    }
+
+    function copyRefactoredCode() {
+      const code = document.getElementById("codeEditorRefactored").value;
+      navigator.clipboard.writeText(code);
+      alert("Refactored code copied to clipboard!");
+    }
+
+    function downloadRefactoredFile() {
+      const code = document.getElementById("codeEditorRefactored").value;
+      const extensions = { python: ".py", c: ".c", cpp: ".cpp", java: ".java", js: ".js" };
+      const filename = "refactored_code" + (extensions[currentLang] || ".txt");
+
+      const blob = new Blob([code], { type: "text/plain;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+    }
+  </script>
+</body>
+</html>

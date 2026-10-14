@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="web_dashboard" name="shell-type" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <style>
+    @layer base {
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+
+      main>:first-child {
+        margin-top: 0 !important;
+      }
+
+      main>:last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script
+    id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface": "#f8f9ff", "surface-dim": "#cbdbf5", "on-surface-variant": "#3d4a42", "surface-bright": "#f8f9ff", "secondary-fixed-dim": "#4edea3", "on-primary": "#ffffff", "secondary": "#006c49", "on-tertiary-container": "#fefcff", "on-tertiary": "#ffffff", "on-primary-container": "#f5fff7", "primary": "#006948", "surface-tint": "#006c4a", "tertiary-container": "#6c748b", "inverse-on-surface": "#eaf1ff", "tertiary-fixed": "dae2fd", "on-background": "#0b1c30", "error-container": "#ffdad6", "tertiary": "#545c72", "background": "#f8f9ff", "surface-container-high": "#dce9ff", "secondary-fixed": "#6ffbbe", "on-secondary-fixed-variant": "#005236", "error": "#ba1a1a", "primary-container": "#00855d", "outline-variant": "#bccac0", "primary-fixed-dim": "#68dba9", "tertiary-fixed-dim": "#bec6e0", "on-surface": "#0b1c30", "on-primary-fixed-variant": "#005137", "secondary-container": "#6cf8bb", "surface-container-highest": "#d3e4fe", "surface-container-lowest": "#ffffff", "on-error": "#ffffff", "on-secondary-container": "#00714d", "surface-container-low": "#eff4ff", "on-secondary": "#ffffff", "inverse-surface": "#213145", "on-error-container": "#93000a", "surface-variant": "#d3e4fe", "on-tertiary-fixed": "#131b2e", "on-tertiary-fixed-variant": "#3f465c", "outline": "#6d7a72", "on-secondary-fixed": "#002113", "surface-container": "#e5eeff", "primary-fixed": "#85f8c4", "on-primary-fixed": "#002114", "inverse-primary": "#68dba9" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter-dense": "0.5rem", "gutter": "1rem", "space-md": "0.75rem", "margin": "1.5rem", "space-xs": "0.25rem", "margin-mobile": "1rem", "space-xl": "1.5rem", "space-lg": "1rem", "space-sm": "0.5rem" }, "fontFamily": { "body-md": ["Geist"], "headline-md": ["Geist"], "body-lg": ["Geist"], "headline-lg": ["Geist"], "body-sm": ["Geist"], "label-code-lg": ["JetBrains Mono"], "headline-xl": ["Geist"], "stat-numeric": ["JetBrains Mono"], "label-code-md": ["JetBrains Mono"], "label-code-sm": ["JetBrains Mono"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "label-code-lg": ["14px", { "lineHeight": "20px", "fontWeight": "500" }], "headline-xl": ["32px", { "lineHeight": "40px", "fontWeight": "600" }], "stat-numeric": ["22px", { "lineHeight": "28px", "fontWeight": "600" }], "label-code-md": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "label-code-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }] } } } }</script>
+</head>
+
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased">
+  <aside
+    class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col justify-between">
+    <div class="flex flex-col flex-1 min-h-0">
+      <div class="h-14 flex items-center gap-space-sm px-space-lg border-b border-outline-variant shrink-0"><img
+          alt="RefactorAI Logo" class="h-8 w-auto object-contain"
+          src="https://lh3.googleusercontent.com/aida/AEtjO1XyCqAMsyk-pvwO7m0mdiA0WUGVC8FNUqYGrL0sUIGsoIf8tRIYQwQljt7-vKCgFmbIzBhkH8-1zOka-rtuGTlqPxvW7_CyYWWKy_FWmUYyg-jkXRy45P8GIeZHv0Cx9cWh1EFRZIRQbM4ocvMXWwAaMegFDpTrjpKPgf5DOvVwwk5KMEeYfekqLvsaV9hvev225mhtM--bAJxgrL4QFiyV_hkocxaQSmTQEQydIkJwe8Wsj6bs6wHvgkA" /><span
+          class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">RefactorAI</span></div>
+      <div class="px-space-md py-space-sm shrink-0">
+        <div
+          class="flex items-center gap-space-xs px-space-sm py-space-xs bg-surface-container-low rounded border border-outline-variant">
+          <span class="material-symbols-outlined text-outline text-body-lg">terminal</span><span
+            class="font-label-code-sm text-label-code-sm text-tertiary uppercase tracking-wider font-semibold">Engine
+            v2.4.0 (LLVM)</span>
+        </div>
+      </div>
+      <nav class="flex-1 overflow-y-auto px-space-sm py-space-xs space-y-1"
+        data-active-classes="bg-primary text-on-primary font-bold shadow-sm"><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="dashboard" href="#"><span class="material-symbols-outlined text-body-lg">grid_view</span><span
+            class="font-body-md text-body-md font-medium">Dashboard</span></a><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="workspace" href="#"><span class="material-symbols-outlined text-body-lg">code</span><span
+            class="font-body-md text-body-md font-medium">Code Workspace</span></a><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="benchmarks" href="#"><span class="material-symbols-outlined text-body-lg">speed</span><span
+            class="font-body-md text-body-md font-medium">Benchmarks</span></a><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="refactor" href="#"><span class="material-symbols-outlined text-body-lg">auto_fix_high</span><span
+            class="font-body-md text-body-md font-medium">AI Refactor</span></a><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="compare" href="#"><span class="material-symbols-outlined text-body-lg">difference</span><span
+            class="font-body-md text-body-md font-medium">Before &amp; After Diff</span></a><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="submissions" href="#"><span class="material-symbols-outlined text-body-lg">history</span><span
+            class="font-body-md text-body-md font-medium">Submissions</span></a><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="tracker" href="#"><span class="material-symbols-outlined text-body-lg">timeline</span><span
+            class="font-body-md text-body-md font-medium">Tracker &amp; Progress</span></a><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="leaderboard" href="#"><span class="material-symbols-outlined text-body-lg">trophy</span><span
+            class="font-body-md text-body-md font-medium">Leaderboard</span></a><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="settings" href="#"><span class="material-symbols-outlined text-body-lg">settings</span><span
+            class="font-body-md text-body-md font-medium">Profile &amp; Settings</span></a></nav>
+    </div>
+    <div class="p-space-md border-t border-outline-variant bg-surface-container-lowest shrink-0">
+      <div
+        class="p-space-sm rounded bg-surface-container-low border border-outline-variant flex items-center justify-between">
+        <div class="flex flex-col"><span class="font-label-code-sm text-label-code-sm text-tertiary">DAILY
+            QUOTA</span><span class="font-label-code-md text-label-code-md font-semibold text-on-surface">142 / 200
+            Runs</span></div><span class="material-symbols-outlined text-primary text-headline-md">bolt</span>
+      </div>
+    </div>
+  </aside>
+  <div class="pl-64 flex flex-col min-h-screen">
+    <header
+      class="fixed top-0 left-64 right-0 h-14 bg-surface-container-lowest border-b border-outline-variant z-40 flex items-center justify-between px-space-xl">
+      <div class="flex items-center gap-space-lg flex-1 max-w-xl">
+        <div class="relative w-full"><span
+            class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-outline text-body-lg">search</span><input
+            class="w-full pl-9 pr-space-md py-1.5 bg-surface-container-low border border-outline-variant rounded font-body-sm text-body-sm text-on-surface placeholder:text-tertiary focus:outline-none focus:border-primary"
+            placeholder="Quick search problems (e.g. 42. Trapping Rain Water, LRU Cache)..." type="text" /><span
+            class="absolute right-space-sm top-1/2 -translate-y-1/2 font-label-code-sm text-label-code-sm px-1 py-0.5 bg-surface-container-lowest border border-outline-variant rounded text-tertiary">⌘K</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-space-lg shrink-0">
+        <div
+          class="hidden sm:flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-low border border-outline-variant rounded-full">
+          <span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span><span
+            class="font-label-code-sm text-label-code-sm font-medium text-secondary">RUNNER READY</span><span
+            class="text-tertiary text-body-sm">•</span><span
+            class="font-label-code-sm text-label-code-sm text-tertiary">Py3.12 / Rust 1.77</span>
+        </div>
+        <div class="h-6 w-px bg-outline-variant"></div>
+        <div class="flex items-center gap-space-sm">
+          <div class="relative flex items-center"><img alt="Profile"
+              class="w-8 h-8 rounded-full object-cover border border-outline-variant"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbKhBqY72c05MMZCxi-PidT96Ap_nwG21gVGWoa1KrsiTwn8IjbwKsdtAE8YQDAnIskHBlYJBVWHAzslh0DcbzJuGuqXXdkJ0hWvxZ_bCeukE_tDIxgyrxnRVdR3Ld9U_gp3MS81KUFGgTn_1uty0UZ32ifoWC4LU-vACoWdIAW5xF8-v72l4H2mztDu6sWAH1C_7LLboJ2PBBkUG9EXfvHCppwvvgljE4o7A8wnWg8AVO2OkwFbkgrg" /><span
+              class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-primary rounded-full ring-2 ring-surface-container-lowest"></span>
+          </div>
+          <div class="hidden md:flex flex-col text-left"><span
+              class="font-body-sm text-body-sm font-semibold text-on-surface leading-tight">alex.dev</span><span
+              class="font-label-code-sm text-label-code-sm text-secondary leading-tight">Rank #42 (99.4%)</span></div>
+        </div>
+      </div>
+    </header>
+    <main class="w-full pt-14 bg-surface flex-1 px-space-xl py-space-lg">
+      <div class="flex flex-col w-full">
+        <!-- Interactive Script for Workspace Tabs, Run verification simulation, and Accords -->
+        <script>
+          function toggleAccordion(id) {
+            const el = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            if (el.classList.contains('hidden')) {
+              el.classList.remove('hidden');
+              if (icon) icon.textContent = 'expand_less';
+            } else {
+              el.classList.add('hidden');
+              if (icon) icon.textContent = 'expand_more';
+            }
+          }
+
+          function runVerificationSim() {
+            const btn = document.getElementById('btn-verify');
+            const badge = document.getElementById('run-status-badge');
+            const tests = document.querySelectorAll('.tc-status');
+
+            btn.innerHTML = '<span class="material-symbols-outlined text-body-lg animate-spin">refresh</span> Verifying JVM...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+              tests.forEach((tc, idx) => {
+                setTimeout(() => {
+                  tc.className = 'tc-status px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-semibold flex items-center gap-1';
+                  tc.innerHTML = '<span class="material-symbols-outlined text-body-sm">check_circle</span> PASSED (4ms)';
+                }, idx * 300);
+              });
+
+              setTimeout(() => {
+                badge.className = 'px-space-sm py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-code-sm text-label-code-sm font-semibold flex items-center gap-1';
+                badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> 3/3 Passed • 94.2% Faster';
+                btn.innerHTML = '<span class="material-symbols-outlined text-body-lg">check</span> Verification Complete';
+                btn.disabled = false;
+              }, 1100);
+            }, 500);
+          }
+
+          function showPerformanceComparison() {
+            const comparison = document.getElementById('performance-comparison');
+            const button = document.getElementById('btn-compare-performance');
+            comparison.classList.remove('hidden');
+            button.setAttribute('aria-expanded', 'true');
+            comparison.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+
+          function applySuggestionToWorkspace() {
+            const sourceCode = document.getElementById('ai-suggested-code');
+            const notice = document.getElementById('apply-suggestion-notice');
+            let workspaceState;
+
+            try {
+              workspaceState = JSON.parse(localStorage.getItem('refactorai.workspace-state.v1') || 'null');
+            } catch {
+              notice.textContent = 'Workspace state could not be read. The suggestion was not applied.';
+              notice.classList.remove('hidden');
+              return;
+            }
+
+            const code = Array.from(sourceCode.children)
+              .filter(line => line.classList.contains('flex'))
+              .map(line => {
+                const codeLine = line.cloneNode(true);
+                codeLine.querySelector('.select-none')?.remove();
+                return codeLine.textContent
+                  .replace(/^[ \t\r\n\f]+|[ \t\r\n\f]+$/g, '')
+                  .replace(/\u00a0/g, ' ');
+              })
+              .join('\n')
+              .trim();
+
+            if (!code) {
+              notice.textContent = 'The AI suggestion is empty and was not saved.';
+              notice.classList.remove('hidden');
+              return;
+            }
+
+            const suggestion = {
+              problemId: sourceCode.dataset.problemId,
+              language: sourceCode.dataset.language,
+              problemTitle: sourceCode.dataset.problemTitle,
+              code,
+            };
+
+            try {
+              if (workspaceState?.dirty && !window.confirm(
+                `You have unsaved code for problem #${workspaceState.problemId} (${workspaceState.language}). Replace it with the suggestion for problem #${suggestion.problemId} (${suggestion.language})?`
+              )) {
+                notice.textContent = 'Apply cancelled. Your unsaved workspace code was preserved.';
+                notice.classList.remove('hidden');
+                return;
+              }
+
+              suggestion.replaceConfirmed = workspaceState?.dirty === true;
+              localStorage.setItem('refactorai.pending-suggestion.v1', JSON.stringify(suggestion));
+              window.location.assign(
+                `/workspace?problemId=${encodeURIComponent(suggestion.problemId)}&language=${encodeURIComponent(suggestion.language)}`
+              );
+            } catch {
+              notice.textContent = 'The suggestion could not be saved in this browser.';
+              notice.classList.remove('hidden');
+            }
+          }
+        </script>
+        <!-- Top Context Header & Actions -->
+        <div class="flex flex-col gap-space-md mb-space-lg">
+          <!-- Breadcrumbs & Meta Tag -->
+          <div class="flex flex-wrap items-center justify-between gap-space-sm">
+            <div class="flex items-center gap-space-xs font-label-code-sm text-label-code-sm text-tertiary">
+              <span>Problems</span>
+              <span class="material-symbols-outlined text-body-sm">chevron_right</span>
+              <span class="text-on-surface font-semibold">#15. 3Sum</span>
+              <span class="material-symbols-outlined text-body-sm">chevron_right</span>
+              <span class="text-primary font-semibold">AI Refactoring Analysis</span>
+            </div>
+            <div class="flex items-center gap-space-sm">
+              <span class="font-label-code-sm text-label-code-sm text-tertiary">ENVIRONMENT:</span>
+              <div
+                class="inline-flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-low rounded border border-outline-variant font-label-code-sm text-label-code-sm text-on-surface font-semibold">
+                <span class="material-symbols-outlined text-body-sm text-primary">data_object</span>
+                Java 17 (OpenJDK HotSpot)
+              </div>
+            </div>
+          </div>
+          <!-- Warning / Untested Suggestion Banner -->
+          <div
+            class="bg-surface-container-high rounded p-space-md flex items-start sm:items-center justify-between gap-space-md">
+            <div class="flex items-center gap-space-sm">
+              <span class="material-symbols-outlined text-headline-md text-tertiary">warning</span>
+              <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-space-sm">
+                <span class="font-body-md text-body-md font-semibold text-on-surface">Untested AI Suggestion</span>
+                <span class="hidden sm:inline text-tertiary">•</span>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                  Refactor engine generated this transformation via AST rewriting, but test suites have not yet verified
+                  algorithmic correctness or hardware execution metrics. Demo Data only.
+                </p>
+              </div>
+            </div>
+            <span
+              class="font-label-code-sm text-label-code-sm uppercase px-2 py-0.5 rounded bg-surface-container text-tertiary shrink-0 font-semibold">Simulation
+              Mode</span>
+          </div>
+          <!-- Main Title & Action Button Bar -->
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md pt-space-xs">
+            <div>
+              <div class="flex items-center gap-space-sm">
+                <span
+                  class="px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-surface-container-high text-on-surface font-bold">MEDIUM</span>
+                <h1 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">#15. 3Sum (Three
+                  Integer Sum to Zero)</h1>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                Automated heuristic detected <span
+                  class="font-label-code-sm text-label-code-sm font-semibold text-error">O(n³)</span> combinatorial
+                loop. Refactored into two-pointer monotonic scan.
+              </p>
+            </div>
+            <!-- Action Button Group -->
+            <div class="flex flex-wrap items-center gap-space-sm shrink-0">
+              <button
+                class="inline-flex items-center gap-space-xs px-space-md py-2 bg-surface-container-lowest text-primary rounded font-label-code-sm text-label-code-sm font-bold shadow-sm hover:bg-surface-container-low transition-colors"
+                id="btn-verify" onclick="runVerificationSim()">
+                <span class="material-symbols-outlined text-body-lg">play_arrow</span>
+                Run Tests (Verify)
+              </button>
+              <button
+                class="inline-flex items-center gap-space-xs px-space-md py-2 bg-surface-container-lowest text-on-surface rounded font-label-code-sm text-label-code-sm font-bold shadow-sm hover:bg-surface-container-low transition-colors"
+                id="btn-compare-performance" type="button" aria-controls="performance-comparison" aria-expanded="false"
+                onclick="showPerformanceComparison()">
+                <span class="material-symbols-outlined text-body-lg">difference</span>
+                Compare Performance
+              </button>
+              <button
+                class="inline-flex items-center gap-space-xs px-space-lg py-2 bg-primary text-on-primary rounded font-label-code-sm text-label-code-sm font-bold shadow-sm hover:bg-primary-container transition-all"
+                type="button" aria-describedby="apply-suggestion-notice" onclick="applySuggestionToWorkspace()">
+                <span class="material-symbols-outlined text-body-lg">check_circle</span>
+                Apply Suggestion
+              </button>
+              <p class="hidden w-full text-right font-body-sm text-body-sm text-tertiary" id="apply-suggestion-notice"
+                role="status" aria-live="polite">
+                Saving the suggestion for the Code Workspace…
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Complexity Delta Cards (Before vs After) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-space-md mb-space-lg">
+          <!-- Original Complexity Card -->
+          <div class="bg-surface-container-lowest rounded p-space-lg shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-space-sm mb-space-sm">
+                <div class="flex items-center gap-space-xs">
+                  <span class="material-symbols-outlined text-error text-body-lg">history_toggle_off</span>
+                  <span class="font-label-code-md text-label-code-md font-semibold text-on-surface">Original Complexity
+                    (Estimated)</span>
+                </div>
+                <span
+                  class="px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-error-container text-on-error-container font-semibold">TLE
+                  Risk (N &gt; 3,000)</span>
+              </div>
+              <div class="grid grid-cols-2 gap-space-md my-space-md">
+                <div class="bg-surface-container-low p-space-sm rounded">
+                  <span class="font-label-code-sm text-label-code-sm text-tertiary block">TIME COMPLEXITY</span>
+                  <span class="font-stat-numeric text-stat-numeric font-bold text-error tracking-tight">O(n³)</span>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Cubic nested loops (3 pointers
+                    scanning permutations)</p>
+                </div>
+                <div class="bg-surface-container-low p-space-sm rounded">
+                  <span class="font-label-code-sm text-label-code-sm text-tertiary block">SPACE COMPLEXITY</span>
+                  <span class="font-stat-numeric text-stat-numeric font-bold text-on-surface tracking-tight">O(1)</span>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Auxiliary space ignoring returned
+                    list structure</p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="pt-space-sm bg-surface-container-low px-space-sm py-space-xs rounded flex items-center justify-between">
+              <span class="font-label-code-sm text-label-code-sm text-tertiary">ESTIMATED CYCLE BUDGET:</span>
+              <span class="font-label-code-sm text-label-code-sm font-semibold text-error">~27,000,000,000 ops
+                (n=3000)</span>
+            </div>
+          </div>
+          <!-- Suggested Complexity Card -->
+          <div class="bg-surface-container-lowest rounded p-space-lg shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-space-sm mb-space-sm">
+                <div class="flex items-center gap-space-xs">
+                  <span class="material-symbols-outlined text-primary text-body-lg">bolt</span>
+                  <span class="font-label-code-md text-label-code-md font-semibold text-on-surface">Suggested Complexity
+                    (Estimated)</span>
+                </div>
+                <span
+                  class="px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-semibold">Target
+                  Optimal Tier</span>
+              </div>
+              <div class="grid grid-cols-2 gap-space-md my-space-md">
+                <div class="bg-surface-container-low p-space-sm rounded">
+                  <span class="font-label-code-sm text-label-code-sm text-tertiary block">TIME COMPLEXITY</span>
+                  <span class="font-stat-numeric text-stat-numeric font-bold text-primary tracking-tight">O(n²)</span>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">O(n log n) sorting + O(n²)
+                    two-pointer traversal</p>
+                </div>
+                <div class="bg-surface-container-low p-space-sm rounded">
+                  <span class="font-label-code-sm text-label-code-sm text-tertiary block">SPACE COMPLEXITY</span>
+                  <span class="font-stat-numeric text-stat-numeric font-bold text-on-surface tracking-tight">O(log
+                    n)</span>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Dual-Pivot Quicksort stack frame
+                    storage</p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="pt-space-sm bg-surface-container-low px-space-sm py-space-xs rounded flex items-center justify-between">
+              <span class="font-label-code-sm text-label-code-sm text-tertiary">ESTIMATED CYCLE BUDGET:</span>
+              <span class="font-label-code-sm text-label-code-sm font-semibold text-primary">~9,000,000 ops (3,000x
+                faster)</span>
+            </div>
+          </div>
+        </div>
+        <!-- Note Badge -->
+        <div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded mb-space-lg">
+          <span class="material-symbols-outlined text-body-md text-tertiary">info</span>
+          <span class="font-label-code-sm text-label-code-sm text-on-surface-variant">
+            Analysis generated via Abstract Syntax Tree (AST) pattern recognition; execute "Run Tests &amp; Benchmark"
+            to obtain real microsecond hardware measurements.
+          </span>
+        </div>
+        <section class="hidden bg-surface-container-lowest rounded shadow-sm p-space-md mb-space-lg"
+          id="performance-comparison" aria-labelledby="performance-comparison-title">
+          <div class="flex flex-wrap items-center justify-between gap-space-sm mb-space-md">
+            <h2 class="font-headline-md text-headline-md font-bold text-on-surface" id="performance-comparison-title">
+              Performance Comparison</h2>
+            <span
+              class="px-2 py-0.5 rounded bg-surface-container text-tertiary font-label-code-sm text-label-code-sm font-semibold">Demo
+              analysis only</span>
+          </div>
+          <p class="font-body-sm text-on-surface-variant mb-space-md">No code was executed. Correctness, runtime, and
+            memory usage are not measured; code is shown in the Transformation AST Viewer below.</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+            <div class="bg-surface-container-low p-space-sm rounded">
+              <h3 class="font-label-code-sm text-label-code-sm font-semibold text-on-surface mb-space-xs">Correctness
+              </h3>
+              <div class="grid grid-cols-2 gap-space-sm font-body-sm text-on-surface-variant">
+                <span>Original</span><span>Not verified</span><span>AI suggestion</span><span>Not verified</span>
+              </div>
+            </div>
+            <div class="bg-surface-container-low p-space-sm rounded">
+              <h3 class="font-label-code-sm text-label-code-sm font-semibold text-on-surface mb-space-xs">Runtime</h3>
+              <div class="grid grid-cols-2 gap-space-sm font-body-sm text-on-surface-variant">
+                <span>Original</span><span>Not measured</span><span>AI suggestion</span><span>Not measured</span>
+              </div>
+            </div>
+            <div class="bg-surface-container-low p-space-sm rounded">
+              <h3 class="font-label-code-sm text-label-code-sm font-semibold text-on-surface mb-space-xs">Memory Usage
+              </h3>
+              <div class="grid grid-cols-2 gap-space-sm font-body-sm text-on-surface-variant">
+                <span>Original</span><span>Not measured</span><span>AI suggestion</span><span>Not measured</span>
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm mt-space-sm">
+            <div class="bg-surface-container-low p-space-sm rounded"><span
+                class="font-label-code-sm text-label-code-sm text-tertiary">Original time complexity (estimate)</span>
+              <div class="font-label-code-md text-label-code-md font-semibold text-error">O(n³)</div><span
+                class="font-label-code-sm text-label-code-sm text-tertiary">Auxiliary space (estimate): O(1)</span>
+            </div>
+            <div class="bg-surface-container-low p-space-sm rounded"><span
+                class="font-label-code-sm text-label-code-sm text-tertiary">AI suggestion time complexity
+                (estimate)</span>
+              <div class="font-label-code-md text-label-code-md font-semibold text-primary">O(n²)</div><span
+                class="font-label-code-sm text-label-code-sm text-tertiary">Auxiliary space (estimate): O(log n)</span>
+            </div>
+          </div>
+        </section>
+        <!-- Side-by-Side Code Diffs Panel -->
+        <div class="bg-surface-container-lowest rounded shadow-sm overflow-hidden mb-space-lg">
+          <!-- Panel Header / Toolbar -->
+          <div class="flex items-center justify-between px-space-md py-space-sm bg-surface-container-low">
+            <div class="flex items-center gap-space-md">
+              <span class="font-label-code-md text-label-code-md font-bold text-on-surface flex items-center gap-1">
+                <span class="material-symbols-outlined text-body-lg text-primary">code</span>
+                Transformation AST Viewer
+              </span>
+              <span class="font-label-code-sm text-label-code-sm text-tertiary">Solution.java</span>
+            </div>
+            <div class="flex items-center gap-space-sm">
+              <span class="font-label-code-sm text-label-code-sm text-error font-medium">-12 lines</span>
+              <span class="font-label-code-sm text-label-code-sm text-primary font-medium">+21 lines</span>
+              <div class="h-4 w-px bg-outline-variant"></div>
+              <button
+                class="font-label-code-sm text-label-code-sm px-2 py-1 bg-surface-container-lowest rounded text-on-surface-variant hover:text-on-surface">Split
+                View</button>
+            </div>
+          </div>
+          <!-- Code Panes Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-2">
+            <!-- LEFT: Original Code (Brute Force) -->
+            <div class="flex flex-col bg-surface-container-lowest">
+              <!-- Sub-header -->
+              <div class="flex items-center justify-between px-space-md py-space-xs bg-surface-container">
+                <span class="font-label-code-sm text-label-code-sm font-semibold text-error flex items-center gap-1">
+                  <span class="material-symbols-outlined text-body-sm">remove_circle</span>
+                  Original Code (Brute Force O(n³))
+                </span>
+                <span class="font-label-code-sm text-label-code-sm text-tertiary">Java 17</span>
+              </div>
+              <!-- Code Content -->
+              <div class="font-label-code-sm text-label-code-sm leading-relaxed overflow-x-auto select-text p-space-sm">
+                <div class="flex">
+                  <span class="w-8 text-right pr-space-sm text-tertiary select-none font-stat-numeric">1</span>
+                  <span class="text-tertiary">class</span> <span class="text-on-surface font-semibold">Solution</span> {
+                </div>
+                <div class="flex">
+                  <span class="w-8 text-right pr-space-sm text-tertiary select-none font-stat-numeric">2</span>
+                  <span class="text-tertiary">  public</span> List&lt;List&lt;Integer&gt;&gt; <span
+                    class="text-on-surface">threeSum</span>(int[] nums) {
+                </div>
+                <div class="flex">
+                  <span class="w-8 text-right pr-space-sm text-tertiary select-none font-stat-numeric">3</span>
+                      List&lt;List&lt;Integer&gt;&gt; result = <span
+                    class="text-tertiary">new</span> ArrayList&lt;&gt;();
+                </div>
+                <div class="flex">
+                  <span class="w-8 text-right pr-space-sm text-tertiary select-none font-stat-numeric">4</span>
+                      <span class="text-tertiary">int</span> n = nums.length;
+                </div>
+                <div class="flex">
+                  <span class="w-8 text-right pr-space-sm text-tertiary select-none font-stat-numeric">5</span>
+                      <span class="text-tertiary">// Brute force 3 nested loops: O(n^3)</span>
+                </div>
+                <!-- Highlighted removed block -->
+                <div class="flex bg-error-container text-on-error-container">
+                  <span class="w-8 text-right pr-space-sm text-error select-none font-stat-numeric font-bold">- 6</span>
+                      <span class="text-error font-semibold">for</span> (<span
+                    class="text-tertiary">int</span> i = 0; i &lt; n - 2; i++) {
+                </div>
+                <div class="flex bg-error-container text-on-error-container">
+                  <span class="w-8 text-right pr-space-sm text-error select-none font-stat-numeric font-bold">- 7</span>
+                        <span class="text-error font-semibold">for</span> (<span
+                    class="text-tertiary">int</span> j = i + 1; j &lt; n - 1; j++) {
+                </div>
+                <div class="flex bg-error-container text-on-error-container">
+                  <span class="w-8 text-right pr-space-sm text-error select-none font-stat-numeric font-bold">- 8</span>
+                          <span class="text-error font-semibold">for</span> (<span
+                    class="text-tertiary">int</span> k = j + 1; k &lt; n; k++) {
+                </div>
+                <div class="flex bg-error-container text-on-error-container">
+                  <span class="w-8 text-right pr-space-sm text-error select-none font-stat-numeric font-bold">- 9</span>
+                            <span class="text-error font-semibold">if</span> (nums[i] + nums[j] + nums[k] == 0) {
+                </div>
+                <div class="flex bg-error-container text-on-error-container">
+                  <span class="w-8 text-right pr-space-sm text-error select-none font-stat-numeric font-bold">-
+                    10</span>
+                              List&lt;Integer&gt; triplet = Arrays.asList(nums[i], nums[j], nums[k]);
+                </div>
+                <div class="flex bg-error-container text-on-error-container">
+                  <span class="w-8 text-right pr-space-sm text-error select-none font-stat-numeric font-bold">-
+                    11</span>
+                              Collections.sort(triplet);
+                </div>
+                <div class="flex bg-error-container text-on-error-container">
+                  <span class="w-8 text-right pr-space-sm text-error select-none font-stat-numeric font-bold">-
+                    12</span>
+                              <span class="text-error font-semibold">if</span> (!result.contains(triplet)) {
+                </div>
+                <div class="flex bg-error-container text-on-error-container">
+                  <span class="w-8 text-right pr-space-sm text-error select-none font-stat-numeric font-bold">-
+                    13</span>
+                                result.add(triplet);
+                </div>
+                <div class="flex bg-error-container text-on-error-container">
+                  <span class="w-8 text-right pr-space-sm text-error select-none font-stat-numeric font-bold">-
+                    14</span>
+                              }
+                </div>
+                <div class="flex bg-error-container text-on-error-container">
+                  <span class="w-8 text-right pr-space-sm text-error select-none font-stat-numeric font-bold">-
+                    15</span>
+                            }
+                </div>
+                <div class="flex bg-error-container text-on-error-container">
+                  <span class="w-8 text-right pr-space-sm text-error select-none font-stat-numeric font-bold">-
+                    16</span>
+                          }
+                </div>
+                <div class="flex bg-error-container text-on-error-container">
+                  <span class="w-8 text-right pr-space-sm text-error select-none font-stat-numeric font-bold">-
+                    17</span>
+                        }
+                </div>
+                <div class="flex bg-error-container text-on-error-container">
+                  <span class="w-8 text-right pr-space-sm text-error select-none font-stat-numeric font-bold">-
+                    18</span>
+                      }
+                </div>
+                <div class="flex">
+                  <span class="w-8 text-right pr-space-sm text-tertiary select-none font-stat-numeric">19</span>
+                      <span class="text-tertiary">return</span> result;
+                </div>
+                <div class="flex">
+                  <span class="w-8 text-right pr-space-sm text-tertiary select-none font-stat-numeric">20</span>
+                    }
+                </div>
+                <div class="flex">
+                  <span class="w-8 text-right pr-space-sm text-tertiary select-none font-stat-numeric">21</span>
+                  }
+                </div>
+              </div>
+            </div>
+            <!-- RIGHT: AI-Suggested Code (Two Pointer) -->
+            <div class="flex flex-col bg-surface-container-lowest">
+              <!-- Sub-header -->
+              <div class="flex items-center justify-between px-space-md py-space-xs bg-surface-container">
+                <span class="font-label-code-sm text-label-code-sm font-semibold text-primary flex items-center gap-1">
+                  <span class="material-symbols-outlined text-body-sm">add_circle</span>
+                  AI-Suggested Code (Sorted Two-Pointer O(n²))
+                </span>
+                <span
+                  class="px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-secondary-container text-on-secondary-container font-semibold">Verified
+                  Heuristic</span>
+              </div>
+              <!-- Code Content -->
+              <div class="font-label-code-sm text-label-code-sm leading-relaxed overflow-x-auto select-text p-space-sm"
+                id="ai-suggested-code" data-problem-id="15" data-language="java"
+                data-problem-title="#15. 3Sum (Three Integer Sum to Zero)">
+                <div class="flex">
+                  <span class="w-8 text-right pr-space-sm text-tertiary select-none font-stat-numeric">1</span>
+                  <span class="text-tertiary">class</span> <span class="text-on-surface font-semibold">Solution</span> {
+                </div>
+                <div class="flex">
+                  <span class="w-8 text-right pr-space-sm text-tertiary select-none font-stat-numeric">2</span>
+                    <span class="text-tertiary">public</span> List&lt;List&lt;Integer&gt;&gt; <span
+                    class="text-on-surface">threeSum</span>(int[] nums) {
+                </div>
+                <div class="flex">
+                  <span class="w-8 text-right pr-space-sm text-tertiary select-none font-stat-numeric">3</span>
+                      List&lt;List&lt;Integer&gt;&gt; result = <span
+                    class="text-tertiary">new</span> ArrayList&lt;&gt;();
+                </div>
+                <!-- Highlighted added line (sort) -->
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    4</span>
+                      <span class="text-on-surface font-semibold">Arrays.sort(nums);</span> <span
+                    class="text-tertiary">// Step 1: O(n log n)</span>
+                </div>
+                <!-- Highlighted two-pointer iteration -->
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    5</span>
+                      <span class="text-primary font-semibold">for</span> (<span
+                    class="text-tertiary">int</span> i = 0; i &lt; nums.length - 2; i++) {
+                </div>
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    6</span>
+                        <span
+                    class="text-primary font-semibold">if</span> (i &gt; 0 &amp;&amp; nums[i] == nums[i - 1]) <span
+                    class="text-primary font-semibold">continue;</span>
+                </div>
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    7</span>
+                        <span class="text-tertiary">int</span> left = i + 1, right = nums.length - 1, target = -nums[i];
+                </div>
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    8</span>
+                        <span class="text-primary font-semibold">while</span> (left &lt; right) {
+                </div>
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    9</span>
+                          <span class="text-tertiary">int</span> sum = nums[left] + nums[right];
+                </div>
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    10</span>
+                          <span class="text-primary font-semibold">if</span> (sum == target) {
+                </div>
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    11</span>
+                            result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                </div>
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    12</span>
+                            <span
+                    class="text-primary font-semibold">while</span> (left &lt; right &amp;&amp; nums[left] == nums[left + 1]) left++;
+                </div>
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    13</span>
+                            <span
+                    class="text-primary font-semibold">while</span> (left &lt; right &amp;&amp; nums[right] == nums[right - 1]) right--;
+                </div>
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    14</span>
+                            left++; right--;
+                </div>
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    15</span>
+                          } <span class="text-primary font-semibold">else if</span> (sum &lt; target) {
+                </div>
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    16</span>
+                            left++;
+                </div>
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    17</span>
+                          } <span class="text-primary font-semibold">else</span> {
+                </div>
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    18</span>
+                            right--;
+                </div>
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    19</span>
+                          }
+                </div>
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    20</span>
+                        }
+                </div>
+                <div class="flex bg-secondary-container text-on-secondary-container">
+                  <span class="w-8 text-right pr-space-sm text-primary select-none font-stat-numeric font-bold">+
+                    21</span>
+                      }
+                </div>
+                <div class="flex">
+                  <span class="w-8 text-right pr-space-sm text-tertiary select-none font-stat-numeric">22</span>
+                      <span class="text-tertiary">return</span> result;
+                </div>
+                <div class="flex">
+                  <span class="w-8 text-right pr-space-sm text-tertiary select-none font-stat-numeric">23</span>
+                    }
+                </div>
+                <div class="flex">
+                  <span class="w-8 text-right pr-space-sm text-tertiary select-none font-stat-numeric">24</span>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Bottom Section: 2 Columns (Explanations & Testcase Verification) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+          <!-- Left Column: Beginner-Friendly Explanations (7 cols) -->
+          <div class="lg:col-span-7 flex flex-col gap-space-md">
+            <div class="flex items-center justify-between">
+              <h2 class="font-headline-md text-headline-md font-bold text-on-surface flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">psychology</span>
+                Beginner-Friendly Transformation Walkthrough
+              </h2>
+              <span class="font-label-code-sm text-label-code-sm text-tertiary">3 core adjustments</span>
+            </div>
+            <!-- Card 1 -->
+            <div class="bg-surface-container-lowest rounded p-space-md shadow-sm">
+              <button class="w-full flex items-center justify-between text-left" onclick="toggleAccordion('acc-1')">
+                <div class="flex items-center gap-space-sm">
+                  <span
+                    class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container font-label-code-sm text-label-code-sm font-bold flex items-center justify-center shrink-0">1</span>
+                  <span class="font-headline-md text-body-lg font-semibold text-on-surface">Change 1: Sort array first
+                    (<code
+                      class="font-label-code-sm text-label-code-sm text-primary bg-surface-container-low px-1 py-0.5 rounded">Arrays.sort(nums)</code>)</span>
+                </div>
+                <span class="material-symbols-outlined text-tertiary" id="acc-1-icon">expand_less</span>
+              </button>
+              <div class="pt-space-sm mt-space-sm" id="acc-1">
+                <p class="font-body-md text-body-md text-on-surface-variant">
+                  Instead of searching randomly in an unsorted array, sorting takes <code
+                    class="font-label-code-sm text-label-code-sm font-semibold text-on-surface">O(n log n)</code> time
+                  upfront. Once numbers are arranged in ascending order, we unlock monotonicity: if our triplet sum is
+                  too low, we know with mathematical certainty that incrementing the lower pointer will increase the
+                  total.
+                </p>
+              </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="bg-surface-container-lowest rounded p-space-md shadow-sm">
+              <button class="w-full flex items-center justify-between text-left" onclick="toggleAccordion('acc-2')">
+                <div class="flex items-center gap-space-sm">
+                  <span
+                    class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container font-label-code-sm text-label-code-sm font-bold flex items-center justify-center shrink-0">2</span>
+                  <span class="font-headline-md text-body-lg font-semibold text-on-surface">Change 2: Replaced 2 inner
+                    loops with Two-Pointer technique</span>
+                </div>
+                <span class="material-symbols-outlined text-tertiary" id="acc-2-icon">expand_less</span>
+              </button>
+              <div class="pt-space-sm mt-space-sm" id="acc-2">
+                <p class="font-body-md text-body-md text-on-surface-variant">
+                  Rather than checking every pair with nested loops (costing <code
+                    class="font-label-code-sm text-label-code-sm font-semibold text-on-surface">n × n</code> inner
+                  operations), we position a <code
+                    class="font-label-code-sm text-label-code-sm font-semibold text-on-surface">left</code> pointer at
+                  the start and a <code
+                    class="font-label-code-sm text-label-code-sm font-semibold text-on-surface">right</code> pointer at
+                  the end. In each step, we either shift <code
+                    class="font-label-code-sm text-label-code-sm font-semibold text-on-surface">left++</code> or <code
+                    class="font-label-code-sm text-label-code-sm font-semibold text-on-surface">right--</code>. This
+                  squeezes inner iterations into a single linear <code
+                    class="font-label-code-sm text-label-code-sm font-semibold text-primary">O(n)</code> pass.
+                </p>
+              </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="bg-surface-container-lowest rounded p-space-md shadow-sm">
+              <button class="w-full flex items-center justify-between text-left" onclick="toggleAccordion('acc-3')">
+                <div class="flex items-center gap-space-sm">
+                  <span
+                    class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container font-label-code-sm text-label-code-sm font-bold flex items-center justify-center shrink-0">3</span>
+                  <span class="font-headline-md text-body-lg font-semibold text-on-surface">Change 3: Duplicate
+                    avoidance without costly <code
+                      class="font-label-code-sm text-label-code-sm text-primary bg-surface-container-low px-1 py-0.5 rounded">result.contains(...)</code></span>
+                </div>
+                <span class="material-symbols-outlined text-tertiary" id="acc-3-icon">expand_less</span>
+              </button>
+              <div class="pt-space-sm mt-space-sm" id="acc-3">
+                <p class="font-body-md text-body-md text-on-surface-variant">
+                  <code class="font-label-code-sm text-label-code-sm font-semibold text-error">result.contains()</code>
+                  performs an exhaustive sequential lookup over the accumulated answer set on every hit, resulting in
+                  degenerate quadratic memory lookups. Since the array is sorted, duplicate values cluster together.
+                  Simply skipping identical neighbors (<code
+                    class="font-label-code-sm text-label-code-sm font-semibold text-on-surface">nums[i] == nums[i-1]</code>)
+                  eliminates duplicates in <code
+                    class="font-label-code-sm text-label-code-sm font-semibold text-primary">O(1)</code> time.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Right Column: Verification & Benchmark Checklist (5 cols) -->
+          <div class="lg:col-span-5 flex flex-col gap-space-md">
+            <div class="flex items-center justify-between">
+              <h2 class="font-headline-md text-headline-md font-bold text-on-surface flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">fact_check</span>
+                Verification Checklist
+              </h2>
+              <span
+                class="px-space-sm py-0.5 rounded-full bg-surface-container text-tertiary font-label-code-sm text-label-code-sm font-semibold flex items-center gap-1"
+                id="run-status-badge">
+                <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Pending Verification
+              </span>
+            </div>
+            <div class="bg-surface-container-lowest rounded p-space-md shadow-sm flex flex-col gap-space-sm">
+              <div class="flex items-center justify-between pb-space-xs">
+                <span
+                  class="font-label-code-sm text-label-code-sm font-bold text-tertiary uppercase tracking-wider">Test
+                  Suite (Demo Data)</span>
+                <span class="font-label-code-sm text-label-code-sm text-tertiary">3 cases queued</span>
+              </div>
+              <!-- Test Case 1 -->
+              <div class="p-space-sm rounded bg-surface-container-low flex flex-col gap-space-xs">
+                <div class="flex items-center justify-between">
+                  <span class="font-label-code-md text-label-code-md font-semibold text-on-surface">Case 1: Standard
+                    Triplet Permutation</span>
+                  <span
+                    class="tc-status px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-surface-container text-tertiary font-semibold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-body-sm">schedule</span> Ready to verify
+                  </span>
+                </div>
+                <div class="font-label-code-sm text-label-code-sm text-tertiary">
+                  Input: <span class="text-on-surface font-semibold">nums = [-1,0,1,2,-1,-4]</span>
+                </div>
+                <div class="font-label-code-sm text-label-code-sm text-tertiary">
+                  Expected: <span class="text-primary font-semibold">[[-1,-1,2], [-1,0,1]]</span>
+                </div>
+              </div>
+              <!-- Test Case 2 -->
+              <div class="p-space-sm rounded bg-surface-container-low flex flex-col gap-space-xs">
+                <div class="flex items-center justify-between">
+                  <span class="font-label-code-md text-label-code-md font-semibold text-on-surface">Case 2: No Zero-Sum
+                    Exists</span>
+                  <span
+                    class="tc-status px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-surface-container text-tertiary font-semibold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-body-sm">schedule</span> Ready to verify
+                  </span>
+                </div>
+                <div class="font-label-code-sm text-label-code-sm text-tertiary">
+                  Input: <span class="text-on-surface font-semibold">nums = [0,1,1]</span>
+                </div>
+                <div class="font-label-code-sm text-label-code-sm text-tertiary">
+                  Expected: <span class="text-primary font-semibold">[]</span>
+                </div>
+              </div>
+              <!-- Test Case 3 -->
+              <div class="p-space-sm rounded bg-surface-container-low flex flex-col gap-space-xs">
+                <div class="flex items-center justify-between">
+                  <span class="font-label-code-md text-label-code-md font-semibold text-on-surface">Case 3: All Zero
+                    Boundary Duplicates</span>
+                  <span
+                    class="tc-status px-2 py-0.5 rounded font-label-code-sm text-label-code-sm bg-surface-container text-tertiary font-semibold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-body-sm">schedule</span> Ready to verify
+                  </span>
+                </div>
+                <div class="font-label-code-sm text-label-code-sm text-tertiary">
+                  Input: <span class="text-on-surface font-semibold">nums = [0,0,0,0]</span>
+                </div>
+                <div class="font-label-code-sm text-label-code-sm text-tertiary">
+                  Expected: <span class="text-primary font-semibold">[[0,0,0]]</span>
+                </div>
+              </div>
+              <!-- Sandbox runner disclaimer -->
+              <div class="pt-space-sm flex items-start gap-space-xs text-tertiary font-body-sm text-body-sm">
+                <span class="material-symbols-outlined text-body-md text-primary shrink-0">memory</span>
+                <span>
+                  Testing will execute both solutions against isolated JVM sandbox runners to measure CPU cycles, peak
+                  heap memory, and boundary edge cases.
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

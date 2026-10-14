@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="web_dashboard" name="shell-type" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap"
+    rel="stylesheet" />
+  <style>
+    @layer base {
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+
+      main>:first-child {
+        margin-top: 0 !important;
+      }
+
+      main>:last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script
+    id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface": "#f8f9ff", "surface-dim": "#cbdbf5", "on-surface-variant": "#3d4a42", "surface-bright": "#f8f9ff", "secondary-fixed-dim": "#4edea3", "on-primary": "#ffffff", "secondary": "#006c49", "on-tertiary-container": "#fefcff", "on-tertiary": "#ffffff", "on-primary-container": "#f5fff7", "primary": "#006948", "surface-tint": "#006c4a", "tertiary-container": "#6c748b", "inverse-on-surface": "#eaf1ff", "tertiary-fixed": "dae2fd", "on-background": "#0b1c30", "error-container": "#ffdad6", "tertiary": "#545c72", "background": "#f8f9ff", "surface-container-high": "#dce9ff", "secondary-fixed": "#6ffbbe", "on-secondary-fixed-variant": "#005236", "error": "#ba1a1a", "primary-container": "#00855d", "outline-variant": "#bccac0", "primary-fixed-dim": "#68dba9", "tertiary-fixed-dim": "#bec6e0", "on-surface": "#0b1c30", "on-primary-fixed-variant": "#005137", "secondary-container": "#6cf8bb", "surface-container-highest": "#d3e4fe", "surface-container-lowest": "#ffffff", "on-error": "#ffffff", "on-secondary-container": "#00714d", "surface-container-low": "#eff4ff", "on-secondary": "#ffffff", "inverse-surface": "#213145", "on-error-container": "#93000a", "surface-variant": "#d3e4fe", "on-tertiary-fixed": "#131b2e", "on-tertiary-fixed-variant": "#3f465c", "outline": "#6d7a72", "on-secondary-fixed": "#002113", "surface-container": "#e5eeff", "primary-fixed": "#85f8c4", "on-primary-fixed": "#002114", "inverse-primary": "#68dba9" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter-dense": "0.5rem", "gutter": "1rem", "space-md": "0.75rem", "margin": "1.5rem", "space-xs": "0.25rem", "margin-mobile": "1rem", "space-xl": "1.5rem", "space-lg": "1rem", "space-sm": "0.5rem" }, "fontFamily": { "body-md": ["Geist"], "headline-md": ["Geist"], "body-lg": ["Geist"], "headline-lg": ["Geist"], "body-sm": ["Geist"], "label-code-lg": ["JetBrains Mono"], "headline-xl": ["Geist"], "stat-numeric": ["JetBrains Mono"], "label-code-md": ["JetBrains Mono"], "label-code-sm": ["JetBrains Mono"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "label-code-lg": ["14px", { "lineHeight": "20px", "fontWeight": "500" }], "headline-xl": ["32px", { "lineHeight": "40px", "fontWeight": "600" }], "stat-numeric": ["22px", { "lineHeight": "28px", "fontWeight": "600" }], "label-code-md": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "label-code-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }] } } } }</script>
+</head>
+
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased">
+  <aside
+    class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col justify-between">
+    <div class="flex flex-col flex-1 min-h-0">
+      <div class="h-14 flex items-center gap-space-sm px-space-lg border-b border-outline-variant shrink-0"><img
+          alt="RefactorAI Logo" class="h-8 w-auto object-contain"
+          src="https://lh3.googleusercontent.com/aida/AEtjO1XyCqAMsyk-pvwO7m0mdiA0WUGVC8FNUqYGrL0sUIGsoIf8tRIYQwQljt7-vKCgFmbIzBhkH8-1zOka-rtuGTlqPxvW7_CyYWWKy_FWmUYyg-jkXRy45P8GIeZHv0Cx9cWh1EFRZIRQbM4ocvMXWwAaMegFDpTrjpKPgf5DOvVwwk5KMEeYfekqLvsaV9hvev225mhtM--bAJxgrL4QFiyV_hkocxaQSmTQEQydIkJwe8Wsj6bs6wHvgkA" /><span
+          class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">RefactorAI</span></div>
+      <div class="px-space-md py-space-sm shrink-0">
+        <div
+          class="flex items-center gap-space-xs px-space-sm py-space-xs bg-surface-container-low rounded border border-outline-variant">
+          <span class="material-symbols-outlined text-outline text-body-lg">terminal</span><span
+            class="font-label-code-sm text-label-code-sm text-tertiary uppercase tracking-wider font-semibold">Engine
+            v2.4.0 (LLVM)</span>
+        </div>
+      </div>
+      <nav class="flex-1 overflow-y-auto px-space-sm py-space-xs space-y-1"
+        data-active-classes="bg-primary text-on-primary font-bold shadow-sm"><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="dashboard" href="#"><span class="material-symbols-outlined text-body-lg">grid_view</span><span
+            class="font-body-md text-body-md font-medium">Dashboard</span></a><a aria-current="page"
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded transition-colors bg-primary text-on-primary font-bold shadow-sm"
+          data-path="workspace" href="#"><span class="material-symbols-outlined text-body-lg">code</span><span
+            class="font-body-md text-body-md font-medium">Code Workspace</span></a><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="benchmarks" href="#"><span class="material-symbols-outlined text-body-lg">speed</span><span
+            class="font-body-md text-body-md font-medium">Benchmarks</span></a><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="refactor" href="#"><span class="material-symbols-outlined text-body-lg">auto_fix_high</span><span
+            class="font-body-md text-body-md font-medium">AI Refactor</span></a><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="compare" href="#"><span class="material-symbols-outlined text-body-lg">difference</span><span
+            class="font-body-md text-body-md font-medium">Before & After Diff</span></a><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="submissions" href="#"><span class="material-symbols-outlined text-body-lg">history</span><span
+            class="font-body-md text-body-md font-medium">Submissions</span></a><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="tracker" href="#"><span class="material-symbols-outlined text-body-lg">timeline</span><span
+            class="font-body-md text-body-md font-medium">Tracker & Progress</span></a><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="leaderboard" href="#"><span class="material-symbols-outlined text-body-lg">trophy</span><span
+            class="font-body-md text-body-md font-medium">Leaderboard</span></a><a
+          class="flex items-center gap-space-md px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors"
+          data-path="settings" href="#"><span class="material-symbols-outlined text-body-lg">settings</span><span
+            class="font-body-md text-body-md font-medium">Profile & Settings</span></a></nav>
+    </div>
+    <div class="p-space-md border-t border-outline-variant bg-surface-container-lowest shrink-0">
+      <div
+        class="p-space-sm rounded bg-surface-container-low border border-outline-variant flex items-center justify-between">
+        <div class="flex flex-col"><span class="font-label-code-sm text-label-code-sm text-tertiary">DAILY
+            QUOTA</span><span class="font-label-code-md text-label-code-md font-semibold text-on-surface">142 / 200
+            Runs</span></div><span class="material-symbols-outlined text-primary text-headline-md">bolt</span>
+      </div>
+    </div>
+  </aside>
+  <div class="pl-64 flex flex-col min-h-screen">
+    <header
+      class="fixed top-0 left-64 right-0 h-14 bg-surface-container-lowest border-b border-outline-variant z-40 flex items-center justify-between px-space-xl">
+      <div class="flex items-center gap-space-lg flex-1 max-w-xl">
+        <div class="relative w-full"><span
+            class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-outline text-body-lg">search</span><input
+            class="w-full pl-9 pr-space-md py-1.5 bg-surface-container-low border border-outline-variant rounded font-body-sm text-body-sm text-on-surface placeholder:text-tertiary focus:outline-none focus:border-primary"
+            placeholder="Quick search problems (e.g. 42. Trapping Rain Water, LRU Cache)..." type="text" /><span
+            class="absolute right-space-sm top-1/2 -translate-y-1/2 font-label-code-sm text-label-code-sm px-1 py-0.5 bg-surface-container-lowest border border-outline-variant rounded text-tertiary">⌘K</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-space-lg shrink-0">
+        <div
+          class="hidden sm:flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-low border border-outline-variant rounded-full">
+          <span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span><span
+            class="font-label-code-sm text-label-code-sm font-medium text-secondary">RUNNER READY</span><span
+            class="text-tertiary text-body-sm">•</span><span
+            class="font-label-code-sm text-label-code-sm text-tertiary">Py3.12 / Rust 1.77</span>
+        </div>
+        <div class="h-6 w-px bg-outline-variant"></div>
+        <div class="flex items-center gap-space-sm">
+          <div class="relative flex items-center"><img alt="Profile"
+              class="w-8 h-8 rounded-full object-cover border border-outline-variant"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbKhBqY72c05MMZCxi-PidT96Ap_nwG21gVGWoa1KrsiTwn8IjbwKsdtAE8YQDAnIskHBlYJBVWHAzslh0DcbzJuGuqXXdkJ0hWvxZ_bCeukE_tDIxgyrxnRVdR3Ld9U_gp3MS81KUFGgTn_1uty0UZ32ifoWC4LU-vACoWdIAW5xF8-v72l4H2mztDu6sWAH1C_7LLboJ2PBBkUG9EXfvHCppwvvgljE4o7A8wnWg8AVO2OkwFbkgrg" /><span
+              class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-primary rounded-full ring-2 ring-surface-container-lowest"></span>
+          </div>
+          <div class="hidden md:flex flex-col text-left"><span
+              class="font-body-sm text-body-sm font-semibold text-on-surface leading-tight">alex.dev</span><span
+              class="font-label-code-sm text-label-code-sm text-secondary leading-tight">Rank #42 (99.4%)</span></div>
+        </div>
+      </div>
+    </header>
+    <main class="w-full pt-14 bg-surface flex-1 px-space-xl py-space-lg">
+      <div class="flex flex-col w-full h-[calc(100vh-5rem)] min-h-[720px] select-text">
+        <!-- Top Problem Action Bar -->
+        <div
+          class="h-14 bg-surface-container-lowest rounded-xl shadow-sm px-space-lg flex items-center justify-between gap-space-md shrink-0 mb-space-sm">
+          <!-- Left Meta: Selector, Difficulty, Acceptance -->
+          <div class="flex items-center gap-space-md min-w-0">
+            <div class="flex items-center gap-space-xs cursor-pointer group">
+              <span
+                class="material-symbols-outlined text-outline group-hover:text-primary text-body-lg transition-colors">dataset</span>
+              <h1 class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight truncate"
+                id="workspace-problem-title">
+                #5. Longest Palindromic Substring
+              </h1>
+              <span class="material-symbols-outlined text-outline text-body-md">keyboard_arrow_down</span>
+            </div>
+            <div class="h-4 w-px bg-surface-container-high mx-space-xs shrink-0"></div>
+            <span
+              class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-code-sm text-label-code-sm font-semibold tracking-wide uppercase">
+              Medium
+            </span>
+            <div class="hidden sm:flex items-center gap-1.5 font-label-code-sm text-label-code-sm text-tertiary">
+              <span>Acceptance:</span>
+              <span class="font-semibold text-on-surface">54.2%</span>
+            </div>
+            <div
+              class="hidden md:flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-low font-label-code-sm text-label-code-sm text-secondary">
+              <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+              <span>Avg Refactor Yield: +34% FPS</span>
+            </div>
+          </div>
+          <!-- Right Controls: Language Selector, Actions -->
+          <div class="flex items-center gap-space-sm shrink-0">
+            <!-- Language Picker -->
+            <div class="relative">
+              <select
+                class="appearance-none bg-surface-container-low hover:bg-surface-container text-on-surface font-label-code-md text-label-code-md pl-3 pr-8 py-1.5 rounded-lg cursor-pointer focus:outline-none focus:ring-1 focus:ring-primary"
+                id="langSelect">
+                <option selected="" value="py">Python 3.11</option>
+                <option value="java">Java 17 (OpenJDK)</option>
+                <option value="cpp">C++ 20 (Clang 16)</option>
+                <option value="go">Go 1.21</option>
+                <option value="rust">Rust 1.77</option>
+              </select>
+              <span
+                class="material-symbols-outlined pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-outline text-body-md">arrow_drop_down</span>
+            </div>
+            <!-- Reset Boilerplate -->
+            <button
+              class="p-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant transition-colors flex items-center justify-center"
+              title="Reset to template">
+              <span class="material-symbols-outlined text-body-lg">restart_alt</span>
+            </button>
+            <!-- Run Tests (Outline) -->
+            <button
+              class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface shadow-sm font-label-code-md text-label-code-md font-semibold transition-all active:scale-95"
+              id="runBtn">
+              <span class="material-symbols-outlined text-body-lg text-primary">play_arrow</span>
+              <span>Run Tests</span>
+            </button>
+            <!-- Submit & Benchmark (Primary) -->
+            <button
+              class="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary shadow-sm font-label-code-md text-label-code-md font-semibold transition-all active:scale-95"
+              id="submitBtn">
+              <span class="material-symbols-outlined text-body-lg">bolt</span>
+              <span>Submit & Benchmark</span>
+            </button>
+          </div>
+        </div>
+        <!-- Main IDE Split Layout -->
+        <div class="flex-1 grid grid-cols-12 gap-space-sm min-h-0 overflow-hidden">
+          <!-- LEFT PANE: Problem Description, Criteria & Constraints (Col 5) -->
+          <div
+            class="col-span-12 lg:col-span-5 flex flex-col bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden h-full">
+            <!-- Tabs -->
+            <div class="flex items-center justify-between px-space-md pt-2 bg-surface-container-low shrink-0">
+              <div class="flex items-center gap-1" id="leftTabs">
+                <button
+                  class="tab-btn active px-3 py-2 rounded-t-lg bg-surface-container-lowest text-primary font-headline-md text-body-sm font-semibold flex items-center gap-1.5 shadow-sm"
+                  data-target="tab-desc">
+                  <span class="material-symbols-outlined text-body-sm">description</span>
+                  <span>Description</span>
+                </button>
+                <button
+                  class="tab-btn px-3 py-2 rounded-t-lg text-tertiary hover:text-on-surface font-body-sm text-body-sm font-medium flex items-center gap-1.5 transition-colors"
+                  data-target="tab-tests">
+                  <span class="material-symbols-outlined text-body-sm">playlist_add_check</span>
+                  <span>Test Cases</span>
+                  <span
+                    class="px-1.5 py-0.2 rounded-full bg-surface-container text-on-surface-variant font-label-code-sm text-label-code-sm">4</span>
+                </button>
+                <button
+                  class="tab-btn px-3 py-2 rounded-t-lg text-tertiary hover:text-on-surface font-body-sm text-body-sm font-medium flex items-center gap-1.5 transition-colors"
+                  data-target="tab-bench">
+                  <span class="material-symbols-outlined text-body-sm">speed</span>
+                  <span>Benchmarking</span>
+                </button>
+              </div>
+              <button class="text-tertiary hover:text-on-surface p-1 rounded transition-colors"
+                title="Bookmark problem">
+                <span class="material-symbols-outlined text-body-md">bookmark_border</span>
+              </button>
+            </div>
+            <!-- Tab Contents (Scrollable) -->
+            <div class="flex-1 overflow-y-auto p-space-lg text-on-surface" id="leftTabContent">
+              <!-- Tab: Description -->
+              <div class="tab-pane flex flex-col gap-space-md" id="tab-desc">
+                <div id="problem-description-5">
+                  <div class="prose max-w-none">
+                    <p class="font-body-md text-body-md leading-relaxed text-on-surface">
+                      Given a string <code
+                        class="px-1.5 py-0.5 rounded bg-surface-container-low font-label-code-sm text-label-code-sm font-semibold text-primary">s</code>,
+                      return <em>the longest palindromic substring</em> in <code
+                        class="px-1.5 py-0.5 rounded bg-surface-container-low font-label-code-sm text-label-code-sm font-semibold text-primary">s</code>.
+                    </p>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant mt-2 leading-relaxed">
+                      A string is <strong>palindromic</strong> if it reads the same forward and backward. In cases with
+                      multiple valid substrings of identical maximum length, any such substring will be accepted.
+                    </p>
+                  </div>
+                  <!-- Examples Bento -->
+                  <div class="space-y-space-sm">
+                    <div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-1.5">
+                      <span
+                        class="font-label-code-sm text-label-code-sm font-semibold text-secondary uppercase tracking-wider">Example
+                        1</span>
+                      <div class="font-label-code-md text-label-code-md text-on-surface space-y-0.5">
+                        <div><span class="text-tertiary">Input:</span> s = <span
+                            class="text-primary font-medium">"babad"</span></div>
+                        <div><span class="text-tertiary">Output:</span> <span
+                            class="text-secondary font-medium">"bab"</span></div>
+                        <div class="text-on-surface-variant text-body-sm font-body-sm"><span
+                            class="font-medium text-tertiary">Explanation:</span> "aba" is also a valid answer.</div>
+                      </div>
+                    </div>
+                    <div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-1.5">
+                      <span
+                        class="font-label-code-sm text-label-code-sm font-semibold text-secondary uppercase tracking-wider">Example
+                        2</span>
+                      <div class="font-label-code-md text-label-code-md text-on-surface space-y-0.5">
+                        <div><span class="text-tertiary">Input:</span> s = <span
+                            class="text-primary font-medium">"cbbd"</span></div>
+                        <div><span class="text-tertiary">Output:</span> <span
+                            class="text-secondary font-medium">"bb"</span></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Constraints -->
+                  <div class="p-space-md rounded-lg bg-surface-container">
+                    <h4
+                      class="font-label-code-sm text-label-code-sm uppercase tracking-wider font-bold text-on-surface mb-2 flex items-center gap-1.5">
+                      <span class="material-symbols-outlined text-body-sm text-primary">rule</span>
+                      Constraints
+                    </h4>
+                    <ul class="space-y-1 font-label-code-md text-label-code-md text-on-surface-variant">
+                      <li class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>
+                        <span><code class="font-bold">1 <= s.length <= 1000</code></span>
+                      </li>
+                      <li class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>
+                        <span><code class="font-bold">s</code> consists of only lowercase and uppercase English
+                          letters.</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- Collapsible Hint Section -->
+                  <div class="rounded-lg bg-surface-container-low overflow-hidden">
+                    <button
+                      class="w-full px-space-md py-space-sm flex items-center justify-between text-left hover:bg-surface-container transition-colors"
+                      id="hintToggle">
+                      <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-body-md">lightbulb</span>
+                        <span class="font-body-md text-body-md font-semibold text-on-surface">Hint 1: Expand Around
+                          Centers</span>
+                      </div>
+                      <span class="material-symbols-outlined text-outline transition-transform"
+                        id="hintArrow">expand_more</span>
+                    </button>
+                    <div
+                      class="hidden px-space-md pb-space-md pt-1 font-body-sm text-body-sm text-on-surface-variant leading-relaxed"
+                      id="hintBody">
+                      How can we reuse previously computed palindromes? A palindrome mirrors around its center. There
+                      are
+                      <code>2N - 1</code> such centers (both single character and inter-character gaps). You can expand
+                      outwards from each center in <code class="font-label-code-sm">O(N)</code> time.
+                    </div>
+                  </div>
+                  <!-- Algorithmic Profile Preview -->
+                  <div class="p-space-md rounded-lg bg-surface-container-lowest shadow-sm flex flex-col gap-2">
+                    <div class="flex items-center justify-between">
+                      <span class="font-label-code-sm text-label-code-sm uppercase tracking-wide text-tertiary">Baseline
+                        Complexity Targets</span>
+                      <span class="font-label-code-sm text-label-code-sm font-semibold text-secondary">Optimal
+                        Tier</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-space-sm font-label-code-md text-label-code-md">
+                      <div class="p-2 rounded bg-surface-container-low">
+                        <div class="text-tertiary text-body-sm">Time Complexity</div>
+                        <div class="font-bold text-on-surface">O(n²) / Manacher: O(n)</div>
+                      </div>
+                      <div class="p-2 rounded bg-surface-container-low">
+                        <div class="text-tertiary text-body-sm">Space Complexity</div>
+                        <div class="font-bold text-on-surface">O(1) Auxiliary</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="hidden flex flex-col gap-space-md" id="problem-description-15">
+                  <div class="prose max-w-none">
+                    <p class="font-body-md text-body-md leading-relaxed text-on-surface">
+                      Given an integer array <code
+                        class="px-1.5 py-0.5 rounded bg-surface-container-low font-label-code-sm text-label-code-sm font-semibold text-primary">nums</code>,
+                      return all unique triplets <code
+                        class="px-1.5 py-0.5 rounded bg-surface-container-low font-label-code-sm text-label-code-sm font-semibold text-primary">[nums[i], nums[j], nums[k]]</code>
+                      whose values sum to zero.
+                    </p>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant mt-2 leading-relaxed">
+                      The indices must be distinct, and the result must not contain duplicate triplets.
+                    </p>
+                  </div>
+                  <div class="space-y-space-sm">
+                    <div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-1.5">
+                      <span
+                        class="font-label-code-sm text-label-code-sm font-semibold text-secondary uppercase tracking-wider">Example
+                        1</span>
+                      <div class="font-label-code-md text-label-code-md text-on-surface space-y-0.5">
+                        <div><span class="text-tertiary">Input:</span> nums = <span
+                            class="text-primary font-medium">[-1,0,1,2,-1,-4]</span></div>
+                        <div><span class="text-tertiary">Output:</span> <span
+                            class="text-secondary font-medium">[[-1,-1,2],[-1,0,1]]</span></div>
+                      </div>
+                    </div>
+                    <div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-1.5">
+                      <span
+                        class="font-label-code-sm text-label-code-sm font-semibold text-secondary uppercase tracking-wider">Example
+                        2</span>
+                      <div class="font-label-code-md text-label-code-md text-on-surface space-y-0.5">
+                        <div><span class="text-tertiary">Input:</span> nums = <span
+                            class="text-primary font-medium">[0,1,1]</span></div>
+                        <div><span class="text-tertiary">Output:</span> <span
+                            class="text-secondary font-medium">[]</span></div>
+                      </div>
+                    </div>
+                    <div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-1.5">
+                      <span
+                        class="font-label-code-sm text-label-code-sm font-semibold text-secondary uppercase tracking-wider">Example
+                        3</span>
+                      <div class="font-label-code-md text-label-code-md text-on-surface space-y-0.5">
+                        <div><span class="text-tertiary">Input:</span> nums = <span
+                            class="text-primary font-medium">[0,0,0]</span></div>
+                        <div><span class="text-tertiary">Output:</span> <span
+                            class="text-secondary font-medium">[[0,0,0]]</span></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-space-md rounded-lg bg-surface-container">
+                    <h4
+                      class="font-label-code-sm text-label-code-sm uppercase tracking-wider font-bold text-on-surface mb-2 flex items-center gap-1.5">
+                      <span class="material-symbols-outlined text-body-sm text-primary">rule</span>Constraints
+                    </h4>
+                    <ul class="space-y-1 font-label-code-md text-label-code-md text-on-surface-variant">
+                      <li class="flex items-center gap-2"><span
+                          class="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span><span><code
+                            class="font-bold">3 &lt;= nums.length &lt;= 3000</code></span></li>
+                      <li class="flex items-center gap-2"><span
+                          class="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span><span><code
+                            class="font-bold">-100000 &lt;= nums[i] &lt;= 100000</code></span></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- Tab: Test Cases -->
+              <div class="tab-pane hidden flex flex-col gap-space-md" id="tab-tests">
+                <div id="problem-tests-5">
+                  <div class="flex items-center justify-between">
+                    <span class="font-headline-md text-body-md font-semibold">Preconfigured Test Suite</span>
+                    <span class="font-label-code-sm text-label-code-sm text-primary">All <span
+                        id="test-case-count">4</span> Ready</span>
+                  </div>
+                  <div class="space-y-space-sm font-label-code-md text-label-code-md">
+                    <div class="p-3 rounded-lg bg-surface-container-low flex justify-between items-center">
+                      <div>
+                        <span class="font-bold text-primary">Case 1:</span>
+                        <span class="text-on-surface ml-2">s = "babad"</span>
+                      </div>
+                      <span class="text-secondary font-label-code-sm">Valid Expected: "bab"</span>
+                    </div>
+                    <div class="p-3 rounded-lg bg-surface-container-low flex justify-between items-center">
+                      <div>
+                        <span class="font-bold text-primary">Case 2:</span>
+                        <span class="text-on-surface ml-2">s = "cbbd"</span>
+                      </div>
+                      <span class="text-secondary font-label-code-sm">Valid Expected: "bb"</span>
+                    </div>
+                    <div class="p-3 rounded-lg bg-surface-container-low flex justify-between items-center">
+                      <div>
+                        <span class="font-bold text-primary">Case 3:</span>
+                        <span class="text-on-surface ml-2">s = "a"</span>
+                      </div>
+                      <span class="text-secondary font-label-code-sm">Single Char</span>
+                    </div>
+                    <div class="p-3 rounded-lg bg-surface-container-low flex justify-between items-center">
+                      <div>
+                        <span class="font-bold text-primary">Case 4:</span>
+                        <span class="text-on-surface ml-2">s = "ac"</span>
+                      </div>
+                      <span class="text-secondary font-label-code-sm">Disjoint Pairs</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="hidden flex flex-col gap-space-md" id="problem-tests-15">
+                  <div class="flex items-center justify-between">
+                    <span class="font-headline-md text-body-md font-semibold">Preconfigured Test Suite</span>
+                    <span class="font-label-code-sm text-label-code-sm text-primary">All 3 Ready</span>
+                  </div>
+                  <div class="space-y-space-sm font-label-code-md text-label-code-md">
+                    <div class="p-3 rounded-lg bg-surface-container-low flex justify-between items-center">
+                      <div><span class="font-bold text-primary">Case 1:</span><span class="text-on-surface ml-2">nums =
+                          [-1,0,1,2,-1,-4]</span></div><span
+                        class="text-secondary font-label-code-sm">[[-1,-1,2],[-1,0,1]]</span>
+                    </div>
+                    <div class="p-3 rounded-lg bg-surface-container-low flex justify-between items-center">
+                      <div><span class="font-bold text-primary">Case 2:</span><span class="text-on-surface ml-2">nums =
+                          [0,1,1]</span></div><span class="text-secondary font-label-code-sm">[]</span>
+                    </div>
+                    <div class="p-3 rounded-lg bg-surface-container-low flex justify-between items-center">
+                      <div><span class="font-bold text-primary">Case 3:</span><span class="text-on-surface ml-2">nums =
+                          [0,0,0]</span></div><span class="text-secondary font-label-code-sm">[[0,0,0]]</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Tab: Benchmarking Criteria -->
+              <div class="tab-pane hidden flex flex-col gap-space-md" id="tab-bench">
+                <div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-2">
+                  <span class="font-label-code-sm text-label-code-sm uppercase tracking-wider text-tertiary">Sandbox
+                    Resource Limits</span>
+                  <div class="grid grid-cols-2 gap-space-sm font-label-code-md text-label-code-md mt-1">
+                    <div class="p-3 rounded bg-surface-container-lowest shadow-sm">
+                      <div class="text-tertiary text-body-sm">Time Cutoff</div>
+                      <div class="font-bold text-on-surface text-stat-numeric">2,000 ms</div>
+                    </div>
+                    <div class="p-3 rounded bg-surface-container-lowest shadow-sm">
+                      <div class="text-tertiary text-body-sm">Memory Limit</div>
+                      <div class="font-bold text-on-surface text-stat-numeric">256 MB</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-space-md rounded-lg bg-surface-container flex flex-col gap-2">
+                  <h4 class="font-body-md text-body-md font-semibold text-on-surface">Compiler & Environment Target</h4>
+                  <div class="font-label-code-sm text-label-code-sm text-on-surface-variant space-y-1">
+                    <p>• Python 3.11.8 JIT (CPython with specialized tier 1 bytecodes enabled)</p>
+                    <p>• Valgrind & Perf Profiling: AST-guided inline analysis</p>
+                    <p>• Cold vs Hot Cache runs: 5 runs averaged with median outlier discard</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- RIGHT PANE: Code Editor & Output Console (Col 7) -->
+          <div
+            class="col-span-12 lg:col-span-7 flex flex-col bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden h-full">
+            <!-- Editor Toolbar -->
+            <div class="h-10 bg-surface-container-low px-space-md flex items-center justify-between shrink-0">
+              <div class="flex items-center gap-space-md">
+                <div class="flex items-center gap-1.5 font-label-code-sm text-label-code-sm text-tertiary">
+                  <span class="material-symbols-outlined text-body-md text-secondary">code_blocks</span>
+                  <span class="font-semibold text-on-surface" id="solution-file-name">solution.py</span>
+                </div>
+                <span class="text-outline text-body-sm">|</span>
+                <div class="flex items-center gap-1 text-tertiary font-label-code-sm text-label-code-sm">
+                  <span>Font:</span>
+                  <span class="text-on-surface font-semibold">14px</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-space-sm">
+                <!-- Vim Mode Toggle -->
+                <button
+                  class="px-2 py-0.5 rounded text-tertiary hover:text-on-surface hover:bg-surface-container font-label-code-sm text-label-code-sm flex items-center gap-1 transition-colors"
+                  id="vimToggle">
+                  <span class="material-symbols-outlined text-body-sm">terminal</span>
+                  <span>Vim: OFF</span>
+                </button>
+                <!-- Format / Prettify Code -->
+                <button
+                  class="p-1 rounded text-tertiary hover:text-on-surface hover:bg-surface-container transition-colors"
+                  title="Format Code (Black)">
+                  <span class="material-symbols-outlined text-body-sm">format_align_left</span>
+                </button>
+                <!-- Fullscreen Editor -->
+                <button
+                  class="p-1 rounded text-tertiary hover:text-on-surface hover:bg-surface-container transition-colors"
+                  title="Toggle Fullscreen">
+                  <span class="material-symbols-outlined text-body-sm">fullscreen</span>
+                </button>
+              </div>
+            </div>
+            <!-- Code Editor Workspace (Monospace Syntax Block) -->
+            <div
+              class="hidden px-space-md py-1 bg-surface-container-low font-label-code-sm text-label-code-sm text-tertiary"
+              id="suggestion-status" role="status" aria-live="polite"></div>
+            <div
+              class="flex-1 overflow-auto bg-surface-container-lowest font-label-code-md text-label-code-md text-on-surface flex select-text relative">
+              <!-- Line Numbers Gutter -->
+              <div
+                class="w-12 bg-surface-container-low/50 select-none py-3 flex flex-col text-right pr-3 font-label-code-sm text-label-code-sm text-outline shrink-0 space-y-1"
+                id="solution-line-numbers">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+                <span>6</span>
+                <span>7</span>
+                <span>8</span>
+                <span>9</span>
+                <span>10</span>
+                <span>11</span>
+                <span>12</span>
+                <span>13</span>
+                <span>14</span>
+                <span>15</span>
+                <span>16</span>
+                <span>17</span>
+                <span>18</span>
+                <span>19</span>
+                <span>20</span>
+                <span>21</span>
+                <span>22</span>
+                <span>23</span>
+                <span>24</span>
+              </div>
+              <!-- Code Content -->
+              <div class="flex-1 py-3 px-4 font-label-code-md leading-[22px] whitespace-pre overflow-x-auto"
+                id="solution-code" data-problem-id="5" data-language="py" contenteditable="true" role="textbox"
+                aria-label="Solution code editor" aria-multiline="true" spellcheck="false">
+                <span class="text-tertiary italic"># RefactorAI Engine: Optimal Expand Around Center</span>
+                <span class="text-secondary font-semibold">class</span> <span
+                  class="text-primary font-bold">Solution</span>:
+                <span class="text-secondary font-semibold">def</span> <span
+                  class="text-primary font-bold">longestPalindrome</span>(<span
+                  class="text-on-surface-variant">self</span>, <span class="text-tertiary-container">s</span>: <span
+                  class="text-tertiary font-semibold">str</span>) -> <span
+                  class="text-tertiary font-semibold">str</span>:
+                <span class="text-secondary font-semibold">if</span> <span
+                  class="text-secondary font-semibold">not</span> s <span class="text-secondary font-semibold">or</span>
+                <span class="text-tertiary font-semibold">len</span>(s) == <span
+                  class="text-primary font-semibold">1</span>:
+                <span class="text-secondary font-semibold">return</span> s
+
+                <span class="text-on-surface-variant">start</span>, <span class="text-on-surface-variant">end</span> =
+                <span class="text-primary font-semibold">0</span>, <span class="text-primary font-semibold">0</span>
+                <span class="text-secondary font-semibold">def</span> <span
+                  class="text-primary font-bold">expand_around_center</span>(<span
+                  class="text-tertiary-container">left</span>: <span class="text-tertiary font-semibold">int</span>,
+                <span class="text-tertiary-container">right</span>: <span
+                  class="text-tertiary font-semibold">int</span>) -> <span
+                  class="text-tertiary font-semibold">int</span>:
+                <span class="text-secondary font-semibold">while</span> left >= <span
+                  class="text-primary font-semibold">0</span> <span class="text-secondary font-semibold">and</span>
+                right < <span class="text-tertiary font-semibold">len</span>(s) <span
+                    class="text-secondary font-semibold">and</span> s[left] == s[right]:
+                  left -= <span class="text-primary font-semibold">1</span>
+                  right += <span class="text-primary font-semibold">1</span>
+                  <span class="text-secondary font-semibold">return</span> right - left - <span
+                    class="text-primary font-semibold">1</span>
+                  <span class="text-secondary font-semibold">for</span> i <span
+                    class="text-secondary font-semibold">in</span> <span
+                    class="text-tertiary font-semibold">range</span>(<span
+                    class="text-tertiary font-semibold">len</span>(s)):
+                  <span class="text-tertiary italic"># Odd length palindrome center</span>
+                  <span class="text-on-surface-variant">len1</span> = expand_around_center(i, i)
+                  <span class="text-tertiary italic"># Even length palindrome center</span>
+                  <span class="text-on-surface-variant">len2</span> = expand_around_center(i, i + <span
+                    class="text-primary font-semibold">1</span>)
+                  <span class="text-on-surface-variant">max_len</span> = <span
+                    class="text-tertiary font-semibold">max</span>(len1, len2)
+
+                  <span class="text-secondary font-semibold">if</span> max_len > (end - start):
+                  start = i - (max_len - <span class="text-primary font-semibold">1</span>) // <span
+                    class="text-primary font-semibold">2</span>
+                  end = i + max_len // <span class="text-primary font-semibold">2</span>
+                  <span class="text-secondary font-semibold">return</span> s[start : end + <span
+                    class="text-primary font-semibold">1</span>]
+              </div>
+            </div>
+            <!-- Collapsible Bottom Terminal / Console -->
+            <div class="bg-surface-container-low shrink-0 flex flex-col transition-all duration-200 h-64"
+              id="consoleWrapper">
+              <!-- Terminal Header & Tabs -->
+              <div class="h-9 px-space-md bg-surface-container flex items-center justify-between shrink-0 select-none">
+                <div class="flex items-center gap-1 overflow-x-auto" id="consoleTabs">
+                  <button
+                    class="console-tab-btn active px-2.5 py-1 rounded bg-surface-container-lowest font-label-code-sm text-label-code-sm font-semibold text-secondary flex items-center gap-1 shadow-sm"
+                    data-console="tc-1" data-problem-id="5">
+                    <span class="material-symbols-outlined text-body-sm text-secondary">check_circle</span>
+                    <span>Case 1</span>
+                  </button>
+                  <button
+                    class="console-tab-btn px-2.5 py-1 rounded text-on-surface-variant hover:bg-surface-container-lowest/50 font-label-code-sm text-label-code-sm font-medium flex items-center gap-1 transition-colors"
+                    data-console="tc-2" data-problem-id="5">
+                    <span class="material-symbols-outlined text-body-sm text-secondary">check_circle</span>
+                    <span>Case 2</span>
+                  </button>
+                  <button
+                    class="console-tab-btn px-2.5 py-1 rounded text-secondary hover:bg-surface-container-lowest/50 font-label-code-sm text-label-code-sm font-medium flex items-center gap-1 transition-colors"
+                    data-console="tc-3" data-problem-id="5">
+                    <span class="material-symbols-outlined text-body-sm text-secondary">check_circle</span>
+                    <span>Case 3 (Edge)</span>
+                  </button>
+                  <button
+                    class="console-tab-btn hidden px-2.5 py-1 rounded text-on-surface-variant hover:bg-surface-container-lowest/50 font-label-code-sm text-label-code-sm font-medium flex items-center gap-1 transition-colors"
+                    data-console="tc-15-1" data-problem-id="15">
+                    <span class="material-symbols-outlined text-body-sm text-tertiary">schedule</span>
+                    <span>Case 1</span>
+                  </button>
+                  <button
+                    class="console-tab-btn hidden px-2.5 py-1 rounded text-on-surface-variant hover:bg-surface-container-lowest/50 font-label-code-sm text-label-code-sm font-medium flex items-center gap-1 transition-colors"
+                    data-console="tc-15-2" data-problem-id="15">
+                    <span class="material-symbols-outlined text-body-sm text-tertiary">schedule</span>
+                    <span>Case 2</span>
+                  </button>
+                  <button
+                    class="console-tab-btn hidden px-2.5 py-1 rounded text-on-surface-variant hover:bg-surface-container-lowest/50 font-label-code-sm text-label-code-sm font-medium flex items-center gap-1 transition-colors"
+                    data-console="tc-15-3" data-problem-id="15">
+                    <span class="material-symbols-outlined text-body-sm text-tertiary">schedule</span>
+                    <span>Case 3 (All Zero)</span>
+                  </button>
+                  <button
+                    class="console-tab-btn px-2.5 py-1 rounded text-tertiary hover:bg-surface-container-lowest/50 font-label-code-sm text-label-code-sm font-medium flex items-center gap-1 transition-colors"
+                    data-console="tc-custom">
+                    <span class="material-symbols-outlined text-body-sm">edit_note</span>
+                    <span>Custom Input</span>
+                  </button>
+                  <button
+                    class="console-tab-btn px-2.5 py-1 rounded text-tertiary hover:bg-surface-container-lowest/50 font-label-code-sm text-label-code-sm font-medium flex items-center gap-1 transition-colors"
+                    data-console="tc-logs">
+                    <span class="material-symbols-outlined text-body-sm">terminal</span>
+                    <span>Logs</span>
+                  </button>
+                </div>
+                <!-- Console Header Controls -->
+                <div class="flex items-center gap-space-sm shrink-0 font-label-code-sm text-label-code-sm">
+                  <!-- Benchmark quick metrics pill -->
+                  <div
+                    class="flex items-center gap-2 px-2 py-0.5 rounded bg-surface-container-lowest shadow-sm text-on-surface">
+                    <span class="flex items-center gap-1 text-secondary font-semibold">
+                      <span class="material-symbols-outlined text-body-sm">timer</span>
+                      <span id="console-runtime-value">64ms</span>
+                    </span>
+                    <span class="text-outline-variant">•</span>
+                    <span class="text-tertiary font-medium" id="console-memory-value">14.8 MB</span>
+                  </div>
+                  <!-- Minimize / Expand Toggle -->
+                  <button class="p-1 rounded hover:bg-surface-container-lowest text-tertiary transition-colors"
+                    id="toggleConsole" title="Collapse Console">
+                    <span class="material-symbols-outlined text-body-md" id="consoleIcon">keyboard_arrow_down</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Terminal Body Panel -->
+              <div class="flex-1 p-space-md overflow-y-auto font-label-code-md text-label-code-md" id="consoleBody">
+                <!-- TC-1 (Active Default) -->
+                <div class="console-pane flex flex-col gap-space-sm" id="tc-1" data-problem-id="5" data-case-number="1">
+                  <div class="flex items-center gap-space-sm">
+                    <span
+                      class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-code-sm text-label-code-sm font-bold">PASSED</span>
+                    <span class="text-tertiary text-body-sm">Latency: 64 ms (faster than 88.4%)</span>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+                    <!-- Input -->
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Input Argument
+                      </div>
+                      <div class="text-on-surface font-semibold bg-surface-container-low px-2 py-1 rounded">s = "babad"
+                      </div>
+                    </div>
+                    <!-- Output -->
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Actual Output
+                      </div>
+                      <div class="text-secondary font-semibold bg-surface-container-low px-2 py-1 rounded">"bab"</div>
+                    </div>
+                    <!-- Expected -->
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Expected Matches
+                      </div>
+                      <div class="text-on-surface-variant font-medium bg-surface-container-low px-2 py-1 rounded">"bab"
+                        or "aba"</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- TC-2 -->
+                <div class="console-pane hidden flex flex-col gap-space-sm" id="tc-2" data-problem-id="5"
+                  data-case-number="2">
+                  <div class="flex items-center gap-space-sm">
+                    <span
+                      class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-code-sm text-label-code-sm font-bold">PASSED</span>
+                    <span class="text-tertiary text-body-sm">Latency: 52 ms (faster than 92.1%)</span>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Input Argument
+                      </div>
+                      <div class="text-on-surface font-semibold bg-surface-container-low px-2 py-1 rounded">s = "cbbd"
+                      </div>
+                    </div>
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Actual Output
+                      </div>
+                      <div class="text-secondary font-semibold bg-surface-container-low px-2 py-1 rounded">"bb"</div>
+                    </div>
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Expected Matches
+                      </div>
+                      <div class="text-on-surface-variant font-medium bg-surface-container-low px-2 py-1 rounded">"bb"
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- TC-3 (Passed) -->
+                <div class="console-pane hidden flex flex-col gap-space-sm" id="tc-3" data-problem-id="5"
+                  data-case-number="3">
+                  <div class="flex items-center gap-space-sm">
+                    <span
+                      class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-code-sm text-label-code-sm font-bold">PASSED</span>
+                    <span class="text-tertiary text-body-sm">Longest repetitive sequence returned in full</span>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Input Argument
+                      </div>
+                      <div class="text-on-surface font-semibold bg-surface-container-low px-2 py-1 rounded">s = "aaaaa"
+                      </div>
+                    </div>
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Actual Output
+                      </div>
+                      <div class="text-secondary font-semibold bg-surface-container-low px-2 py-1 rounded">"aaaaa"</div>
+                    </div>
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Expected Matches
+                      </div>
+                      <div class="text-secondary font-medium bg-surface-container-low px-2 py-1 rounded">"aaaaa"</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="console-pane hidden flex flex-col gap-space-sm" id="tc-15-1" data-problem-id="15"
+                  data-case-number="1">
+                  <div class="flex items-center gap-space-sm">
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container text-tertiary font-label-code-sm text-label-code-sm font-bold">NOT
+                      RUN</span>
+                    <span class="text-tertiary text-body-sm" id="tc-15-language-1">Not run for Java 17.</span>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Input Argument
+                      </div>
+                      <div class="text-on-surface font-semibold bg-surface-container-low px-2 py-1 rounded">nums =
+                        [-1,0,1,2,-1,-4]</div>
+                    </div>
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Actual Output
+                      </div>
+                      <div class="text-tertiary font-semibold bg-surface-container-low px-2 py-1 rounded">Not run</div>
+                    </div>
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Expected Output
+                      </div>
+                      <div class="text-on-surface-variant font-medium bg-surface-container-low px-2 py-1 rounded">
+                        [[-1,-1,2],[-1,0,1]]</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="console-pane hidden flex flex-col gap-space-sm" id="tc-15-2" data-problem-id="15"
+                  data-case-number="2">
+                  <div class="flex items-center gap-space-sm">
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container text-tertiary font-label-code-sm text-label-code-sm font-bold">NOT
+                      RUN</span>
+                    <span class="text-tertiary text-body-sm" id="tc-15-language-2">Not run for Java 17.</span>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Input Argument
+                      </div>
+                      <div class="text-on-surface font-semibold bg-surface-container-low px-2 py-1 rounded">nums =
+                        [0,1,1]</div>
+                    </div>
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Actual Output
+                      </div>
+                      <div class="text-tertiary font-semibold bg-surface-container-low px-2 py-1 rounded">Not run</div>
+                    </div>
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Expected Output
+                      </div>
+                      <div class="text-on-surface-variant font-medium bg-surface-container-low px-2 py-1 rounded">[]
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="console-pane hidden flex flex-col gap-space-sm" id="tc-15-3" data-problem-id="15"
+                  data-case-number="3">
+                  <div class="flex items-center gap-space-sm">
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container text-tertiary font-label-code-sm text-label-code-sm font-bold">NOT
+                      RUN</span>
+                    <span class="text-tertiary text-body-sm" id="tc-15-language-3">Not run for Java 17.</span>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Input Argument
+                      </div>
+                      <div class="text-on-surface font-semibold bg-surface-container-low px-2 py-1 rounded">nums =
+                        [0,0,0]</div>
+                    </div>
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Actual Output
+                      </div>
+                      <div class="text-tertiary font-semibold bg-surface-container-low px-2 py-1 rounded">Not run</div>
+                    </div>
+                    <div class="p-space-sm rounded-lg bg-surface-container-lowest">
+                      <div class="font-label-code-sm text-label-code-sm text-tertiary uppercase mb-1">Expected Output
+                      </div>
+                      <div class="text-on-surface-variant font-medium bg-surface-container-low px-2 py-1 rounded">
+                        [[0,0,0]]</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- TC Custom -->
+                <div class="console-pane hidden flex flex-col gap-space-sm" id="tc-custom">
+                  <span class="font-label-code-sm text-label-code-sm text-tertiary uppercase">Run with Custom
+                    Input</span>
+                  <div class="flex gap-2">
+                    <input
+                      class="flex-1 bg-surface-container-lowest px-3 py-1.5 rounded-lg text-on-surface font-label-code-md text-label-code-md focus:outline-none focus:ring-1 focus:ring-primary shadow-sm"
+                      type="text" id="tc-custom-input" value='s = "racecar"' />
+                    <button
+                      class="px-3 py-1.5 bg-primary text-on-primary rounded-lg font-label-code-sm text-label-code-sm font-semibold hover:bg-primary-container transition-all">Evaluate</button>
+                  </div>
+                </div>
+                <!-- TC Logs -->
+                <div class="console-pane hidden font-label-code-sm text-label-code-sm text-on-surface-variant space-y-1"
+                  id="tc-logs">
+                  <div id="tc-logs-5">
+                    <p class="text-tertiary">[RefactorAI Runtime Engine: Ready]</p>
+                    <p>[INFO] Compilation phase skipped for interpreted Python 3.11 target.</p>
+                    <p>[PROFILE] Function `longestPalindrome` executed 3 benchmark passes in 64.21ms.</p>
+                    <p class="text-secondary">[BENCHMARK SUCCESS] AST generated: Optimal auxiliary storage verified
+                      (O(1)).</p>
+                  </div>
+                  <div class="hidden" id="tc-logs-15">
+                    <p class="text-tertiary">[RefactorAI Runtime Engine: Ready]</p>
+                    <p>[INFO] 3Sum test results are reset for the selected language.</p>
+                    <p>[INFO] No test execution has been recorded in this demo workspace.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        function loadSavedSuggestion() {
+          const status = document.getElementById('suggestion-status');
+          const solutionCode = document.getElementById('solution-code');
+          const lineNumbers = document.getElementById('solution-line-numbers');
+          const languageSelect = document.getElementById('langSelect');
+          const problemTitle = document.getElementById('workspace-problem-title');
+          const fileName = document.getElementById('solution-file-name');
+          let workspaceState;
+          let suggestion;
+
+          const showStatus = (message, state) => {
+            status.textContent = message;
+            status.classList.remove('hidden', 'text-tertiary', 'text-secondary', 'text-error');
+            status.classList.add(state === 'applied' ? 'text-secondary' : 'text-error');
+          };
+
+          const updateProblemPanels = (problemId, language = languageSelect.value) => {
+            const isThreeSum = String(problemId) === '15';
+            document.getElementById('problem-description-5').classList.toggle('hidden', isThreeSum);
+            document.getElementById('problem-description-15').classList.toggle('hidden', !isThreeSum);
+            document.getElementById('problem-tests-5').classList.toggle('hidden', isThreeSum);
+            document.getElementById('problem-tests-15').classList.toggle('hidden', !isThreeSum);
+            document.getElementById('test-case-count').textContent = isThreeSum ? '3' : '4';
+
+            const consoleTabs = Array.from(document.querySelectorAll('#consoleTabs .console-tab-btn'));
+            consoleTabs.forEach(tab => {
+              if (tab.dataset.problemId) {
+                tab.classList.toggle('hidden', tab.dataset.problemId !== String(problemId));
+              }
+              tab.classList.remove('active', 'bg-surface-container-lowest', 'shadow-sm', 'text-secondary');
+            });
+
+            const firstCaseId = isThreeSum ? 'tc-15-1' : 'tc-1';
+            const firstCaseTab = consoleTabs.find(tab => tab.dataset.console === firstCaseId);
+            if (firstCaseTab) {
+              firstCaseTab.classList.add('active', 'bg-surface-container-lowest', 'shadow-sm', 'text-secondary');
+              firstCaseTab.classList.remove('text-on-surface-variant');
+            }
+
+            document.querySelectorAll('#consoleBody .console-pane').forEach(pane => pane.classList.add('hidden'));
+            document.getElementById(firstCaseId)?.classList.remove('hidden');
+            document.getElementById('tc-logs-5').classList.toggle('hidden', isThreeSum);
+            document.getElementById('tc-logs-15').classList.toggle('hidden', !isThreeSum);
+
+            const languageLabel = languageSelect.selectedOptions[0]?.textContent.trim() || language;
+            for (const caseNumber of [1, 2, 3]) {
+              const languageStatus = document.getElementById(`tc-15-language-${caseNumber}`);
+              languageStatus.textContent = `Not run for ${languageLabel}.`;
+            }
+            document.getElementById('tc-custom-input').value = isThreeSum
+              ? 'nums = [-1,0,1,2,-1,-4]'
+              : 's = "racecar"';
+
+            const hasMatchingDemoMetrics = !isThreeSum && language === 'py';
+            document.getElementById('console-runtime-value').textContent = hasMatchingDemoMetrics ? '64ms' : 'Not run';
+            document.getElementById('console-memory-value').textContent = hasMatchingDemoMetrics ? '14.8 MB' : 'Not run';
+          };
+
+          updateProblemPanels(solutionCode.dataset.problemId, languageSelect.value);
+          languageSelect.addEventListener('change', () => {
+            updateProblemPanels(solutionCode.dataset.problemId, languageSelect.value);
+          });
+
+          try {
+            workspaceState = JSON.parse(localStorage.getItem('refactorai.workspace-state.v1') || 'null');
+            if (workspaceState) {
+              const stateLanguage = Array.from(languageSelect.options)
+                .find(option => option.value === workspaceState.language);
+              if (typeof workspaceState.code !== 'string' || !stateLanguage || !workspaceState.problemId) {
+                showStatus('The saved workspace state is invalid. Existing code was not changed.', 'error');
+                return;
+              }
+
+              languageSelect.value = workspaceState.language;
+              solutionCode.dataset.problemId = workspaceState.problemId;
+              solutionCode.dataset.language = workspaceState.language;
+              if (workspaceState.problemTitle) problemTitle.textContent = workspaceState.problemTitle;
+              updateProblemPanels(workspaceState.problemId, workspaceState.language);
+              fileName.textContent = `solution.${workspaceState.language === 'java' ? 'java' : workspaceState.language}`;
+              solutionCode.textContent = workspaceState.code;
+              lineNumbers.replaceChildren(...workspaceState.code.split('\n').map((_, index) => {
+                const lineNumber = document.createElement('span');
+                lineNumber.textContent = String(index + 1);
+                return lineNumber;
+              }));
+            }
+          } catch {
+            showStatus('The saved workspace state could not be read. Existing code was not changed.', 'error');
+            return;
+          }
+
+          try {
+            const savedSuggestion = localStorage.getItem('refactorai.pending-suggestion.v1');
+            if (!savedSuggestion) return;
+            suggestion = JSON.parse(savedSuggestion);
+          } catch {
+            showStatus('The saved suggestion could not be read. Workspace code was not changed.', 'error');
+            return;
+          }
+
+          if (!suggestion || typeof suggestion.code !== 'string' || !suggestion.code.trim()) {
+            showStatus('The saved suggestion is invalid. Workspace code was not changed.', 'error');
+            return;
+          }
+
+          const params = new URLSearchParams(window.location.search);
+          const targetProblemId = params.get('problemId') || solutionCode.dataset.problemId;
+          const targetLanguage = params.get('language') || languageSelect.value;
+          if (suggestion.problemId !== targetProblemId || suggestion.language !== targetLanguage) {
+            showStatus(
+              `Saved suggestion for problem #${suggestion.problemId} (${suggestion.language}) does not match the requested workspace #${targetProblemId} (${targetLanguage}). Workspace code was not changed.`,
+              'error'
+            );
+            return;
+          }
+
+          if (targetLanguage !== languageSelect.value) {
+            const matchingLanguage = Array.from(languageSelect.options).find(option => option.value === targetLanguage);
+            if (!matchingLanguage) {
+              showStatus(`Language ${targetLanguage} is not available in this workspace. Code was not changed.`, 'error');
+              return;
+            }
+          }
+
+          try {
+            if (workspaceState?.dirty && suggestion.replaceConfirmed !== true && !window.confirm(
+              `Replace unsaved code for problem #${workspaceState.problemId} (${workspaceState.language}) with this suggestion?`
+            )) {
+              showStatus('Apply cancelled. Your unsaved workspace code was preserved.', 'error');
+              return;
+            }
+          } catch {
+            showStatus('Workspace draft state could not be read. Code was not changed.', 'error');
+            return;
+          }
+
+          languageSelect.value = targetLanguage;
+          solutionCode.dataset.problemId = targetProblemId;
+          solutionCode.dataset.language = targetLanguage;
+          if (suggestion.problemTitle) problemTitle.textContent = suggestion.problemTitle;
+          updateProblemPanels(targetProblemId, targetLanguage);
+          fileName.textContent = `solution.${targetLanguage === 'java' ? 'java' : targetLanguage}`;
+          solutionCode.textContent = suggestion.code;
+          lineNumbers.replaceChildren(...suggestion.code.split('\n').map((_, index) => {
+            const lineNumber = document.createElement('span');
+            lineNumber.textContent = String(index + 1);
+            return lineNumber;
+          }));
+
+          try {
+            localStorage.setItem('refactorai.workspace-state.v1', JSON.stringify({
+              problemId: targetProblemId,
+              language: targetLanguage,
+              problemTitle: suggestion.problemTitle || problemTitle.textContent,
+              code: suggestion.code,
+              dirty: false,
+            }));
+            localStorage.removeItem('refactorai.pending-suggestion.v1');
+          } catch {
+            showStatus('Code was updated, but the workspace state could not be saved.', 'error');
+            return;
+          }
+
+          showStatus(`Applied suggestion for ${suggestion.problemTitle || `problem #${targetProblemId}`} (${targetLanguage}).`, 'applied');
+        }
+
+        function trackWorkspaceEdits() {
+          const solutionCode = document.getElementById('solution-code');
+          const languageSelect = document.getElementById('langSelect');
+          const status = document.getElementById('suggestion-status');
+
+          solutionCode.addEventListener('input', () => {
+            try {
+              localStorage.setItem('refactorai.workspace-state.v1', JSON.stringify({
+                problemId: solutionCode.dataset.problemId,
+                language: languageSelect.value,
+                problemTitle: document.getElementById('workspace-problem-title').textContent,
+                code: solutionCode.innerText,
+                dirty: true,
+              }));
+              status.textContent = 'Unsaved workspace code';
+              status.classList.remove('hidden', 'text-error', 'text-secondary');
+              status.classList.add('text-tertiary');
+            } catch {
+              status.textContent = 'Workspace edits could not be saved in this browser.';
+              status.classList.remove('hidden', 'text-tertiary', 'text-secondary');
+              status.classList.add('text-error');
+            }
+          });
+        }
+
+        // Left Navigation Tab Switching
+        const leftTabs = document.querySelectorAll('#leftTabs .tab-btn');
+        const leftPanes = document.querySelectorAll('#leftTabContent .tab-pane');
+
+        leftTabs.forEach(btn => {
+          btn.addEventListener('click', () => {
+            leftTabs.forEach(b => {
+              b.classList.remove('active', 'bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+              b.classList.add('text-tertiary');
+            });
+            btn.classList.add('active', 'bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+            btn.classList.remove('text-tertiary');
+
+            const target = btn.getAttribute('data-target');
+            leftPanes.forEach(pane => {
+              if (pane.id === target) {
+                pane.classList.remove('hidden');
+              } else {
+                pane.classList.add('hidden');
+              }
+            });
+          });
+        });
+
+        // Hint Toggle Dropdown
+        const hintBtn = document.getElementById('hintToggle');
+        const hintBody = document.getElementById('hintBody');
+        const hintArrow = document.getElementById('hintArrow');
+
+        if (hintBtn) {
+          hintBtn.addEventListener('click', () => {
+            const isHidden = hintBody.classList.contains('hidden');
+            if (isHidden) {
+              hintBody.classList.remove('hidden');
+              hintArrow.style.transform = 'rotate(180deg)';
+            } else {
+              hintBody.classList.add('hidden');
+              hintArrow.style.transform = 'rotate(0deg)';
+            }
+          });
+        }
+
+        // Console Tabs Switching
+        const consoleTabs = document.querySelectorAll('#consoleTabs .console-tab-btn');
+        const consolePanes = document.querySelectorAll('#consoleBody .console-pane');
+
+        consoleTabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            consoleTabs.forEach(t => {
+              t.classList.remove('active', 'bg-surface-container-lowest', 'shadow-sm');
+            });
+            tab.classList.add('active', 'bg-surface-container-lowest', 'shadow-sm');
+
+            const targetId = tab.getAttribute('data-console');
+            consolePanes.forEach(p => {
+              if (p.id === targetId) {
+                p.classList.remove('hidden');
+              } else {
+                p.classList.add('hidden');
+              }
+            });
+          });
+        });
+
+        // Minimize / Expand Console
+        const toggleConsoleBtn = document.getElementById('toggleConsole');
+        const consoleWrapper = document.getElementById('consoleWrapper');
+        const consoleBody = document.getElementById('consoleBody');
+        const consoleIcon = document.getElementById('consoleIcon');
+
+        let isCollapsed = false;
+
+        if (toggleConsoleBtn) {
+          toggleConsoleBtn.addEventListener('click', () => {
+            isCollapsed = !isCollapsed;
+            if (isCollapsed) {
+              consoleWrapper.classList.remove('h-64');
+              consoleWrapper.classList.add('h-9');
+              consoleBody.classList.add('hidden');
+              consoleIcon.innerText = 'keyboard_arrow_up';
+            } else {
+              consoleWrapper.classList.remove('h-9');
+              consoleWrapper.classList.add('h-64');
+              consoleBody.classList.remove('hidden');
+              consoleIcon.innerText = 'keyboard_arrow_down';
+            }
+          });
+        }
+
+        // Vim Toggle Micro-interaction
+        const vimToggle = document.getElementById('vimToggle');
+        let vimActive = false;
+        if (vimToggle) {
+          vimToggle.addEventListener('click', () => {
+            vimActive = !vimActive;
+            vimToggle.querySelector('span:last-child').textContent = vimActive ? 'Vim: ON' : 'Vim: OFF';
+            if (vimActive) {
+              vimToggle.classList.add('bg-primary', 'text-on-primary');
+              vimToggle.classList.remove('text-tertiary');
+            } else {
+              vimToggle.classList.remove('bg-primary', 'text-on-primary');
+              vimToggle.classList.add('text-tertiary');
+            }
+          });
+        }
+
+        // Run Button Trigger feedback
+        const runBtn = document.getElementById('runBtn');
+        if (runBtn) {
+          runBtn.addEventListener('click', () => {
+            const origText = runBtn.innerHTML;
+            runBtn.innerHTML = '<span class="material-symbols-outlined text-body-lg animate-spin text-primary">sync</span><span>Executing...</span>';
+            setTimeout(() => {
+              runBtn.innerHTML = origText;
+            }, 700);
+          });
+        }
+
+        trackWorkspaceEdits();
+        loadSavedSuggestion();
+      </script>
+    </main>
+  </div>
+</body>
+
+</html>

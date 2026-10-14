@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RefactorAI - Code Quality Benchmarker & AI Refactoring</title>
+  
+  <!-- Fonts: Geist & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Geist', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+            },
+            editor: {
+              bg: '#1a1a1a',
+              card: '#262626',
+              border: '#333333',
+              hover: '#2e2e2e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* LeetCode custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3e3e3e;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555555;
+    }
+    .code-editor {
+      font-family: 'JetBrains Mono', monospace;
+      tab-size: 4;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body class="bg-[#121212] text-[#e0e0e0] font-sans h-screen flex flex-col overflow-hidden select-none">
+
+  <!-- ================= TOP LEETCODE-STYLE NAVBAR ================= -->
+  <header class="h-12 bg-[#1e1e1e] border-b border-[#333333] px-4 flex items-center justify-between shrink-0 z-20">
+    <!-- Left: Brand + Problem Dropdown -->
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.reload()">
+        <div class="w-7 h-7 rounded bg-brand-600/20 border border-brand-500/40 flex items-center justify-center text-brand-500 font-mono font-bold text-sm">
+          &lt;/&gt;
+        </div>
+        <span class="font-bold text-sm tracking-tight text-white">Refactor<span class="text-brand-500">AI</span></span>
+      </div>
+
+      <div class="h-4 w-px bg-[#333333]"></div>
+
+      <!-- Problem Selector -->
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-gray-400">Problem:</span>
+        <select id="problemSelector" onchange="switchProblem(this.value)" class="bg-[#2a2a2a] border border-[#3e3e3e] text-xs text-gray-200 rounded px-2.5 py-1 focus:outline-none focus:border-brand-500 cursor-pointer hover:bg-[#333333]">
+          <option value="two_sum">1. Two Sum (Easy)</option>
+          <option value="lru_cache">146. LRU Cache (Medium)</option>
+          <option value="trapping_water">42. Trapping Rain Water (Hard)</option>
+          <option value="num_islands">200. Number of Islands (Medium)</option>
+        </select>
+        <span id="problemDiffBadge" class="text-[11px] font-semibold px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-800/60">
+          Easy
+        </span>
+      </div>
+    </div>
+
+    <!-- Center: Primary Action Controls -->
+    <div class="flex items-center gap-2">
+      <!-- Language Picker -->
+      <div class="flex items-center gap-1.5 px-2.5 py-1 bg-[#262626] border border-[#383838] rounded text-xs text-gray-300">
+        <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+        <span class="font-medium">Python 3</span>
+      </div>
+
+      <!-- Run Benchmark Button -->
+      <button id="runBtn" onclick="runBenchmark()" class="flex items-center gap-1.5 px-3.5 py-1 bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white rounded text-xs font-semibold shadow-sm transition-all">
+        <span class="material-symbols-outlined text-[16px]">play_arrow</span>
+        <span>Run Benchmark</span>
+      </button>
+
+      <!-- AI Refactor Button -->
+      <button id="aiBtn" onclick="requestAIRefactor()" class="flex items-center gap-1.5 px-3.5 py-1 bg-purple-700 hover:bg-purple-600 active:bg-purple-800 text-white rounded text-xs font-semibold shadow-sm transition-all">
+        <span class="material-symbols-outlined text-[16px]">auto_fix_high</span>
+        <span>AI Refactor Advice</span>
+      </button>
+
+      <!-- Reset Code Button -->
+      <button onclick="resetCurrentCode()" title="Reset to naive code" class="p-1 hover:bg-[#2e2e2e] text-gray-400 hover:text-gray-200 rounded transition-colors">
+        <span class="material-symbols-outlined text-[18px]">restart_alt</span>
+      </button>
+    </div>
+
+    <!-- Right: Engine Status & Demo Disclaimer -->
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-1.5 text-xs text-gray-400 bg-[#262626] px-2.5 py-1 rounded border border-[#333333]">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="font-mono text-[11px] text-gray-300">Engine v2.4 (Simulated)</span>
+      </div>
+      <div class="text-[11px] font-mono text-gray-400 bg-amber-950/40 border border-amber-800/40 text-amber-300 px-2 py-0.5 rounded">
+        College Mini Project Demo
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN TWO-PANE WORKSPACE ================= -->
+  <main class="flex-1 flex overflow-hidden p-2 gap-2 bg-[#121212]">
+
+    <!-- ---------- LEFT COLUMN: PROBLEM DESCRIPTION & AI ADVICE ---------- -->
+    <section class="w-1/2 flex flex-col bg-[#1e1e1e] border border-[#333333] rounded-lg overflow-hidden">
+      <!-- Tabs Header -->
+      <div class="flex items-center justify-between border-b border-[#333333] bg-[#222222] px-2 shrink-0">
+        <div class="flex items-center gap-1">
+          <button id="tabDescBtn" onclick="switchLeftTab('desc')" class="flex items-center gap-1.5 px-3 py-2 text-xs font-medium border-b-2 border-brand-500 text-white">
+            <span class="material-symbols-outlined text-[16px] text-brand-500">description</span>
+            <span>Description</span>
+          </button>
+          <button id="tabAiBtn" onclick="switchLeftTab('ai')" class="flex items-center gap-1.5 px-3 py-2 text-xs font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200">
+            <span class="material-symbols-outlined text-[16px] text-purple-400">auto_awesome</span>
+            <span>AI Refactoring Advice</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
+          </button>
+          <button id="tabHistBtn" onclick="switchLeftTab('hist')" class="flex items-center gap-1.5 px-3 py-2 text-xs font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200">
+            <span class="material-symbols-outlined text-[16px]">history</span>
+            <span>Benchmark Runs</span>
+          </button>
+        </div>
+
+        <span class="text-[11px] text-gray-400 font-mono" id="tabCategoryTag">Algorithms</span>
+      </div>
+
+      <!-- Tab 1: Problem Description -->
+      <div id="tabDescContent" class="flex-1 overflow-y-auto p-5 text-sm space-y-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <h1 id="probTitle" class="text-lg font-bold text-white tracking-tight">1. Two Sum</h1>
+            <span id="probDiff" class="text-xs px-2 py-0.5 rounded font-medium bg-emerald-950 text-emerald-400 border border-emerald-800/60">Easy</span>
+          </div>
+          <p class="text-xs text-gray-400 font-mono">Acceptance Rate: <span id="probAcceptance" class="text-gray-300">52.8%</span></p>
+        </div>
+
+        <div id="probStatement" class="text-gray-300 leading-relaxed text-sm">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="space-y-3" id="probExamples">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="pt-3 border-t border-[#333333]">
+          <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Constraints</h3>
+          <ul id="probConstraints" class="list-disc list-inside text-xs text-gray-400 space-y-1 font-mono">
+            <!-- Populated by JS -->
+          </ul>
+        </div>
+      </div>
+
+      <!-- Tab 2: AI Refactoring Advice -->
+      <div id="tabAiContent" class="flex-1 overflow-y-auto p-5 space-y-4 hidden">
+        <div class="p-3.5 rounded-lg bg-purple-950/30 border border-purple-800/40 flex items-start gap-3">
+          <span class="material-symbols-outlined text-purple-400 text-xl shrink-0 mt-0.5">psychology</span>
+          <div>
+            <h3 class="text-xs font-bold text-purple-200 uppercase tracking-wide">RefactorAI Compiler & AST Insights</h3>
+            <p class="text-xs text-purple-300/80 mt-0.5" id="aiModelTag">Model: Gemini Code Engine v2.4 (Simulated AST Pass)</p>
+          </div>
+        </div>
+
+        <!-- Complexity Comparison Bento -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="p-3 rounded-lg bg-[#252525] border border-[#383838]">
+            <span class="text-[11px] font-mono uppercase text-gray-400 block mb-1">Time Complexity</span>
+            <div class="flex items-baseline gap-2">
+              <span id="aiOldTime" class="text-sm font-mono text-rose-400 line-through">O(N²)</span>
+              <span class="text-gray-500">→</span>
+              <span id="aiNewTime" class="text-base font-mono font-bold text-emerald-400">O(N)</span>
+            </div>
+            <span id="aiTimeGain" class="text-[11px] text-emerald-400 font-medium mt-1 block">~69.6% Speedup</span>
+          </div>
+
+          <div class="p-3 rounded-lg bg-[#252525] border border-[#383838]">
+            <span class="text-[11px] font-mono uppercase text-gray-400 block mb-1">Memory Footprint</span>
+            <div class="flex items-baseline gap-2">
+              <span id="aiOldMem" class="text-sm font-mono text-gray-400">O(1)</span>
+              <span class="text-gray-500">→</span>
+              <span id="aiNewMem" class="text-base font-mono font-bold text-amber-400">O(N)</span>
+            </div>
+            <span class="text-[11px] text-gray-400 mt-1 block">Auxiliary Hash Index</span>
+          </div>
+        </div>
+
+        <!-- Optimization Explanation -->
+        <div>
+          <h4 class="text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Key Optimization Reasons</h4>
+          <div id="aiExplanation" class="text-xs text-gray-300 space-y-2 bg-[#252525] p-3.5 rounded-lg border border-[#333333] leading-relaxed">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Optimized Code Preview -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <h4 class="text-xs font-semibold text-gray-300 uppercase tracking-wider">Suggested Refactored Code</h4>
+            <button onclick="applyRefactoredCode()" class="flex items-center gap-1 px-2.5 py-1 rounded bg-purple-700 hover:bg-purple-600 text-white text-xs font-semibold shadow transition-all">
+              <span class="material-symbols-outlined text-[14px]">check</span>
+              <span>Apply to Editor</span>
+            </button>
+          </div>
+          <pre id="aiCodeSnippet" class="bg-[#151515] p-3.5 rounded-lg border border-[#333333] text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed"></pre>
+        </div>
+      </div>
+
+      <!-- Tab 3: Benchmark Runs History -->
+      <div id="tabHistContent" class="flex-1 overflow-y-auto p-4 space-y-3 hidden">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-semibold text-gray-300 uppercase tracking-wider">Recent Benchmark Submissions</h3>
+          <span class="text-[11px] text-gray-400 font-mono">SQLite Session DB</span>
+        </div>
+        <div id="historyTableContainer" class="space-y-2">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- RIGHT COLUMN: CODE EDITOR & BENCHMARK CONSOLE ---------- -->
+    <section class="w-1/2 flex flex-col gap-2">
+
+      <!-- TOP: CODE EDITOR -->
+      <div class="flex-1 flex flex-col bg-[#1e1e1e] border border-[#333333] rounded-lg overflow-hidden">
+        <!-- Editor Header -->
+        <div class="h-9 bg-[#222222] border-b border-[#333333] px-3 flex items-center justify-between text-xs text-gray-300 shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm text-gray-400">code</span>
+            <span class="font-mono text-xs font-medium text-gray-200">solution.py</span>
+            <span id="codeModifiedTag" class="text-[10px] text-amber-400 bg-amber-950/60 px-1.5 py-0.2 rounded border border-amber-800/50 hidden">Modified</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="copyCode()" class="text-xs text-gray-400 hover:text-gray-200 flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px]">content_copy</span>
+              <span>Copy</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Textarea Editor with Line Numbers -->
+        <div class="flex-1 flex bg-[#1a1a1a] overflow-hidden relative">
+          <!-- Line numbers gutter -->
+          <div id="lineNumbers" class="w-10 bg-[#1e1e1e] border-r border-[#2e2e2e] text-right pr-2 pt-3 font-mono text-xs text-gray-600 select-none leading-relaxed">
+            1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12
+          </div>
+          <!-- Editable Code Area -->
+          <textarea id="codeEditor" spellcheck="false" class="code-editor flex-1 p-3 bg-transparent text-gray-100 text-xs resize-none focus:outline-none leading-relaxed overflow-auto" oninput="updateLineNumbers()"></textarea>
+        </div>
+      </div>
+
+      <!-- BOTTOM: BENCHMARK CONSOLE & TEST RESULT -->
+      <div class="h-60 flex flex-col bg-[#1e1e1e] border border-[#333333] rounded-lg overflow-hidden shrink-0">
+        <!-- Console Tabs -->
+        <div class="h-9 bg-[#222222] border-b border-[#333333] px-2 flex items-center justify-between text-xs shrink-0">
+          <div class="flex items-center gap-1">
+            <button id="consoleTabResultBtn" onclick="switchConsoleTab('result')" class="flex items-center gap-1.5 px-3 py-1.5 font-medium border-b-2 border-brand-500 text-white">
+              <span class="material-symbols-outlined text-[15px] text-brand-500">speed</span>
+              <span>Benchmark Verdict</span>
+            </button>
+            <button id="consoleTabTestcasesBtn" onclick="switchConsoleTab('testcases')" class="flex items-center gap-1.5 px-3 py-1.5 font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200">
+              <span class="material-symbols-outlined text-[15px]">checklist</span>
+              <span>Test Cases</span>
+            </button>
+          </div>
+          <span id="benchmarkStatusText" class="text-[11px] font-mono text-gray-400">Ready to benchmark</span>
+        </div>
+
+        <!-- Console Tab 1: Benchmark Verdict -->
+        <div id="consoleTabResult" class="flex-1 overflow-y-auto p-4 flex flex-col justify-center">
+          <!-- Idle State -->
+          <div id="benchmarkIdleState" class="text-center py-6">
+            <span class="material-symbols-outlined text-gray-600 text-3xl mb-1">timer</span>
+            <p class="text-xs text-gray-400">Click <strong class="text-brand-400 font-semibold">Run Benchmark</strong> to measure latency, memory, and algorithmic speedup.</p>
+          </div>
+
+          <!-- Running State Spinner -->
+          <div id="benchmarkLoadingState" class="hidden flex-col items-center justify-center py-6 gap-2">
+            <div class="w-6 h-6 border-2 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
+            <span class="text-xs font-mono text-gray-400">Executing test matrix on worker node...</span>
+          </div>
+
+          <!-- Result State -->
+          <div id="benchmarkActiveState" class="hidden space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span id="resVerdictBadge" class="text-xs px-2.5 py-0.5 rounded font-bold bg-emerald-950 text-emerald-400 border border-emerald-800">
+                  ACCEPTED
+                </span>
+                <span id="resTestsPassed" class="text-xs font-mono text-gray-300">15 / 15 test cases passed</span>
+              </div>
+              <span class="text-[11px] font-mono text-gray-400" id="resTimestamp">Just now</span>
+            </div>
+
+            <!-- Bento Stats -->
+            <div class="grid grid-cols-3 gap-2">
+              <div class="p-2.5 bg-[#252525] rounded border border-[#333333]">
+                <span class="text-[10px] uppercase font-mono text-gray-400 block">Runtime (Latency)</span>
+                <span id="resRuntime" class="text-base font-bold font-mono text-white">34 ms</span>
+                <span id="resRuntimeBeats" class="text-[10px] text-emerald-400 font-medium block">Beats 93.4% of users</span>
+              </div>
+
+              <div class="p-2.5 bg-[#252525] rounded border border-[#333333]">
+                <span class="text-[10px] uppercase font-mono text-gray-400 block">Memory Allocation</span>
+                <span id="resMemory" class="text-base font-bold font-mono text-white">15.4 MB</span>
+                <span id="resMemoryBeats" class="text-[10px] text-emerald-400 font-medium block">Beats 89.1% of users</span>
+              </div>
+
+              <div class="p-2.5 bg-[#252525] rounded border border-[#333333]">
+                <span class="text-[10px] uppercase font-mono text-gray-400 block">Speedup Delta</span>
+                <span id="resDelta" class="text-base font-bold font-mono text-emerald-400">+69.6%</span>
+                <span class="text-[10px] text-gray-400 block">Vs Naive O(N²)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Console Tab 2: Test Cases -->
+        <div id="consoleTabTestcases" class="flex-1 overflow-y-auto p-3 text-xs space-y-2 hidden font-mono">
+          <div class="p-2 bg-[#252525] rounded border border-[#333333]">
+            <span class="text-gray-400 text-[11px] font-semibold block mb-1">Case 1: [nums = [2,7,11,15], target = 9]</span>
+            <span class="text-emerald-400">Expected: [0, 1]</span>
+          </div>
+          <div class="p-2 bg-[#252525] rounded border border-[#333333]">
+            <span class="text-gray-400 text-[11px] font-semibold block mb-1">Case 2: [nums = [3,2,4], target = 6]</span>
+            <span class="text-emerald-400">Expected: [1, 2]</span>
+          </div>
+          <div class="p-2 bg-[#252525] rounded border border-[#333333]">
+            <span class="text-gray-400 text-[11px] font-semibold block mb-1">Case 3: [nums = [3,3], target = 6]</span>
+            <span class="text-emerald-400">Expected: [0, 1]</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= CLIENT JAVASCRIPT LOGIC ================= -->
+  <script>
+    // Problem Dataset: Naive vs AI Refactored
+    const PROBLEMS = {
+      two_sum: {
+        id: 1,
+        title: "1. Two Sum",
+        difficulty: "Easy",
+        category: "Array • Hash Table",
+        acceptance: "52.8%",
+        statement: `Given an array of integers <code>nums</code> and an integer <code>target</code>, return <em>indices of the two numbers such that they add up to <code>target</code></em>.<br/><br/>You may assume that each input would have <strong>exactly one solution</strong>, and you may not use the same element twice. You can return the answer in any order.`,
+        examples: [
+          {
+            input: "nums = [2,7,11,15], target = 9",
+            output: "[0,1]",
+            explanation: "Because nums[0] + nums[1] == 9, we return [0, 1]."
+          },
+          {
+            input: "nums = [3,2,4], target = 6",
+            output: "[1,2]",
+            explanation: "Because nums[1] + nums[2] == 6, we return [1, 2]."
+          }
+        ],
+        constraints: [
+          "2 <= nums.length <= 10^4",
+          "-10^9 <= nums[i] <= 10^9",
+          "-10^9 <= target <= 10^9",
+          "Only one valid answer exists."
+        ],
+        naiveCode: `class Solution:
+    def twoSum(self, nums: list[int], target: int) -> list[int]:
+        # Naive approach: O(N^2) double loop
+        for i in range(len(nums)):
+            for j in range(i + 1, len(nums)):
+                if nums[i] + nums[j] == target:
+                    return [i, j]
+        return []
+`,
+        refactoredCode: `class Solution:
+    def twoSum(self, nums: list[int], target: int) -> list[int]:
+        # Optimized O(N) Hash Table approach
+        seen = {}
+        for i, num in enumerate(nums):
+            complement = target - num
+            if complement in seen:
+                return [seen[complement], i]
+            seen[num] = i
+        return []
+`,
+        aiOldTime: "O(N²)",
+        aiNewTime: "O(N)",
+        aiOldMem: "O(1)",
+        aiNewMem: "O(N)",
+        aiGain: "~69.6% Speedup",
+        aiExplanation: `
+          <p>• <strong>Inner Loop Elimination:</strong> Replaced the secondary linear scan with an <code>O(1)</code> average-time hash dictionary lookup.</p>
+          <p>• <strong>Single Pass:</strong> Populates the hash map as we iterate, checking for the complement in the same pass.</p>
+          <p>• <strong>Trade-off:</strong> Uses small linear auxiliary space to eliminate quadratic operations on large test sets.</p>
+        `,
+        metricsNaive: { runtime: 112, runtimeBeats: "Beats 31.2%", memory: 15.1, memoryBeats: "Beats 98.4%", delta: "Baseline", passCount: "15/15" },
+        metricsRefactored: { runtime: 34, runtimeBeats: "Beats 93.4%", memory: 15.4, memoryBeats: "Beats 89.1%", delta: "+69.6% Speedup", passCount: "15/15" }
+      },
+
+      lru_cache: {
+        id: 146,
+        title: "146. LRU Cache",
+        difficulty: "Medium",
+        category: "Design • Hash Table • Doubly-Linked List",
+        acceptance: "43.1%",
+        statement: `Design a data structure that follows the constraints of a <strong>Least Recently Used (LRU) cache</strong>.<br/><br/>Implement the <code>LRUCache</code> class with <code>get(key)</code> and <code>put(key, value)</code> both operating in <strong>O(1)</strong> average time complexity.`,
+        examples: [
+          {
+            input: '["LRUCache", "put", "put", "get", "put", "get", "put", "get", "get", "get"]<br/>[[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]]',
+            output: '[null, null, null, 1, null, -1, null, -1, 3, 4]',
+            explanation: "Cache capacity = 2. Evicts key 2 when inserting 3, and evicts 1 when inserting 4."
+          }
+        ],
+        constraints: [
+          "1 <= capacity <= 3000",
+          "0 <= key <= 10^4",
+          "0 <= value <= 10^5",
+          "At most 2 * 10^5 calls to get and put."
+        ],
+        naiveCode: `class LRUCache:
+    def __init__(self, capacity: int):
+        # Naive list scan: O(N) operations
+        self.capacity = capacity
+        self.keys = []
+        self.vals = {}
+
+    def get(self, key: int) -> int:
+        if key not in self.vals:
+            return -1
+        self.keys.remove(key)
+        self.keys.append(key)
+        return self.vals[key]
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.vals:
+            self.keys.remove(key)
+        elif len(self.keys) >= self.capacity:
+            oldest = self.keys.pop(0) # O(N) shift
+            del self.vals[oldest]
+        self.keys.append(key)
+        self.vals[key] = value
+`,
+        refactoredCode: `from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity: int):
+        # O(1) Doubly-Linked Hash Map via OrderedDict
+        self.capacity = capacity
+        self.cache = OrderedDict()
+
+    def get(self, key: int) -> int:
+        if key not in self.cache:
+            return -1
+        self.cache.move_to_end(key)
+        return self.cache[key]
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.cache:
+            self.cache.move_to_end(key)
+        self.cache[key] = value
+        if len(self.cache) > self.capacity:
+            self.cache.popitem(last=False) # O(1) eviction
+`,
+        aiOldTime: "O(N)",
+        aiNewTime: "O(1)",
+        aiOldMem: "O(C)",
+        aiNewMem: "O(C)",
+        aiGain: "~84.2% Speedup",
+        aiExplanation: `
+          <p>• <strong>Eviction Bottleneck:</strong> <code>list.pop(0)</code> and <code>list.remove()</code> require O(N) element shifts.</p>
+          <p>• <strong>OrderedDict Structure:</strong> Backed by a doubly-linked hash map in C-extension, offering true <code>O(1)</code> node updates and head evictions.</p>
+        `,
+        metricsNaive: { runtime: 198, runtimeBeats: "Beats 18.5%", memory: 48.2, memoryBeats: "Beats 62.0%", delta: "Baseline", passCount: "24/24" },
+        metricsRefactored: { runtime: 42, runtimeBeats: "Beats 95.8%", memory: 46.1, memoryBeats: "Beats 91.2%", delta: "+78.8% Speedup", passCount: "24/24" }
+      },
+
+      trapping_water: {
+        id: 42,
+        title: "42. Trapping Rain Water",
+        difficulty: "Hard",
+        category: "Two Pointers • Dynamic Programming",
+        acceptance: "61.8%",
+        statement: `Given <code>n</code> non-negative integers representing an elevation map where the width of each bar is <code>1</code>, compute how much water it can trap after raining.`,
+        examples: [
+          {
+            input: "height = [0,1,0,2,1,0,1,3,2,1,2,1]",
+            output: "6",
+            explanation: "6 units of rain water are trapped in the elevation depressions."
+          }
+        ],
+        constraints: [
+          "n == height.length",
+          "1 <= n <= 2 * 10^4",
+          "0 <= height[i] <= 10^5"
+        ],
+        naiveCode: `class Solution:
+    def trap(self, height: list[int]) -> int:
+        # Naive O(N^2) loop scanning left and right bounds per index
+        ans = 0
+        for i in range(len(height)):
+            max_left = max(height[:i+1])
+            max_right = max(height[i:])
+            ans += min(max_left, max_right) - height[i]
+        return ans
+`,
+        refactoredCode: `class Solution:
+    def trap(self, height: list[int]) -> int:
+        # O(N) Time and O(1) Space Two-Pointers Optimization
+        if not height: return 0
+        left, right = 0, len(height) - 1
+        left_max, right_max = height[left], height[right]
+        water = 0
+
+        while left < right:
+            if left_max < right_max:
+                left += 1
+                left_max = max(left_max, height[left])
+                water += left_max - height[left]
+            else:
+                right -= 1
+                right_max = max(right_max, height[right])
+                water += right_max - height[right]
+        return water
+`,
+        aiOldTime: "O(N²)",
+        aiNewTime: "O(N)",
+        aiOldMem: "O(N)",
+        aiNewMem: "O(1)",
+        aiGain: "~72.4% Speedup",
+        aiExplanation: `
+          <p>• <strong>Two-Pointer Scan:</strong> Eliminates slice allocations and nested max scans.</p>
+          <p>• <strong>O(1) Auxiliary Memory:</strong> Tracks water level bounds dynamically using 4 integer registers.</p>
+        `,
+        metricsNaive: { runtime: 145, runtimeBeats: "Beats 24.1%", memory: 19.3, memoryBeats: "Beats 42.1%", delta: "Baseline", passCount: "35/35" },
+        metricsRefactored: { runtime: 40, runtimeBeats: "Beats 94.7%", memory: 18.2, memoryBeats: "Beats 96.5%", delta: "+72.4% Speedup", passCount: "35/35" }
+      },
+
+      num_islands: {
+        id: 200,
+        title: "200. Number of Islands",
+        difficulty: "Medium",
+        category: "DFS • BFS • Matrix",
+        acceptance: "59.2%",
+        statement: `Given an <code>m x n</code> 2D binary grid <code>grid</code> which represents a map of <code>'1'</code>s (land) and <code>'0'</code>s (water), return <em>the number of islands</em>.`,
+        examples: [
+          {
+            input: 'grid = [["1","1","0"],["1","1","0"],["0","0","1"]]',
+            output: "2",
+            explanation: "Two distinct connected land components exist."
+          }
+        ],
+        constraints: [
+          "m == grid.length, n == grid[i].length",
+          "1 <= m, n <= 300",
+          "grid[i][j] is '0' or '1'."
+        ],
+        naiveCode: `class Solution:
+    def numIslands(self, grid: list[list[str]]) -> int:
+        # Recursive DFS with visited set overhead
+        if not grid: return 0
+        visited = set()
+        count = 0
+
+        def dfs(r, c):
+            if (r, c) in visited or r < 0 or r >= len(grid) or c < 0 or c >= len(grid[0]) or grid[r][c] != '1':
+                return
+            visited.add((r, c))
+            dfs(r+1, c); dfs(r-1, c); dfs(r, c+1); dfs(r, c-1)
+
+        for r in range(len(grid)):
+            for c in range(len(grid[0])):
+                if grid[r][c] == '1' and (r, c) not in visited:
+                    dfs(r, c)
+                    count += 1
+        return count
+`,
+        refactoredCode: `class Solution:
+    def numIslands(self, grid: list[list[str]]) -> int:
+        # In-Place BFS Flood Fill (Zero set memory overhead)
+        if not grid: return 0
+        rows, cols = len(grid), len(grid[0])
+        count = 0
+
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == '1':
+                    count += 1
+                    queue = [(r, c)]
+                    grid[r][c] = '0' # mark visited in-place
+                    for curr_r, curr_c in queue:
+                        for dr, dc in ((1,0), (-1,0), (0,1), (0,-1)):
+                            nr, nc = curr_r + dr, curr_c + dc
+                            if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == '1':
+                                grid[nr][nc] = '0'
+                                queue.append((nr, nc))
+        return count
+`,
+        aiOldTime: "O(M·N)",
+        aiNewTime: "O(M·N)",
+        aiOldMem: "O(M·N)",
+        aiNewMem: "O(min(M,N))",
+        aiGain: "~45.0% Speedup",
+        aiExplanation: `
+          <p>• <strong>In-Place Cell Marking:</strong> Mutates <code>'1'</code> to <code>'0'</code> during traversal, eliminating the memory and hashing cost of a separate <code>set()</code>.</p>
+          <p>• <strong>Avoids Recursion Depth Limits:</strong> Uses a flat queue instead of python call-stack recursion.</p>
+        `,
+        metricsNaive: { runtime: 122, runtimeBeats: "Beats 38.0%", memory: 24.5, memoryBeats: "Beats 32.1%", delta: "Baseline", passCount: "42/42" },
+        metricsRefactored: { runtime: 68, runtimeBeats: "Beats 91.2%", memory: 19.8, memoryBeats: "Beats 93.0%", delta: "+44.2% Speedup", passCount: "42/42" }
+      }
+    };
+
+    let currentProblemKey = "two_sum";
+    let isRefactoredLoaded = false;
+    let benchmarkRuns = [];
+
+    // Initialize Page
+    document.addEventListener("DOMContentLoaded", () => {
+      switchProblem("two_sum");
+      loadMockHistory();
+    });
+
+    function switchProblem(key) {
+      currentProblemKey = key;
+      isRefactoredLoaded = false;
+      const p = PROBLEMS[key];
+
+      // Update Header
+      document.getElementById("problemSelector").value = key;
+      const diffBadge = document.getElementById("problemDiffBadge");
+      diffBadge.textContent = p.difficulty;
+      if (p.difficulty === "Easy") diffBadge.className = "text-[11px] font-semibold px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60";
+      if (p.difficulty === "Medium") diffBadge.className = "text-[11px] font-semibold px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800/60";
+      if (p.difficulty === "Hard") diffBadge.className = "text-[11px] font-semibold px-2 py-0.5 rounded bg-rose-950 text-rose-400 border border-rose-800/60";
+
+      // Update Left Tab Description
+      document.getElementById("probTitle").textContent = p.title;
+      document.getElementById("probDiff").textContent = p.difficulty;
+      document.getElementById("probDiff").className = diffBadge.className;
+      document.getElementById("probAcceptance").textContent = p.acceptance;
+      document.getElementById("tabCategoryTag").textContent = p.category;
+      document.getElementById("probStatement").innerHTML = p.statement;
+
+      // Examples
+      const exContainer = document.getElementById("probExamples");
+      exContainer.innerHTML = p.examples.map((ex, i) => `
+        <div class="bg-[#242424] p-3 rounded-lg border border-[#333333]">
+          <span class="text-xs font-semibold text-gray-300 block mb-1">Example ${i+1}:</span>
+          <div class="text-xs font-mono text-gray-400 space-y-0.5">
+            <div><strong class="text-gray-300">Input:</strong> ${ex.input}</div>
+            <div><strong class="text-gray-300">Output:</strong> ${ex.output}</div>
+            ${ex.explanation ? `<div><strong class="text-gray-300">Explanation:</strong> ${ex.explanation}</div>` : ''}
+          </div>
+        </div>
+      `).join("");
+
+      // Constraints
+      document.getElementById("probConstraints").innerHTML = p.constraints.map(c => `<li>${c}</li>`).join("");
+
+      // Update AI Advice tab content
+      document.getElementById("aiOldTime").textContent = p.aiOldTime;
+      document.getElementById("aiNewTime").textContent = p.aiNewTime;
+      document.getElementById("aiOldMem").textContent = p.aiOldMem;
+      document.getElementById("aiNewMem").textContent = p.aiNewMem;
+      document.getElementById("aiTimeGain").textContent = p.aiGain;
+      document.getElementById("aiExplanation").innerHTML = p.aiExplanation;
+      document.getElementById("aiCodeSnippet").textContent = p.refactoredCode;
+
+      // Reset Editor Code to Naive
+      document.getElementById("codeEditor").value = p.naiveCode;
+      document.getElementById("codeModifiedTag").classList.add("hidden");
+      updateLineNumbers();
+
+      // Reset Benchmark Console to Idle
+      document.getElementById("benchmarkIdleState").classList.remove("hidden");
+      document.getElementById("benchmarkLoadingState").classList.add("hidden");
+      document.getElementById("benchmarkActiveState").classList.add("hidden");
+      document.getElementById("benchmarkStatusText").textContent = "Ready to benchmark";
+
+      // Always show Description on switch
+      switchLeftTab("desc");
+    }
+
+    function switchLeftTab(tab) {
+      const descBtn = document.getElementById("tabDescBtn");
+      const aiBtn = document.getElementById("tabAiBtn");
+      const histBtn = document.getElementById("tabHistBtn");
+
+      const descContent = document.getElementById("tabDescContent");
+      const aiContent = document.getElementById("tabAiContent");
+      const histContent = document.getElementById("tabHistContent");
+
+      [descBtn, aiBtn, histBtn].forEach(b => {
+        b.classList.remove("border-brand-500", "text-white");
+        b.classList.add("border-transparent", "text-gray-400");
+      });
+
+      [descContent, aiContent, histContent].forEach(c => c.classList.add("hidden"));
+
+      if (tab === "desc") {
+        descBtn.classList.add("border-brand-500", "text-white");
+        descContent.classList.remove("hidden");
+      } else if (tab === "ai") {
+        aiBtn.classList.add("border-brand-500", "text-white");
+        aiContent.classList.remove("hidden");
+      } else if (tab === "hist") {
+        histBtn.classList.add("border-brand-500", "text-white");
+        histContent.classList.remove("hidden");
+      }
+    }
+
+    function switchConsoleTab(tab) {
+      const resBtn = document.getElementById("consoleTabResultBtn");
+      const casesBtn = document.getElementById("consoleTabTestcasesBtn");
+      const resContent = document.getElementById("consoleTabResult");
+      const casesContent = document.getElementById("consoleTabTestcases");
+
+      if (tab === "result") {
+        resBtn.className = "flex items-center gap-1.5 px-3 py-1.5 font-medium border-b-2 border-brand-500 text-white";
+        casesBtn.className = "flex items-center gap-1.5 px-3 py-1.5 font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200";
+        resContent.classList.remove("hidden");
+        casesContent.classList.add("hidden");
+      } else {
+        casesBtn.className = "flex items-center gap-1.5 px-3 py-1.5 font-medium border-b-2 border-brand-500 text-white";
+        resBtn.className = "flex items-center gap-1.5 px-3 py-1.5 font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200";
+        casesContent.classList.remove("hidden");
+        resContent.classList.add("hidden");
+      }
+    }
+
+    function runBenchmark() {
+      const p = PROBLEMS[currentProblemKey];
+      const idleState = document.getElementById("benchmarkIdleState");
+      const loadingState = document.getElementById("benchmarkLoadingState");
+      const activeState = document.getElementById("benchmarkActiveState");
+      const statusText = document.getElementById("benchmarkStatusText");
+
+      // Switch console to result tab
+      switchConsoleTab("result");
+
+      idleState.classList.add("hidden");
+      activeState.classList.add("hidden");
+      loadingState.classList.remove("hidden");
+      statusText.textContent = "Compiling & Benchmarking...";
+
+      // Realistic 450ms execution delay
+      setTimeout(() => {
+        loadingState.classList.add("hidden");
+        activeState.classList.remove("hidden");
+        statusText.textContent = "Benchmark Finished";
+
+        // Determine if code is naive or refactored
+        const metrics = isRefactoredLoaded ? p.metricsRefactored : p.metricsNaive;
+
+        document.getElementById("resRuntime").textContent = metrics.runtime + " ms";
+        document.getElementById("resRuntimeBeats").textContent = metrics.runtimeBeats;
+        document.getElementById("resMemory").textContent = metrics.memory + " MB";
+        document.getElementById("resMemoryBeats").textContent = metrics.memoryBeats;
+        document.getElementById("resDelta").textContent = metrics.delta;
+        document.getElementById("resTestsPassed").textContent = metrics.passCount + " test cases passed";
+        document.getElementById("resTimestamp").textContent = new Date().toLocaleTimeString();
+
+        // Add to history
+        addRunHistory({
+          title: p.title,
+          type: isRefactoredLoaded ? "AI Refactored" : "Original Code",
+          runtime: metrics.runtime + " ms",
+          memory: metrics.memory + " MB",
+          status: "ACCEPTED",
+          time: new Date().toLocaleTimeString()
+        });
+
+      }, 450);
+    }
+
+    function requestAIRefactor() {
+      // Switch to AI Advice tab
+      switchLeftTab("ai");
+    }
+
+    function applyRefactoredCode() {
+      const p = PROBLEMS[currentProblemKey];
+      const editor = document.getElementById("codeEditor");
+      editor.value = p.refactoredCode;
+      isRefactoredLoaded = true;
+
+      document.getElementById("codeModifiedTag").textContent = "AI Refactored Applied";
+      document.getElementById("codeModifiedTag").classList.remove("hidden");
+      updateLineNumbers();
+
+      // Pulse highlight
+      editor.classList.add("bg-purple-950/20");
+      setTimeout(() => editor.classList.remove("bg-purple-950/20"), 400);
+
+      // Auto-run benchmark to show improvement
+      setTimeout(() => {
+        runBenchmark();
+      }, 200);
+    }
+
+    function resetCurrentCode() {
+      const p = PROBLEMS[currentProblemKey];
+      document.getElementById("codeEditor").value = p.naiveCode;
+      isRefactoredLoaded = false;
+      document.getElementById("codeModifiedTag").classList.add("hidden");
+      updateLineNumbers();
+    }
+
+    function updateLineNumbers() {
+      const editor = document.getElementById("codeEditor");
+      const lines = editor.value.split("\n").length;
+      const gutter = document.getElementById("lineNumbers");
+      gutter.innerHTML = Array.from({length: Math.max(lines, 12)}, (_, i) => i + 1).join("<br/>");
+    }
+
+    function copyCode() {
+      const editor = document.getElementById("codeEditor");
+      navigator.clipboard.writeText(editor.value);
+      alert("Code copied to clipboard!");
+    }
+
+    function addRunHistory(item) {
+      benchmarkRuns.unshift(item);
+      renderHistoryTable();
+    }
+
+    function loadMockHistory() {
+      benchmarkRuns = [
+        { title: "1. Two Sum", type: "AI Refactored", runtime: "34 ms", memory: "15.4 MB", status: "ACCEPTED", time: "10:14 AM" },
+        { title: "1. Two Sum", type: "Original Code", runtime: "112 ms", memory: "15.1 MB", status: "ACCEPTED", time: "10:12 AM" },
+        { title: "146. LRU Cache", type: "AI Refactored", runtime: "42 ms", memory: "46.1 MB", status: "ACCEPTED", time: "09:48 AM" },
+        { title: "42. Trapping Rain Water", type: "AI Refactored", runtime: "40 ms", memory: "18.2 MB", status: "ACCEPTED", time: "Yesterday" }
+      ];
+      renderHistoryTable();
+    }
+
+    function renderHistoryTable() {
+      const container = document.getElementById("historyTableContainer");
+      if (!container) return;
+      container.innerHTML = benchmarkRuns.map(run => `
+        <div class="p-3 bg-[#252525] rounded-lg border border-[#333333] flex items-center justify-between text-xs">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-semibold text-white">${run.title}</span>
+              <span class="text-[10px] px-1.5 py-0.2 rounded font-mono ${run.type.includes('AI') ? 'bg-purple-950 text-purple-300 border border-purple-800' : 'bg-gray-800 text-gray-300 border border-gray-700'}">${run.type}</span>
+            </div>
+            <span class="text-[11px] text-gray-400 mt-0.5 block font-mono">${run.time} • Status: <span class="text-emerald-400">${run.status}</span></span>
+          </div>
+          <div class="text-right font-mono">
+            <span class="text-white font-bold block">${run.runtime}</span>
+            <span class="text-gray-400 text-[11px]">${run.memory}</span>
+          </div>
+        </div>
+      `).join("");
+    }
+  </script>
+</body>
+</html>

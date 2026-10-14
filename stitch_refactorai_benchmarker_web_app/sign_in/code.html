@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_blank" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface": "#f8f9ff", "surface-dim": "#cbdbf5", "on-surface-variant": "#3d4a42", "surface-bright": "#f8f9ff", "secondary-fixed-dim": "#4edea3", "on-primary": "#ffffff", "secondary": "#006c49", "on-tertiary-container": "#fefcff", "on-tertiary": "#ffffff", "on-primary-container": "#f5fff7", "primary": "#006948", "surface-tint": "#006c4a", "tertiary-container": "#6c748b", "inverse-on-surface": "#eaf1ff", "tertiary-fixed": "dae2fd", "on-background": "#0b1c30", "error-container": "#ffdad6", "tertiary": "#545c72", "background": "#f8f9ff", "surface-container-high": "#dce9ff", "secondary-fixed": "#6ffbbe", "on-secondary-fixed-variant": "#005236", "error": "#ba1a1a", "primary-container": "#00855d", "outline-variant": "#bccac0", "primary-fixed-dim": "#68dba9", "tertiary-fixed-dim": "#bec6e0", "on-surface": "#0b1c30", "on-primary-fixed-variant": "#005137", "secondary-container": "#6cf8bb", "surface-container-highest": "#d3e4fe", "surface-container-lowest": "#ffffff", "on-error": "#ffffff", "on-secondary-container": "#00714d", "surface-container-low": "#eff4ff", "on-secondary": "#ffffff", "inverse-surface": "#213145", "on-error-container": "#93000a", "surface-variant": "#d3e4fe", "on-tertiary-fixed": "#131b2e", "on-tertiary-fixed-variant": "#3f465c", "outline": "#6d7a72", "on-secondary-fixed": "#002113", "surface-container": "#e5eeff", "primary-fixed": "#85f8c4", "on-primary-fixed": "#002114", "inverse-primary": "#68dba9" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter-dense": "0.5rem", "gutter": "1rem", "space-md": "0.75rem", "margin": "1.5rem", "space-xs": "0.25rem", "margin-mobile": "1rem", "space-xl": "1.5rem", "space-lg": "1rem", "space-sm": "0.5rem" }, "fontFamily": { "body-md": ["Geist"], "headline-md": ["Geist"], "body-lg": ["Geist"], "headline-lg": ["Geist"], "body-sm": ["Geist"], "label-code-lg": ["JetBrains Mono"], "headline-xl": ["Geist"], "stat-numeric": ["JetBrains Mono"], "label-code-md": ["JetBrains Mono"], "label-code-sm": ["JetBrains Mono"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "label-code-lg": ["14px", { "lineHeight": "20px", "fontWeight": "500" }], "headline-xl": ["32px", { "lineHeight": "40px", "fontWeight": "600" }], "stat-numeric": ["22px", { "lineHeight": "28px", "fontWeight": "600" }], "label-code-md": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "label-code-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }] } } } }</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><main class="min-h-screen w-full flex items-center justify-center p-space-lg"><div class="flex flex-col w-full">
+<div class="relative w-full max-w-xl mx-auto py-space-xl flex flex-col items-center">
+<!-- Subtle Ambient Backdrop Accent Behind Workspace Card -->
+<div class="absolute -top-10 -left-12 w-64 h-64 rounded-full bg-secondary-container/20 blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-8 -right-10 w-72 h-72 rounded-full bg-surface-container-high/60 blur-3xl pointer-events-none"></div>
+<!-- Main Authentication Panel Container -->
+<div class="relative w-full bg-surface-container-lowest shadow-xl rounded-xl p-8 sm:p-10 flex flex-col">
+<!-- Top Brand Header Block -->
+<div class="flex flex-col items-center text-center">
+<!-- Logo Emblem -->
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-space-md shadow-sm">
+<span class="material-symbols-outlined text-[26px]">terminal</span>
+</div>
+<div class="inline-flex items-center gap-space-xs px-2.5 py-0.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-code-sm text-label-code-sm mb-space-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
+<span>v2.4 COMPILER ENGINE READY</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mb-space-xs">
+          Sign in to RefactorAI
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+          Benchmark code performance, test algorithmic correctness, and verify AI refactors.
+        </p>
+</div>
+<!-- Developer Quick SSO Stack -->
+<div class="mt-space-xl flex flex-col gap-space-sm w-full">
+<!-- GitHub Primary Auth Option -->
+<button class="group relative w-full flex items-center justify-center gap-space-md py-2.5 px-space-lg rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-all shadow-sm" type="button">
+<svg aria-hidden="true" class="w-5 h-5 fill-current shrink-0 text-on-surface" viewbox="0 0 24 24">
+<path clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" fill-rule="evenodd"></path>
+</svg>
+<span class="font-body-md text-body-md font-medium">Continue with GitHub</span>
+<span class="absolute right-3 px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-code-sm text-label-code-sm">
+            Fast SSH / Git
+          </span>
+</button>
+<!-- Google Auth Option -->
+<button class="w-full flex items-center justify-center gap-space-md py-2.5 px-space-lg rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-all shadow-sm" type="button">
+<svg class="w-5 h-5 shrink-0" viewbox="0 0 24 24">
+<path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3h3.86c2.26-2.09 3.685-5.17 3.685-9.09z" fill="#4285F4"></path>
+<path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.33 24 12 24z" fill="#34A853"></path>
+<path d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.98-3.09z" fill="#FBBC05"></path>
+<path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.7 1.29 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z" fill="#EA4335"></path>
+</svg>
+<span class="font-body-md text-body-md font-medium">Continue with Google</span>
+</button>
+</div>
+<!-- Delimiter Divider -->
+<div class="relative my-space-lg flex items-center justify-center">
+<div class="w-full h-px bg-surface-container-highest"></div>
+<span class="absolute bg-surface-container-lowest px-3 font-label-code-sm text-label-code-sm text-tertiary uppercase tracking-wider">
+          Or continue with email
+        </span>
+</div>
+<!-- Direct Credentials Form -->
+<form class="flex flex-col gap-space-md" id="loginForm" onsubmit="event.preventDefault(); triggerAuthFeedback();">
+<!-- Work Email Input -->
+<div class="flex flex-col gap-1.5 text-left">
+<label class="font-body-sm text-body-sm font-medium text-on-surface flex items-center justify-between" for="workEmail">
+<span>Work or University Email</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">SSO Linked</span>
+</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3.5 text-tertiary text-[20px] pointer-events-none">mail</span>
+<input class="w-full pl-11 pr-4 py-2.5 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-md text-body-md shadow-sm outline-none focus:bg-surface-container-low transition-colors" id="workEmail" placeholder="alex.chen@university.edu" required="" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="flex flex-col gap-1.5 text-left">
+<label class="font-body-sm text-body-sm font-medium text-on-surface" for="authPassword">
+            Password
+          </label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3.5 text-tertiary text-[20px] pointer-events-none">lock</span>
+<input class="w-full pl-11 pr-11 py-2.5 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-md text-body-md tracking-wider shadow-sm outline-none focus:bg-surface-container-low transition-colors" id="authPassword" placeholder="••••••••••••" required="" type="password"/>
+<button aria-label="Toggle password visibility" class="absolute right-3.5 text-tertiary hover:text-on-surface transition-colors flex items-center justify-center p-0.5" id="togglePasswordBtn" onclick="togglePasswordVisibility()" type="button">
+<span class="material-symbols-outlined text-[20px]" id="passwordEyeIcon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Meta Controls (Remember checkbox + Forgot password) -->
+<div class="flex items-center justify-between mt-1 pt-1">
+<label class="flex items-center gap-2.5 cursor-pointer select-none">
+<input checked="" class="peer sr-only" id="rememberDevice" type="checkbox"/>
+<div class="w-4 h-4 rounded bg-surface-container peer-checked:bg-primary flex items-center justify-center transition-all">
+<span class="material-symbols-outlined text-[14px] text-on-primary scale-0 peer-checked:scale-100 transition-transform">check</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">
+              Remember workstation for 30 days
+            </span>
+</label>
+<a class="font-body-sm text-body-sm text-primary hover:text-primary-container font-medium transition-colors" href="#forgot">
+            Forgot password?
+          </a>
+</div>
+<!-- Primary CTA Submission Button -->
+<button class="mt-space-sm w-full py-3 px-space-xl rounded-lg bg-primary hover:bg-primary-container active:bg-on-secondary-container text-on-primary font-body-md text-body-md font-medium tracking-wide flex items-center justify-center gap-space-xs transition-all shadow-md group" id="submitAuthBtn" type="submit">
+<span id="btnText">Sign In to Workspace</span>
+<span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform" id="btnArrow">arrow_forward</span>
+</button>
+</form>
+<!-- Trust Assurance & Execution Sandbox Info Callout -->
+<div class="mt-space-lg p-space-md rounded-lg bg-surface-container-low text-on-surface flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">verified_user</span>
+<div class="flex flex-col text-left">
+<p class="font-label-code-sm text-label-code-sm font-medium text-on-surface">
+            Sandboxed Multi-Thread Environment
+          </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+            Strict algorithmic zero-retention guarantee. User test suites and proprietary code are never ingested for model training.
+          </p>
+</div>
+</div>
+</div>
+<!-- Secondary Registration Option -->
+<div class="mt-space-lg text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">
+        Don't have an algorithmic workspace account? 
+        <a class="text-primary hover:text-primary-container font-medium ml-1 inline-flex items-center gap-0.5 transition-colors" href="#signup">
+          Sign up for free <span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+</p>
+</div>
+<!-- Infrastructure & Compliance System Badges -->
+<div class="mt-space-xl flex flex-wrap items-center justify-center gap-y-2 gap-x-space-lg text-tertiary font-label-code-sm text-label-code-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">lock_clock</span>
+<span>256-bit TLS Enforced</span>
+</div>
+<span class="text-surface-variant">•</span>
+<a class="hover:text-on-surface transition-colors" href="#docs">Documentation</a>
+<span class="text-surface-variant">•</span>
+<a class="hover:text-on-surface transition-colors flex items-center gap-1" href="#status">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container inline-block"></span>
+        Systems Nominal
+      </a>
+<span class="text-surface-variant">•</span>
+<a class="hover:text-on-surface transition-colors" href="#privacy">Privacy Policy</a>
+</div>
+</div>
+<!-- Interactive JavaScript logic for password view & form interaction -->
+<script>
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('authPassword');
+      const eyeIcon = document.getElementById('passwordEyeIcon');
+      if (!passwordInput || !eyeIcon) return;
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeIcon.textContent = 'visibility_off';
+      } else {
+        passwordInput.type = 'password';
+        eyeIcon.textContent = 'visibility';
+      }
+    }
+
+    function triggerAuthFeedback() {
+      const submitBtn = document.getElementById('submitAuthBtn');
+      const btnText = document.getElementById('btnText');
+      const btnArrow = document.getElementById('btnArrow');
+      
+      if (!submitBtn || !btnText) return;
+
+      btnText.textContent = 'Authorizing Worker Node...';
+      if (btnArrow) btnArrow.classList.add('animate-pulse');
+      submitBtn.classList.add('opacity-80', 'pointer-events-none');
+
+      setTimeout(() => {
+        btnText.textContent = 'Redirecting to Benchmarker...';
+        setTimeout(() => {
+          btnText.textContent = 'Sign In to Workspace';
+          if (btnArrow) btnArrow.classList.remove('animate-pulse');
+          submitBtn.classList.remove('opacity-80', 'pointer-events-none');
+        }, 800);
+      }, 1000);
+    }
+  </script>
+</div></main></body></html>
